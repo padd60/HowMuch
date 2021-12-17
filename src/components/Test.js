@@ -62,7 +62,7 @@ const Test = () => {
             navigate("/testlist");
           }}
         >
-          리스트테스트로 이동
+          깃허브 원격 가자
         </button>
       </div>
     </div>
