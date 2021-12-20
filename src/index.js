@@ -4,13 +4,57 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter } from "react-router-dom";
+import { combineReducers, createStore } from "redux";
+import { Provider } from "react-redux";
+
+let member = ["test", "test2"];
+
+let board = [""];
+
+let reply = [""];
+
+let value = [""];
+
+let attach = [""];
+
+function memberReducer(state = member, actions) {
+  return state;
+}
+
+function boardReducer(state = board, actions) {
+  return state;
+}
+
+function replyReducer(state = reply, actions) {
+  return state;
+}
+
+function valueReducer(state = value, actions) {
+  return state;
+}
+
+function attachReducer(state = attach, actions) {
+  return state;
+}
+
+let store = createStore(
+  combineReducers({
+    memberReducer,
+    boardReducer,
+    replyReducer,
+    valueReducer,
+    attachReducer,
+  })
+);
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
