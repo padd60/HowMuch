@@ -63,7 +63,8 @@ const Mainpage = () => {
   `;
 
   let Footer = styled("div")`
-    padding: 30px 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
     background-color: #2d4059;
     display: flex;
     flex-flow: column wrap;
