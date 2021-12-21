@@ -1,12 +1,17 @@
 import React from "react";
-import { RiLock2Fill } from "react-icons/ri";
+import { RiAccountPinBoxFill } from "react-icons/ri";
 import { SiCashapp } from "react-icons/si";
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
 
 const Account = () => {
-  let LoginHead = styled("p")`
+  let TopTitle = styled("p")`
     font-size: 48px;
+    padding-bottom: 50px;
+  `;
+
+  let Head = styled("p")`
+    font-size: 32px;
     width: 300px;
     border-bottom: 2px solid #2d4059;
   `;
@@ -18,34 +23,47 @@ const Account = () => {
   return (
     <div>
       <div className="container" style={{ position: "relative" }}>
+        {/* logo */}
         <div style={{ position: "absolute", top: "80px", left: "80px" }}>
           <SiCashapp
             style={{ color: "#EA5455", fontSize: "70px", margin: "0 20px" }}
           />
         </div>
+        {/* end logo */}
+
         <div className="row">
           <div
             className="col d-flex flex-column justify-content-center align-items-center"
             style={{ paddingTop: "80px" }}
           >
-            <LoginHead>Login</LoginHead>
+            <TopTitle>
+              Join us
+              <br />&<br />
+              Make your Value !!
+            </TopTitle>
+            <Head>Create Account</Head>
             <p>
-              <RiLock2Fill style={{ fontSize: "48px" }} />
+              <RiAccountPinBoxFill style={{ fontSize: "48px" }} />
             </p>
             <p
               style={{
                 display: "flex",
-                width: "600px",
+                width: "750px",
                 alignItems: "center",
-                paddingTop: "80px",
+                paddingTop: "30px",
                 justifyContent: "space-between",
               }}
             >
-              <Label>ID</Label>
+              <Label>ID(Email)</Label>
               <input
                 type="text"
                 placeholder="아이디를 입력하세요"
-                style={{ width: "400px", height: "50px", marginRight: "90px" }}
+                style={{
+                  width: "400px",
+                  height: "50px",
+                  marginRight: "165px",
+                  fontSize: "20px",
+                }}
               />
             </p>
             <p
@@ -61,7 +79,33 @@ const Account = () => {
               <input
                 type="password"
                 placeholder="비밀번호를 입력하세요"
-                style={{ width: "400px", height: "50px", marginRight: "90px" }}
+                style={{
+                  width: "400px",
+                  height: "50px",
+                  marginRight: "90px",
+                  fontSize: "20px",
+                }}
+              />
+            </p>
+            <p
+              style={{
+                display: "flex",
+                width: "650px",
+                alignItems: "center",
+                paddingTop: "30px",
+                justifyContent: "space-between",
+              }}
+            >
+              <Label>닉네임</Label>
+              <input
+                type="text"
+                placeholder="닉네임을 입력하세요"
+                style={{
+                  width: "400px",
+                  height: "50px",
+                  marginRight: "115px",
+                  fontSize: "20px",
+                }}
               />
             </p>
             <p
@@ -71,6 +115,7 @@ const Account = () => {
                 display: "flex",
                 width: "450px",
                 justifyContent: "space-evenly",
+                paddingBottom: "50px",
               }}
             >
               <Button

@@ -35,17 +35,22 @@ const LoginPage = () => {
             <p
               style={{
                 display: "flex",
-                width: "600px",
+                width: "750px",
                 alignItems: "center",
                 paddingTop: "80px",
                 justifyContent: "space-between",
               }}
             >
-              <Label>ID</Label>
+              <Label>ID(Email)</Label>
               <input
                 type="text"
                 placeholder="아이디를 입력하세요"
-                style={{ width: "400px", height: "50px", marginRight: "90px" }}
+                style={{
+                  width: "400px",
+                  height: "50px",
+                  marginRight: "165px",
+                  fontSize: "20px",
+                }}
               />
             </p>
             <p
@@ -61,7 +66,12 @@ const LoginPage = () => {
               <input
                 type="password"
                 placeholder="비밀번호를 입력하세요"
-                style={{ width: "400px", height: "50px", marginRight: "90px" }}
+                style={{
+                  width: "400px",
+                  height: "50px",
+                  marginRight: "90px",
+                  fontSize: "20px",
+                }}
               />
             </p>
             <p
