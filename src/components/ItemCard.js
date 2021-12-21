@@ -7,8 +7,8 @@ const ItemCard = () => {
   let [testTag, testTagChange] = useState(["태그1", "태그2"]);
 
   return (
-    <div>
-      <Card style={{ width: "350px", color: "white", padding: "10px" }}>
+    <div style={{ margin: "20px auto" }}>
+      <Card style={{ width: "300px", color: "white", padding: "10px" }}>
         <Card.Img
           variant="top"
           src={noImage}
