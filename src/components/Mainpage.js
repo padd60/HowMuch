@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { SiCashapp } from "react-icons/si";
@@ -7,13 +7,15 @@ import Banner from "../img/banner.svg";
 import ItemCard from "./ItemCard";
 import SampleImg from "../img/sample.svg";
 import { IoShareSocialSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { BiArrowToTop } from "react-icons/bi";
 
 const Mainpage = () => {
   let state = useSelector((state) => {
     return state;
   });
 
-  // let currentImageWidth = document.documentElement.clientWidth;
+  let currentImageWidth = document.documentElement.clientWidth;
 
   let [imageWidth, imageWidthChange] = useState("600px");
 
@@ -33,10 +35,37 @@ const Mainpage = () => {
     }
   });
 
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (currentImageWidth <= 990) {
+      imageWidthChange("450px");
+      rowAlignChange("center");
+    }
+  }, []);
+
+  let [TbtnOpa, TbtnOpaChange] = useState(0);
+
+  window.addEventListener("scroll", () => {
+    let screenScroll = document.documentElement.scrollTop;
+
+    if (screenScroll > 1000) {
+      TbtnOpaChange(1);
+    }
+
+    if (screenScroll <= 1000) {
+      TbtnOpaChange(0);
+    }
+  });
+
   // console.log(imageWidth);
+
+  // style component
 
   let Jumbo = styled("div")`
     background-color: #ffd460;
+    padding-top: 110px;
   `;
 
   let Line = styled("div")`
@@ -73,17 +102,48 @@ const Mainpage = () => {
     text-align: left;
   `;
 
+  let TopBtn = styled("div")`
+    position: fixed;
+    transition: all 1s;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #f07b3f;
+    color: #2d4059;
+    font-size: 24px;
+    border-radius: 7px;
+    cursor: pointer;
+    opacity: ${(props) => props.TbtnOpa};
+  `;
+
+  // end style component
+
   return (
     <div>
       {/* navbar */}
-      <Navbar variant="dark" expand="lg" style={{ backgroundColor: "#2D4059" }}>
+      <Navbar
+        fixed="top"
+        variant="dark"
+        expand="lg"
+        style={{ backgroundColor: "#2D4059" }}
+      >
         <Container style={{ maxWidth: "1400px" }}>
-          <div className="d-flex align-items-center">
+          <div
+            className="d-flex align-items-center"
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+            style={{ cursor: "pointer" }}
+          >
             <SiCashapp
-              style={{ color: "#EA5455", fontSize: "70px", margin: "0 20px" }}
+              style={{
+                color: "#EA5455",
+                fontSize: "70px",
+                margin: "0 20px",
+              }}
             />
             <Navbar.Brand
-              href="#home"
               style={{
                 color: "white",
                 fontSize: "50px",
@@ -101,13 +161,17 @@ const Mainpage = () => {
               style={{ width: "400px" }}
             >
               <Nav.Link
-                href="#home"
+                onClick={() => {
+                  navigate("/login");
+                }}
                 style={{ color: "white", fontSize: "24px" }}
               >
                 로그인
               </Nav.Link>
               <Nav.Link
-                href="#features"
+                onClick={() => {
+                  navigate("/account");
+                }}
                 style={{ color: "white", fontSize: "24px" }}
               >
                 회원가입
@@ -251,7 +315,7 @@ const Mainpage = () => {
             <img
               src={SampleImg}
               alt="guideImage"
-              style={{ width: "100%" }}
+              style={{ width: "100%", padding: "20px" }}
             ></img>
           </div>
         </div>
@@ -277,7 +341,7 @@ const Mainpage = () => {
             <img
               src={SampleImg}
               alt="guideImage"
-              style={{ width: "100%" }}
+              style={{ width: "100%", padding: "20px" }}
             ></img>
           </div>
         </div>
@@ -301,7 +365,7 @@ const Mainpage = () => {
             <img
               src={SampleImg}
               alt="guideImage"
-              style={{ width: "100%" }}
+              style={{ width: "100%", padding: "20px" }}
             ></img>
           </div>
         </div>
@@ -353,6 +417,15 @@ const Mainpage = () => {
           </div>
         </div>
       </Footer>
+      {/* top btn */}
+      <TopBtn
+        TbtnOpa={TbtnOpa}
+        onClick={() => {
+          window.scrollTo(0, 0);
+        }}
+      >
+        <BiArrowToTop />
+      </TopBtn>
     </div>
   );
 };

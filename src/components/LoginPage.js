@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { RiLock2Fill } from "react-icons/ri";
 import { SiCashapp } from "react-icons/si";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  let navigate = useNavigate();
+
+  let [position, setPosition] = useState("");
+
+  let currentWidth = document.documentElement.clientWidth;
+
+  useEffect(() => {
+    if (currentWidth > 770) {
+      setPosition("absolute");
+    }
+  }, []);
+
+  window.addEventListener("resize", () => {
+    let screenWidth = document.documentElement.clientWidth;
+
+    if (screenWidth <= 770) {
+      setPosition("");
+    }
+
+    if (screenWidth > 770) {
+      setPosition("absolute");
+    }
+  });
+
   let LoginHead = styled("p")`
     font-size: 48px;
     width: 300px;
@@ -18,7 +43,17 @@ const LoginPage = () => {
   return (
     <div>
       <div className="container" style={{ position: "relative" }}>
-        <div style={{ position: "absolute", top: "80px", left: "80px" }}>
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+          style={{
+            position: position,
+            paddingTop: "80px",
+            left: "80px",
+            cursor: "pointer",
+          }}
+        >
           <SiCashapp
             style={{ color: "#EA5455", fontSize: "70px", margin: "0 20px" }}
           />
@@ -93,6 +128,9 @@ const LoginPage = () => {
                 로그인
               </Button>
               <Button
+                onClick={() => {
+                  navigate("/account");
+                }}
                 style={{
                   backgroundColor: "#2d4059",
                   border: "none",
@@ -109,6 +147,18 @@ const LoginPage = () => {
                 }}
               >
                 계정찾기
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("/");
+                }}
+                style={{
+                  backgroundColor: "#2d4059",
+                  border: "none",
+                  fontSize: "24px",
+                }}
+              >
+                취소
               </Button>
             </p>
           </div>

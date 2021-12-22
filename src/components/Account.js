@@ -1,10 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RiAccountPinBoxFill } from "react-icons/ri";
 import { SiCashapp } from "react-icons/si";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Account = () => {
+  let navigate = useNavigate();
+
+  let [position, setPosition] = useState("");
+
+  let currentWidth = document.documentElement.clientWidth;
+
+  useEffect(() => {
+    if (currentWidth > 770) {
+      setPosition("absolute");
+    }
+  }, []);
+
+  window.addEventListener("resize", () => {
+    let screenWidth = document.documentElement.clientWidth;
+
+    if (screenWidth <= 770) {
+      setPosition("");
+    }
+
+    if (screenWidth > 770) {
+      setPosition("absolute");
+    }
+  });
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [idCheck, SetidCheck] = useState(false);
+  const [idWarn, SetidWarn] = useState(false);
+  const [idSame, SetidSame] = useState(false);
+
+  const [pwCheck, SetpwCheck] = useState(false);
+  const [pwWarn, SetpwWarn] = useState(false);
+
+  const [nickCheck, SetnickCheck] = useState(false);
+  const [nickWarn, SetnickWarn] = useState(false);
+  const [nickSame, SetnickSame] = useState(false);
+
+  const idInput = document.getElementById("ID");
+  const pwInput = document.getElementById("PW");
+  const nickInput = document.getElementById("NICK");
+
+  const checkValue = (input) => {
+    console.log(input.value);
+
+    return input.value;
+  };
+
+  const resetShow = () => {
+    SetidCheck(false);
+    SetidWarn(false);
+    SetidSame(false);
+    SetpwCheck(false);
+    SetpwWarn(false);
+    SetnickCheck(false);
+    SetnickWarn(false);
+    SetnickSame(false);
+  };
+
+  const checkRule = () => {};
+
+  // styled component
   let TopTitle = styled("p")`
     font-size: 48px;
     padding-bottom: 50px;
@@ -20,11 +85,26 @@ const Account = () => {
     font-size: 48px;
   `;
 
+  let Warn = styled("p")`
+    color: red;
+  `;
+  // end styled component
+
   return (
     <div>
       <div className="container" style={{ position: "relative" }}>
         {/* logo */}
-        <div style={{ position: "absolute", top: "80px", left: "80px" }}>
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+          style={{
+            position: position,
+            paddingTop: "80px",
+            left: "80px",
+            cursor: "pointer",
+          }}
+        >
           <SiCashapp
             style={{ color: "#EA5455", fontSize: "70px", margin: "0 20px" }}
           />
@@ -48,107 +128,210 @@ const Account = () => {
             <p
               style={{
                 display: "flex",
-                width: "750px",
+                width: "770px",
                 alignItems: "center",
                 paddingTop: "30px",
-                justifyContent: "space-between",
               }}
             >
               <Label>ID(Email)</Label>
               <input
+                id="ID"
                 type="text"
                 placeholder="아이디를 입력하세요"
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "165px",
+                  marginRight: "20px",
+                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />
+              <Button>중복확인</Button>
             </p>
+            {idCheck ? <Warn>이메일을 입력해주세요.</Warn> : null}
+            {idWarn ? (
+              <Warn>올바른 형식의 이메일이 아닙니다. 다시 입력해주세요.</Warn>
+            ) : null}
+            {idSame ? (
+              <Warn>
+                중복되는 아이디가 존재합니다. 다른 이메일을 입력해주세요.
+              </Warn>
+            ) : null}
             <p
               style={{
                 display: "flex",
                 width: "600px",
                 alignItems: "center",
                 paddingTop: "30px",
-                justifyContent: "space-between",
               }}
             >
               <Label>PW</Label>
               <input
+                id="PW"
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "90px",
+                  marginLeft: "40px",
                   fontSize: "20px",
                 }}
               />
             </p>
+            {pwCheck ? <Warn>비밀번호를 입력해주세요.</Warn> : null}
+            {pwWarn ? (
+              <Warn>
+                올바른 형식의 비밀번호가 아닙니다. 특수문자를 넣어서 다시
+                입력해주세요.
+              </Warn>
+            ) : null}
             <p
               style={{
                 display: "flex",
                 width: "650px",
                 alignItems: "center",
                 paddingTop: "30px",
-                justifyContent: "space-between",
               }}
             >
               <Label>닉네임</Label>
               <input
+                id="NICK"
                 type="text"
                 placeholder="닉네임을 입력하세요"
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "115px",
+                  marginLeft: "22px",
+                  marginRight: "20px",
                   fontSize: "20px",
                 }}
               />
+              <Button>중복확인</Button>
             </p>
+            {nickCheck ? <Warn>닉네임을 입력해주세요.</Warn> : null}
+            {nickWarn ? (
+              <Warn>닉네임 제한길이를 초과하였습니다. 다시 입력해주세요.</Warn>
+            ) : null}
+            {nickSame ? (
+              <Warn>
+                중복되는 닉네임이 존재합니다. 다른 닉네임을 입력해주세요.
+              </Warn>
+            ) : null}
             <p
               style={{
                 paddingTop: "60px",
-                paddingLeft: "15px",
+                paddingRight: "20px",
                 display: "flex",
-                width: "450px",
+                width: "300px",
                 justifyContent: "space-evenly",
                 paddingBottom: "50px",
               }}
             >
               <Button
+                onClick={() => {
+                  resetShow();
+
+                  const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //한글
+                  const specialText = /[~!@#\#$%<>^&*]/; //특수문자
+
+                  console.log(korean.test("닉네임"));
+                  // console.log(specialText.test("asser@@"));
+
+                  const idInputArray = idInput.value.split("");
+                  const nickInputArray = nickInput.value.split("");
+
+                  console.log(nickInputArray.length);
+
+                  console.log(idInputArray);
+                  console.log(
+                    idInputArray.find((item) => {
+                      return item == "@";
+                    })
+                  );
+
+                  if (!checkValue(idInput)) {
+                    SetidCheck(true);
+                  }
+                  if (!checkValue(pwInput)) {
+                    SetpwCheck(true);
+                  }
+                  if (!checkValue(nickInput)) {
+                    SetnickCheck(true);
+                    return;
+                  }
+                  if (!idInputArray.find((item) => item == "@")) {
+                    SetidWarn(true);
+                    idInput.value = "";
+                  }
+                  if (!specialText.test(pwInput.value)) {
+                    SetpwWarn(true);
+                    pwInput.value = "";
+                  }
+
+                  if (nickInputArray.length > 15) {
+                    SetnickWarn(true);
+                    nickInput.value = "";
+                  }
+
+                  // handleShow();
+                }}
                 style={{
                   backgroundColor: "#2d4059",
                   border: "none",
                   fontSize: "24px",
                 }}
               >
-                로그인
+                가입하기
               </Button>
               <Button
+                onClick={() => {
+                  navigate("/");
+                }}
                 style={{
                   backgroundColor: "#2d4059",
                   border: "none",
                   fontSize: "24px",
                 }}
               >
-                회원가입
-              </Button>
-              <Button
-                style={{
-                  backgroundColor: "#2d4059",
-                  border: "none",
-                  fontSize: "24px",
-                }}
-              >
-                계정찾기
+                취소
               </Button>
             </p>
           </div>
         </div>
       </div>
+
+      {/* modal */}
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{ fontFamily: "'Do Hyeon', sans-serif" }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>환영합니다!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>가입이 정상적으로 완료되었습니다.</p>
+          <p>로그인페이지에서 가입한 아이디로 로그인 하세요.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            로그인 페이지로 이동
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/welcome");
+            }}
+          >
+            닫기
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

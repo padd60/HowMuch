@@ -5,6 +5,7 @@ import TestList from "./components/TestList";
 import Mainpage from "./components/Mainpage";
 import LoginPage from "./components/LoginPage";
 import Account from "./components/Account";
+import Welcome from "./components/Welcome";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Mainpage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/welcome" element={<Welcome />} />
       </Routes>
     </div>
   );
