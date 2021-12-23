@@ -42,12 +42,16 @@ const Account = () => {
   const [pwCheck, SetpwCheck] = useState(false);
   const [pwWarn, SetpwWarn] = useState(false);
 
+  const [pw2Check, Setpw2Check] = useState(false);
+  const [pw2Warn, Setpw2Warn] = useState(false);
+
   const [nickCheck, SetnickCheck] = useState(false);
   const [nickWarn, SetnickWarn] = useState(false);
   const [nickSame, SetnickSame] = useState(false);
 
   const idInput = document.getElementById("ID");
   const pwInput = document.getElementById("PW");
+  const pw2Input = document.getElementById("PW2");
   const nickInput = document.getElementById("NICK");
 
   const checkValue = (input) => {
@@ -62,12 +66,12 @@ const Account = () => {
     SetidSame(false);
     SetpwCheck(false);
     SetpwWarn(false);
+    Setpw2Check(false);
+    Setpw2Warn(false);
     SetnickCheck(false);
     SetnickWarn(false);
     SetnickSame(false);
   };
-
-  const checkRule = () => {};
 
   // styled component
   let TopTitle = styled("p")`
@@ -188,6 +192,33 @@ const Account = () => {
             <p
               style={{
                 display: "flex",
+                width: "770px",
+                alignItems: "center",
+                paddingTop: "30px",
+              }}
+            >
+              <Label>PW(확인)</Label>
+              <input
+                id="PW2"
+                type="password"
+                placeholder="입력했던 비밀번호를 똑같이 입력하세요"
+                style={{
+                  width: "400px",
+                  height: "50px",
+                  marginLeft: "27px",
+                  fontSize: "20px",
+                }}
+              />
+            </p>
+            {pw2Check ? <Warn>비밀번호를 입력해주세요.</Warn> : null}
+            {pw2Warn ? (
+              <Warn>
+                입력했던 비밀번호와 일치하지 않습니다. 다시 입력해주세요.
+              </Warn>
+            ) : null}
+            <p
+              style={{
+                display: "flex",
                 width: "650px",
                 alignItems: "center",
                 paddingTop: "30px",
@@ -232,45 +263,68 @@ const Account = () => {
                   resetShow();
 
                   const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //한글
-                  const specialText = /[~!@#\#$%<>^&*]/; //특수문자
+                  const specialText = /[~!@#$%<>^&*]/; //특수문자
 
-                  console.log(korean.test("닉네임"));
+                  // console.log(korean.test("닉네임"));
                   // console.log(specialText.test("asser@@"));
 
                   const idInputArray = idInput.value.split("");
                   const nickInputArray = nickInput.value.split("");
 
-                  console.log(nickInputArray.length);
+                  // console.log(nickInputArray.length);
 
-                  console.log(idInputArray);
-                  console.log(
-                    idInputArray.find((item) => {
-                      return item == "@";
-                    })
-                  );
+                  // console.log(idInputArray);
+                  // console.log(!idInputArray.find((item) => item == "@"));
+                  // console.log(!idInputArray.find((item) => item == "."));
 
                   if (!checkValue(idInput)) {
                     SetidCheck(true);
+                    return;
                   }
                   if (!checkValue(pwInput)) {
                     SetpwCheck(true);
+                    return;
+                  }
+                  if (!checkValue(pw2Input)) {
+                    Setpw2Check(true);
+                    return;
                   }
                   if (!checkValue(nickInput)) {
                     SetnickCheck(true);
                     return;
                   }
-                  if (!idInputArray.find((item) => item == "@")) {
+                  if (
+                    !idInputArray.find((item) => item === "@") ||
+                    !idInputArray.find((item) => item === ".")
+                  ) {
                     SetidWarn(true);
                     idInput.value = "";
+                    return;
                   }
+
                   if (!specialText.test(pwInput.value)) {
                     SetpwWarn(true);
                     pwInput.value = "";
+                    return;
                   }
 
-                  if (nickInputArray.length > 15) {
-                    SetnickWarn(true);
-                    nickInput.value = "";
+                  if (!(pwInput.value === pw2Input.value)) {
+                    Setpw2Warn(true);
+                    pw2Input.value = "";
+                    return;
+                  }
+                  if (korean.test(nickInput.value)) {
+                    if (nickInputArray.length > 15) {
+                      SetnickWarn(true);
+                      nickInput.value = "";
+                      return;
+                    }
+                  } else {
+                    if (nickInputArray.length > 30) {
+                      SetnickWarn(true);
+                      nickInput.value = "";
+                      return;
+                    }
                   }
 
                   // handleShow();

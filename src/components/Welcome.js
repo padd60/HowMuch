@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import WelcomeImg from "../img/welcome.svg";
 
 const Welcome = () => {
