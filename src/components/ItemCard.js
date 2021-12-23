@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from "react-bootstrap";
 import noImage from "../img/noImage.svg";
 import { BsFillCaretRightFill } from "react-icons/bs";
 
-const ItemCard = () => {
-  let [testTag, testTagChange] = useState(["태그1", "태그2"]);
+const ItemCard = (props) => {
+  let tags = props.item.tag;
+
+  let tagsArray = tags.split(",");
+  console.log(tagsArray);
 
   return (
     <div style={{ margin: "20px auto" }}>
@@ -15,10 +18,10 @@ const ItemCard = () => {
           style={{ border: "2px solid #2D4059" }}
         />
         <Card.Body style={{ padding: "1rem 0" }}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: "flex" }}>
             <Card.Title
               style={{
-                width: "200px",
+                width: "300px",
                 height: "40px",
                 textAlign: "left",
                 backgroundColor: "#2D4059",
@@ -27,11 +30,13 @@ const ItemCard = () => {
                 overflow: "hidden",
               }}
             >
-              Title~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              {props.item.title}
             </Card.Title>
+          </div>
+          <div style={{ display: "flex" }}>
             <p
               style={{
-                maxWidth: "100px",
+                maxWidth: "300px",
                 height: "40px",
                 backgroundColor: "#2D4059",
                 borderRadius: "5px",
@@ -39,7 +44,7 @@ const ItemCard = () => {
                 overflow: "hidden",
               }}
             >
-              Writer
+              {props.item.writer}
             </p>
           </div>
 
@@ -79,11 +84,11 @@ const ItemCard = () => {
                 borderBottom: "2px solid #2D4059",
               }}
             >
-              없음
+              {props.item.suggestion ? props.item.suggestion + " 원" : "없음"}
             </div>
           </div>
           <div style={{ marginTop: "20px", textAlign: "left" }}>
-            {testTag.map((item, index) => {
+            {tagsArray.map((item, index) => {
               return (
                 <span
                   style={{

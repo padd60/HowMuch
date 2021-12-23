@@ -11,9 +11,20 @@ import { useNavigate } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
 
 const Mainpage = () => {
+  // redux
   let state = useSelector((state) => {
     return state;
   });
+
+  let boardState = state.boardReducer;
+
+  let hotBoardState = state.hotBoardReducer;
+
+  let newBoard = [...boardState.slice(0, 3)];
+
+  // console.log(newBoard);
+
+  // end redux
 
   let currentImageWidth = document.documentElement.clientWidth;
 
@@ -250,15 +261,16 @@ const Mainpage = () => {
           <span>인기 평가물</span>
         </div>
         <div className="row">
-          <div className="col-lg-4 d-flex justify-content-center">
-            <ItemCard />
-          </div>
-          <div className="col-lg-4 d-flex justify-content-center">
-            <ItemCard />
-          </div>
-          <div className="col-lg-4 d-flex justify-content-center">
-            <ItemCard />
-          </div>
+          {hotBoardState.map((item, index) => {
+            return (
+              <div
+                className="col-lg-4 d-flex justify-content-center"
+                key={index}
+              >
+                <ItemCard item={item} />
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="container-lg" style={{ margin: "80px auto" }}>
@@ -273,15 +285,16 @@ const Mainpage = () => {
           <span>새 평가물</span>
         </div>
         <div className="row">
-          <div className="col-lg-4 d-flex justify-content-center">
-            <ItemCard />
-          </div>
-          <div className="col-lg-4 d-flex justify-content-center">
-            <ItemCard />
-          </div>
-          <div className="col-lg-4 d-flex justify-content-center">
-            <ItemCard />
-          </div>
+          {newBoard.map((item, index) => {
+            return (
+              <div
+                className="col-lg-4 d-flex justify-content-center"
+                key={index}
+              >
+                <ItemCard item={item} />
+              </div>
+            );
+          })}
         </div>
       </div>
 
