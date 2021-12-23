@@ -10,6 +10,25 @@ const LoginPage = () => {
 
   let [position, setPosition] = useState("");
 
+  const [idCheck, SetidCheck] = useState(false);
+
+  const [pwCheck, SetpwCheck] = useState(false);
+
+  const idInput = document.getElementById("ID");
+  const pwInput = document.getElementById("PW");
+
+  const resetShow = () => {
+    SetidCheck(false);
+
+    SetpwCheck(false);
+  };
+
+  const checkValue = (input) => {
+    console.log(input.value);
+
+    return input.value;
+  };
+
   let currentWidth = document.documentElement.clientWidth;
 
   useEffect(() => {
@@ -38,6 +57,10 @@ const LoginPage = () => {
 
   let Label = styled("span")`
     font-size: 48px;
+  `;
+
+  let Warn = styled("p")`
+    color: red;
   `;
 
   return (
@@ -78,6 +101,7 @@ const LoginPage = () => {
             >
               <Label>ID(Email)</Label>
               <input
+                id="ID"
                 type="text"
                 placeholder="아이디를 입력하세요"
                 style={{
@@ -88,6 +112,7 @@ const LoginPage = () => {
                 }}
               />
             </p>
+            {idCheck ? <Warn>이메일을 입력해주세요.</Warn> : null}
             <p
               style={{
                 display: "flex",
@@ -99,6 +124,7 @@ const LoginPage = () => {
             >
               <Label>PW</Label>
               <input
+                id="PW"
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 style={{
@@ -109,6 +135,7 @@ const LoginPage = () => {
                 }}
               />
             </p>
+            {pwCheck ? <Warn>비밀번호를 입력해주세요.</Warn> : null}
             <p
               style={{
                 paddingTop: "60px",
@@ -119,6 +146,18 @@ const LoginPage = () => {
               }}
             >
               <Button
+                onClick={() => {
+                  resetShow();
+
+                  if (!checkValue(idInput)) {
+                    SetidCheck(true);
+                    return;
+                  }
+                  if (!checkValue(pwInput)) {
+                    SetpwCheck(true);
+                    return;
+                  }
+                }}
                 style={{
                   backgroundColor: "#2d4059",
                   border: "none",

@@ -327,7 +327,7 @@ const Account = () => {
                     }
                   }
 
-                  // handleShow();
+                  handleShow();
                 }}
                 style={{
                   backgroundColor: "#2d4059",
