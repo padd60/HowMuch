@@ -4,6 +4,7 @@ import { RiLock2Fill } from "react-icons/ri";
 import { SiCashapp } from "react-icons/si";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
   let navigate = useNavigate();
@@ -102,6 +103,7 @@ const LoginPage = () => {
               <Label>ID(Email)</Label>
               <input
                 id="ID"
+                name="username"
                 type="text"
                 placeholder="아이디를 입력하세요"
                 style={{
@@ -125,6 +127,7 @@ const LoginPage = () => {
               <Label>PW</Label>
               <input
                 id="PW"
+                name="password"
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 style={{
@@ -169,6 +172,10 @@ const LoginPage = () => {
               <Button
                 onClick={() => {
                   navigate("/account");
+                  // axios.post('http://localhost8181/login',{
+                  //   username : idInput.value,
+                  //   password : pwInput.value
+                  // }).then()
                 }}
                 style={{
                   backgroundColor: "#2d4059",

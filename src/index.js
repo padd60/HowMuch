@@ -104,7 +104,7 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname1",
-    tag: "태그1,태그2,태그3",
+    tag: "태그를 길게 만들어보자,이것은 장신태그이다~~~~~~~~~~~~~~~~~,태그3",
     bdate: "2021/00/00",
     like: 0,
     dislike: 0,
@@ -115,7 +115,8 @@ let board = [
   {
     bno: 2,
     mno: 2,
-    title: "test_title2",
+    title:
+      "제목을 길게만들어보자 아 샘플 텍스트 만들기 귀찮네 얼마나 길게 해야되는겨?",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname2",
@@ -165,7 +166,7 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname5",
-    tag: "태그1,태그2,태그3",
+    tag: "점심뭐먹지?,점메추부탁,국밥어떰?",
     bdate: "2021/00/00",
     like: 0,
     dislike: 0,

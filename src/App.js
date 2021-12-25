@@ -6,6 +6,7 @@ import LoginPage from "./components/LoginPage";
 import Account from "./components/Account";
 import Welcome from "./components/Welcome";
 import BoardMain from "./components/BoardMain";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/account" element={<Account />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/boardmain" element={<BoardMain />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </div>
   );

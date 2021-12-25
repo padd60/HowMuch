@@ -7,7 +7,7 @@ const ItemCard = (props) => {
   let tags = props.item.tag;
 
   let tagsArray = tags.split(",");
-  console.log(tagsArray);
+  // console.log(tagsArray);
 
   return (
     <div style={{ margin: "20px auto" }}>
@@ -28,6 +28,8 @@ const ItemCard = (props) => {
                 borderRadius: "5px",
                 padding: "10px",
                 overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
               }}
             >
               {props.item.title}
@@ -42,6 +44,8 @@ const ItemCard = (props) => {
                 borderRadius: "5px",
                 padding: "10px",
                 overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
               }}
             >
               {props.item.writer}
@@ -92,13 +96,17 @@ const ItemCard = (props) => {
               return (
                 <span
                   style={{
-                    minWidth: "70px",
+                    display: "inline-block",
+                    maxWidth: "280px",
                     height: "40px",
                     backgroundColor: "#2D4059",
                     borderRadius: "5px",
                     padding: "10px",
                     marginBottom: "0",
                     marginRight: "10px",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
                   }}
                   key={index}
                 >

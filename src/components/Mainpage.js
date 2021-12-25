@@ -30,7 +30,7 @@ const Mainpage = () => {
 
   let [imageWidth, imageWidthChange] = useState("600px");
 
-  let [rowAlign, rowAlignChange] = useState("left");
+  let [rowAlign, rowAlignChange] = useState("space-between");
 
   window.addEventListener("resize", () => {
     let screenWidth = document.documentElement.clientWidth;
@@ -42,7 +42,7 @@ const Mainpage = () => {
 
     if (screenWidth > 990) {
       imageWidthChange("600px");
-      rowAlignChange("left");
+      rowAlignChange("space-between");
     }
   });
 
@@ -255,10 +255,20 @@ const Mainpage = () => {
           style={{
             margin: "30px 0",
             fontSize: "32px",
-            textAlign: rowAlign,
+            display: "flex",
+            justifyContent: rowAlign,
           }}
         >
-          <span>인기 평가물</span>
+          <div className="col-lg-2">인기 평가물</div>
+          <div
+            className="col-lg-2"
+            onClick={() => {
+              navigate("/boardmain");
+            }}
+            style={{ fontSize: "24px", cursor: "pointer" }}
+          >
+            + 더보기
+          </div>
         </div>
         <div className="row">
           {hotBoardState.map((item, index) => {
@@ -279,10 +289,20 @@ const Mainpage = () => {
           style={{
             margin: "30px 0",
             fontSize: "32px",
-            textAlign: rowAlign,
+            display: "flex",
+            justifyContent: rowAlign,
           }}
         >
-          <span>새 평가물</span>
+          <div className="col-lg-2">새 평가물</div>
+          <div
+            className="col-lg-2"
+            onClick={() => {
+              navigate("/boardmain");
+            }}
+            style={{ fontSize: "24px", cursor: "pointer" }}
+          >
+            + 더보기
+          </div>
         </div>
         <div className="row">
           {newBoard.map((item, index) => {
