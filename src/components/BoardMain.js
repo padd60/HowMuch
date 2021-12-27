@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ItemCard from "./ItemCard";
 import { FaSearch } from "react-icons/fa";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 let TopTitle = styled("p")`
   font-size: 48px;
@@ -26,6 +26,7 @@ const BoardMain = () => {
 
   let boardState = state.boardReducer;
 
+  // pagination data
   const items = boardState;
 
   let [select, SetSelect] = useState("");
@@ -52,6 +53,10 @@ const BoardMain = () => {
                 <div
                   className="col-lg-4 d-flex justify-content-center"
                   key={index}
+                  onClick={() => {
+                    navigate("/detail/" + item.bno);
+                    console.log(item);
+                  }}
                 >
                   <ItemCard item={item} />
                 </div>
@@ -86,19 +91,18 @@ const BoardMain = () => {
       );
       setItemOffset(newOffset);
     };
-    // end pagination
 
     return (
       <>
         <Items currentItems={currentItems} />
         <div style={{ display: "flex", justifyContent: "center" }}>
           <ReactPaginate
-            nextLabel="next >"
+            nextLabel=">"
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             marginPagesDisplayed={0}
             pageCount={pageCount}
-            previousLabel="< previous"
+            previousLabel="<"
             pageClassName="page-item"
             pageLinkClassName="page-link"
             previousClassName="page-item"
@@ -116,13 +120,14 @@ const BoardMain = () => {
       </>
     );
   }
+  // end pagination
 
   return (
     <div>
       <div className="cotainer-lg">
         <div
           className="row d-flex justify-content-center"
-          style={{ paddingTop: "50px" }}
+          style={{ width: "100%", paddingTop: "50px" }}
         >
           <div
             className="col-lg-1"
@@ -180,7 +185,13 @@ const BoardMain = () => {
             display: "flex",
           }}
         >
-          <Button>글등록</Button>
+          <Button
+            onClick={() => {
+              navigate("/register");
+            }}
+          >
+            글등록
+          </Button>
         </div>
       </div>
       <PaginatedItems itemsPerPage={6} />

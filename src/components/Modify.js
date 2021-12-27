@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { SiCashapp } from "react-icons/si";
 import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Register = () => {
+const Modify = () => {
   let navigate = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -29,6 +30,24 @@ const Register = () => {
     SetcontentCheck(false);
     SetsuggestCheck(false);
   };
+
+  let { bno } = useParams();
+  console.log(bno);
+
+  let state = useSelector((state) => {
+    return state;
+  });
+
+  let boardState = state.boardReducer;
+
+  console.log(boardState[bno - 1]);
+
+  let item = boardState[bno - 1];
+
+  let tags = item.tag;
+
+  let tagsArray = tags.split(",");
+  console.log(tagsArray);
 
   // styled component
   let TopTitle = styled("p")`
@@ -96,6 +115,7 @@ const Register = () => {
                 id="TITLE"
                 type="text"
                 placeholder="제목을 입력하세요"
+                value={item.title}
                 style={{
                   width: "400px",
                   height: "50px",
@@ -146,13 +166,13 @@ const Register = () => {
               <textarea
                 id="CONTENT"
                 placeholder="본문 내용을 입력하세요"
+                value={item.content}
                 style={{
                   width: "500px",
                   height: "400px",
                   marginLeft: "20px",
                   fontSize: "20px",
                   marginBottom: "10px",
-                  resize: "none",
                 }}
               />
             </div>
@@ -174,6 +194,7 @@ const Register = () => {
                 id="SUGGESTION"
                 type="text"
                 placeholder="제시할 가격을 입력하세요 (생략가능)"
+                value={item.suggestion ? item.suggestion : null}
                 style={{
                   width: "400px",
                   height: "50px",
@@ -205,6 +226,7 @@ const Register = () => {
                 id="TAG1"
                 type="text"
                 placeholder="태그 입력란"
+                value={tagsArray[0] ? tagsArray[0] : null}
                 style={{
                   width: "150px",
                   height: "50px",
@@ -216,6 +238,7 @@ const Register = () => {
                 id="TAG2"
                 type="text"
                 placeholder="태그 입력란"
+                value={tagsArray[1] ? tagsArray[1] : null}
                 style={{
                   width: "150px",
                   height: "50px",
@@ -227,6 +250,7 @@ const Register = () => {
                 id="TAG3"
                 type="text"
                 placeholder="태그 입력란"
+                value={tagsArray[2] ? tagsArray[2] : null}
                 style={{
                   width: "150px",
                   height: "50px",
@@ -285,11 +309,11 @@ const Register = () => {
                   fontSize: "24px",
                 }}
               >
-                등록하기
+                수정하기
               </Button>
               <Button
                 onClick={() => {
-                  navigate("/boardmain");
+                  navigate(-1);
                 }}
                 style={{
                   backgroundColor: "#2d4059",
@@ -311,19 +335,19 @@ const Register = () => {
         style={{ fontFamily: "'Do Hyeon', sans-serif" }}
       >
         <Modal.Header>
-          <Modal.Title>글이 정상 등록되었습니다.</Modal.Title>
+          <Modal.Title>글이 정상 수정되었습니다.</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>게시판페이지에서 등록한 게시물을 확인해보세요.</p>
+          <p>게시판페이지에서 수정된 게시물을 확인해보세요.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button
-            variant="secondary"
+            variant="primary"
             onClick={() => {
               navigate("/boardmain");
             }}
           >
-            게시판으로 이동
+            닫기
           </Button>
         </Modal.Footer>
       </Modal>
@@ -331,4 +355,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Modify;

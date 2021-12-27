@@ -360,7 +360,7 @@ const Account = () => {
         onHide={handleClose}
         style={{ fontFamily: "'Do Hyeon', sans-serif" }}
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>환영합니다!</Modal.Title>
         </Modal.Header>
         <Modal.Body>

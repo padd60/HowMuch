@@ -1,12 +1,14 @@
 import React from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import Mainpage from "./components/Mainpage";
 import LoginPage from "./components/LoginPage";
 import Account from "./components/Account";
 import Welcome from "./components/Welcome";
 import BoardMain from "./components/BoardMain";
 import Register from "./components/Register";
+import Modify from "./components/Modify";
+import DetailBoard from "./components/DetailBoard";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/boardmain" element={<BoardMain />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/detail/:bno" element={<DetailBoard />} />
+        <Route path="/modify/:bno" element={<Modify />} />
       </Routes>
     </div>
   );
