@@ -188,7 +188,9 @@ const Mainpage = () => {
                 회원가입
               </Nav.Link>
               <Nav.Link
-                href="#pricing"
+                onClick={() => {
+                  navigate("/mypage");
+                }}
                 style={{ color: "white", fontSize: "24px" }}
               >
                 마이 포인트
@@ -429,7 +431,7 @@ const Mainpage = () => {
           </div>
         </div>
         <div className="row d-flex justify-content-center">
-          <div className="col-6" style={{ height: "180px" }}>
+          <div className="col-6" style={{ height: "250px" }}>
             <p>이용약관</p>
             <p>
               1. 해당 경매는 재미를 위한 것으로 실제 경매 거래와는 차이가 있음을

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SiCashapp } from "react-icons/si";
 import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
@@ -30,6 +30,35 @@ const Register = () => {
     SetsuggestCheck(false);
   };
 
+  let currentWidth = document.documentElement.clientWidth;
+
+  // resize screen
+
+  let [flexdir, Setflexdir] = useState("row nowrap");
+
+  useEffect(() => {
+    if (currentWidth > 1200) {
+      Setflexdir("row nowrap");
+    }
+    if (currentWidth <= 1200) {
+      Setflexdir("column nowrap");
+    }
+  }, [flexdir]);
+
+  window.addEventListener("resize", () => {
+    let screenWidth = document.documentElement.clientWidth;
+
+    if (screenWidth <= 1200) {
+      Setflexdir("column nowrap");
+    }
+
+    if (screenWidth > 1200) {
+      Setflexdir("row nowrap");
+    }
+  });
+
+  ///end resize screen
+
   // styled component
   let TopTitle = styled("p")`
     font-size: 48px;
@@ -37,12 +66,13 @@ const Register = () => {
 
   let Label = styled("div")`
     font-size: 48px;
-    width: 250px;
+    text-align: center;
+    display: inline-block;
+    width: 300px;
   `;
 
   let Warn = styled("p")`
     color: red;
-    margin-left: -100px;
   `;
 
   let Line = styled("div")`
@@ -86,9 +116,10 @@ const Register = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
                 alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>제목</Label>
@@ -99,8 +130,6 @@ const Register = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "20px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />
@@ -109,8 +138,10 @@ const Register = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
+                alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>
@@ -120,9 +151,8 @@ const Register = () => {
               </Label>
               <div
                 style={{
-                  width: "500px",
+                  width: "450px",
                   height: "400px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                   border: "1px solid #666",
                   borderRadius: "3px",
@@ -131,15 +161,17 @@ const Register = () => {
                 <input
                   id="ATTACH"
                   type="file"
-                  style={{ width: "450px", margin: "20px 0" }}
+                  style={{ width: "400px", margin: "20px 0" }}
                 />
               </div>
             </div>
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
+                alignItems: "center",
                 paddingTop: "30px",
+                flexFlow: flexdir,
               }}
             >
               <Label>내용</Label>
@@ -147,9 +179,8 @@ const Register = () => {
                 id="CONTENT"
                 placeholder="본문 내용을 입력하세요"
                 style={{
-                  width: "500px",
+                  width: "450px",
                   height: "400px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                   marginBottom: "10px",
                   resize: "none",
@@ -160,9 +191,10 @@ const Register = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
                 alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>
@@ -177,8 +209,6 @@ const Register = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginLeft: "20px",
-                  marginRight: "20px",
                   fontSize: "20px",
                 }}
               />
@@ -191,9 +221,10 @@ const Register = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
                 alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>
@@ -208,7 +239,6 @@ const Register = () => {
                 style={{
                   width: "150px",
                   height: "50px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />
@@ -219,7 +249,7 @@ const Register = () => {
                 style={{
                   width: "150px",
                   height: "50px",
-                  marginLeft: "20px",
+                  margin: "20px 20px",
                   fontSize: "20px",
                 }}
               />
@@ -230,7 +260,6 @@ const Register = () => {
                 style={{
                   width: "150px",
                   height: "50px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />

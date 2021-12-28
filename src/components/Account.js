@@ -73,6 +73,33 @@ const Account = () => {
     SetnickSame(false);
   };
 
+  // resize screen
+
+  let [flexdir, Setflexdir] = useState("row nowrap");
+
+  useEffect(() => {
+    if (currentWidth > 1200) {
+      Setflexdir("row nowrap");
+    }
+    if (currentWidth <= 1200) {
+      Setflexdir("column nowrap");
+    }
+  }, [flexdir]);
+
+  window.addEventListener("resize", () => {
+    let screenWidth = document.documentElement.clientWidth;
+
+    if (screenWidth <= 1200) {
+      Setflexdir("column nowrap");
+    }
+
+    if (screenWidth > 1200) {
+      Setflexdir("row nowrap");
+    }
+  });
+
+  ///end resize screen
+
   // styled component
   let TopTitle = styled("p")`
     font-size: 48px;
@@ -87,6 +114,9 @@ const Account = () => {
 
   let Label = styled("span")`
     font-size: 48px;
+    text-align: center;
+    display: inline-block;
+    width: 210px;
   `;
 
   let Warn = styled("p")`
@@ -132,9 +162,10 @@ const Account = () => {
             <p
               style={{
                 display: "flex",
-                width: "770px",
+                width: "70%",
                 alignItems: "center",
                 paddingTop: "30px",
+                flexFlow: flexdir,
               }}
             >
               <Label>ID(Email)</Label>
@@ -145,12 +176,10 @@ const Account = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "20px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />
-              <Button>중복확인</Button>
+              <Button style={{ margin: "20px 10px" }}>중복확인</Button>
             </p>
             {idCheck ? <Warn>이메일을 입력해주세요.</Warn> : null}
             {idWarn ? (
@@ -164,9 +193,10 @@ const Account = () => {
             <p
               style={{
                 display: "flex",
-                width: "600px",
+                width: "70%",
                 alignItems: "center",
                 paddingTop: "30px",
+                flexFlow: flexdir,
               }}
             >
               <Label>PW</Label>
@@ -177,7 +207,6 @@ const Account = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginLeft: "40px",
                   fontSize: "20px",
                 }}
               />
@@ -192,9 +221,10 @@ const Account = () => {
             <p
               style={{
                 display: "flex",
-                width: "770px",
+                width: "70%",
                 alignItems: "center",
                 paddingTop: "30px",
+                flexFlow: flexdir,
               }}
             >
               <Label>PW(확인)</Label>
@@ -205,7 +235,6 @@ const Account = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginLeft: "27px",
                   fontSize: "20px",
                 }}
               />
@@ -219,9 +248,10 @@ const Account = () => {
             <p
               style={{
                 display: "flex",
-                width: "650px",
+                width: "70%",
                 alignItems: "center",
                 paddingTop: "30px",
+                flexFlow: flexdir,
               }}
             >
               <Label>닉네임</Label>
@@ -232,12 +262,10 @@ const Account = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginLeft: "22px",
-                  marginRight: "20px",
                   fontSize: "20px",
                 }}
               />
-              <Button>중복확인</Button>
+              <Button style={{ margin: "20px 10px" }}>중복확인</Button>
             </p>
             {nickCheck ? <Warn>닉네임을 입력해주세요.</Warn> : null}
             {nickWarn ? (

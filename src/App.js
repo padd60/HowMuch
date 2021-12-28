@@ -9,6 +9,7 @@ import BoardMain from "./components/BoardMain";
 import Register from "./components/Register";
 import Modify from "./components/Modify";
 import DetailBoard from "./components/DetailBoard";
+import Mypage from "./components/Mypage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/detail/:bno" element={<DetailBoard />} />
         <Route path="/modify/:bno" element={<Modify />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </div>
   );

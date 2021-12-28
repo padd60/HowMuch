@@ -50,6 +50,33 @@ const LoginPage = () => {
     }
   });
 
+  // resize screen
+
+  let [flexdir, Setflexdir] = useState("row nowrap");
+
+  useEffect(() => {
+    if (currentWidth > 1100) {
+      Setflexdir("row nowrap");
+    }
+    if (currentWidth <= 1100) {
+      Setflexdir("column nowrap");
+    }
+  }, [flexdir]);
+
+  window.addEventListener("resize", () => {
+    let screenWidth = document.documentElement.clientWidth;
+
+    if (screenWidth <= 1100) {
+      Setflexdir("column nowrap");
+    }
+
+    if (screenWidth > 1100) {
+      Setflexdir("row nowrap");
+    }
+  });
+
+  ///end resize screen
+
   let LoginHead = styled("p")`
     font-size: 48px;
     width: 300px;
@@ -58,6 +85,9 @@ const LoginPage = () => {
 
   let Label = styled("span")`
     font-size: 48px;
+    text-align: center;
+    display: inline-block;
+    width: 210px;
   `;
 
   let Warn = styled("p")`
@@ -94,10 +124,10 @@ const LoginPage = () => {
             <p
               style={{
                 display: "flex",
-                width: "750px",
+                width: "70%",
                 alignItems: "center",
                 paddingTop: "80px",
-                justifyContent: "space-between",
+                flexFlow: flexdir,
               }}
             >
               <Label>ID(Email)</Label>
@@ -109,7 +139,6 @@ const LoginPage = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "165px",
                   fontSize: "20px",
                 }}
               />
@@ -118,10 +147,10 @@ const LoginPage = () => {
             <p
               style={{
                 display: "flex",
-                width: "600px",
+                width: "70%",
                 alignItems: "center",
                 paddingTop: "30px",
-                justifyContent: "space-between",
+                flexFlow: flexdir,
               }}
             >
               <Label>PW</Label>
@@ -133,7 +162,6 @@ const LoginPage = () => {
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "90px",
                   fontSize: "20px",
                 }}
               />
@@ -143,6 +171,7 @@ const LoginPage = () => {
               style={{
                 paddingTop: "60px",
                 paddingLeft: "15px",
+                paddingBottom: "30px",
                 display: "flex",
                 width: "450px",
                 justifyContent: "space-evenly",

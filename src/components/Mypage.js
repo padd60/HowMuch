@@ -1,10 +1,148 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SiCashapp } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { FaRegHandPointRight } from "react-icons/fa";
+import { MdNotificationImportant } from "react-icons/md";
+import { RiVipCrownFill } from "react-icons/ri";
+import { IoWallet } from "react-icons/io5";
+import { BiCoinStack } from "react-icons/bi";
 
 const Mypage = () => {
   let navigate = useNavigate();
+
+  let [boardRank, SetboardRank] = useState([]);
+
+  let [memberRank, SetmemberRank] = useState([]);
+
+  const tier = [
+    { tier: "diamond", color: "#548CFF" },
+    { tier: "platinum", color: "#00BDAA" },
+    { tier: "gold", color: "#FFE300" },
+    { tier: "silver", color: "#C8C2BC" },
+    { tier: "bronze", color: "#E26A2C" },
+  ];
+
+  const findTier = (userTier) => {
+    let CurrentUserTier = tier.find((item) => {
+      return item.tier === userTier;
+    });
+
+    console.log(CurrentUserTier.color);
+
+    return CurrentUserTier.color;
+  };
+
+  let sampleData = [
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+    {
+      nick: "user01",
+      score: 0,
+      posting: 0,
+    },
+  ];
+
+  let sampleData2 = [
+    {
+      nick: "user01",
+      tier: "diamond",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "platinum",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "platinum",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "gold",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "gold",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "gold",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "silver",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "silver",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "bronze",
+      point: 0,
+    },
+    {
+      nick: "user01",
+      tier: "bronze",
+      point: 0,
+    },
+  ];
+
+  useEffect(() => {
+    SetboardRank(sampleData);
+    SetmemberRank(sampleData2);
+  }, []);
 
   // styled component
   let TopTitle = styled("p")`
@@ -17,7 +155,18 @@ const Mypage = () => {
     background-color: #2d4059;
     margin: 0 auto;
   `;
+
+  let SmallLine = styled("div")`
+    width: 70%;
+    height: 3px;
+    background-color: #2d4059;
+    margin: 70px auto;
+  `;
   // end styled component
+
+  console.log(boardRank);
+  console.log(memberRank);
+
   return (
     <div>
       <div className="cotainer-lg">
@@ -37,11 +186,366 @@ const Mypage = () => {
             />
           </div>
           <div className="col-lg-9">
-            <TopTitle>Check items & Feed back</TopTitle>
+            <TopTitle>Check your point !!</TopTitle>
           </div>
         </div>
       </div>
       <Line></Line>
+
+      {/* start tier */}
+      <div className="container-lg " style={{ marginTop: "50px" }}>
+        <div
+          className="row"
+          style={{
+            border: "2px solid #EA5455",
+            borderRadius: "7px",
+            margin: "0 20px",
+          }}
+        >
+          <div
+            className="col-lg-2"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <MdNotificationImportant style={{ fontSize: "20px" }} />
+            <span style={{ margin: "0 10px" }}>회원등급표</span>{" "}
+            <FaRegHandPointRight />
+          </div>
+          <div
+            className="col-lg-2"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <RiVipCrownFill color="#548CFF" />
+            <span style={{ margin: "0 10px" }}>다이아</span>
+            <span>0000점</span>
+          </div>
+          <div
+            className="col-lg-2"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <RiVipCrownFill color="#00BDAA" />
+            <span style={{ margin: "0 10px" }}>플래티넘</span>
+            <span>0000점</span>
+          </div>
+          <div
+            className="col-lg-2"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <RiVipCrownFill color="#FFE300" />
+            <span style={{ margin: "0 10px" }}>골드</span>
+            <span>0000점</span>
+          </div>
+          <div
+            className="col-lg-2"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <RiVipCrownFill color="#C8C2BC" />
+            <span style={{ margin: "0 10px" }}>실버</span>
+            <span>0000점</span>
+          </div>
+          <div
+            className="col-lg-2"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <RiVipCrownFill color="#E26A2C" />
+            <span style={{ margin: "0 10px" }}>브론즈</span>
+            <span>0000점</span>
+          </div>
+        </div>
+      </div>
+      {/* end tier */}
+
+      {/* start value input */}
+      <div
+        className="container-lg d-flex justify-content-center"
+        style={{ marginTop: "100px" }}
+      >
+        <div
+          style={{
+            width: "80%",
+            height: "500px",
+            border: "3px solid #2D4059",
+            display: "flex",
+            flexFlow: "column wrap",
+            justifyContent: "space-around",
+            alignItems: "center",
+            borderRadius: "7px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "24px",
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <IoWallet
+              color="#EA5455"
+              size={"32px"}
+              style={{ marginRight: "1%" }}
+            />
+            <span>(로그인 유저 닉네임)님의 포인트는 ... ?</span>
+          </div>
+          <div
+            style={{
+              width: "70%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <BiCoinStack style={{ fontSize: "32px", color: "#EA5455" }} />
+            <div
+              style={{
+                color: "black",
+                width: "50%",
+                fontSize: "24px",
+                borderBottom: "2px solid #EA5455",
+              }}
+            >
+              {/* {item.suggestion ? item.suggestion + " 원" : "없음"} */}
+            </div>
+            <span style={{ fontSize: "32px" }}>point</span>
+          </div>
+          <div style={{ fontSize: "24px" }}>
+            (로그인 유저 닉네임)님의 등급은
+          </div>
+          <RiVipCrownFill size="48px" color="" />
+          <div style={{ fontSize: "24px" }}>
+            다음 등급까지 (차이값)포인트 남았습니다!
+          </div>
+          <div>
+            <p>
+              자신만의 아이디어나 일상 등을 공유하여 더 많은 포인트를 얻어보세요
+              !!
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* end value input */}
+
+      <SmallLine></SmallLine>
+
+      {/* start rank */}
+      <div className="container-lg" style={{ paddingBottom: "100px" }}>
+        <div className="row">
+          <div className="col-lg-6" style={{ marginTop: "30px" }}>
+            <div
+              style={{ textAlign: "left", fontSize: "24px", padding: "10px 0" }}
+            >
+              게시물 랭킹
+            </div>
+            <div
+              style={{
+                border: "3px solid #2D4059",
+                borderRadius: "7px",
+                backgroundColor: "#2D4059",
+                padding: "10px",
+                height: "500px",
+                display: "flex",
+                flexFlow: "column wrap",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <div
+                  style={{
+                    width: "40px",
+                    backgroundColor: "#FFD460",
+                    borderRadius: "5px",
+                  }}
+                >
+                  순위
+                </div>
+                <div
+                  style={{
+                    width: "200px",
+                    backgroundColor: "#FFD460",
+                    borderRadius: "5px",
+                  }}
+                >
+                  닉네임
+                </div>
+                <div
+                  style={{
+                    width: "100px",
+                    backgroundColor: "#EA5455",
+                    borderRadius: "5px",
+                  }}
+                >
+                  포스팅 수
+                </div>
+              </div>
+              {boardRank.map((item, index) => {
+                return (
+                  <div
+                    style={{ display: "flex", justifyContent: "space-around" }}
+                    key={index}
+                  >
+                    <div
+                      style={{
+                        width: "40px",
+                        backgroundColor: "#FFD460",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                    <div
+                      style={{
+                        width: "200px",
+                        backgroundColor: "#FFD460",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {item.nick}
+                    </div>
+                    <div
+                      style={{
+                        width: "100px",
+                        backgroundColor: "#EA5455",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {item.posting}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="col-lg-6" style={{ marginTop: "30px" }}>
+            <div
+              style={{ textAlign: "left", fontSize: "24px", padding: "10px 0" }}
+            >
+              포인트 랭킹
+            </div>
+            <div
+              style={{
+                border: "3px solid #2D4059",
+                borderRadius: "7px",
+                backgroundColor: "#2D4059",
+                padding: "10px",
+                height: "500px",
+                display: "flex",
+                flexFlow: "column wrap",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <div
+                  style={{
+                    width: "40px",
+                    backgroundColor: "#FFD460",
+                    borderRadius: "5px",
+                  }}
+                >
+                  순위
+                </div>
+                <div
+                  style={{
+                    width: "100px",
+                    backgroundColor: "#FFD460",
+                    borderRadius: "5px",
+                  }}
+                >
+                  닉네임
+                </div>
+                <div
+                  style={{
+                    width: "100px",
+                    backgroundColor: "white",
+                    borderRadius: "5px",
+                  }}
+                >
+                  등급
+                </div>
+                <div
+                  style={{
+                    width: "100px",
+                    backgroundColor: "#EA5455",
+                    borderRadius: "5px",
+                  }}
+                >
+                  포인트
+                </div>
+              </div>
+              {memberRank.map((item, index) => {
+                return (
+                  <div
+                    style={{ display: "flex", justifyContent: "space-around" }}
+                    key={index}
+                  >
+                    <div
+                      style={{
+                        width: "40px",
+                        backgroundColor: "#FFD460",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                    <div
+                      style={{
+                        width: "100px",
+                        backgroundColor: "#FFD460",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {item.nick}
+                    </div>
+                    <div
+                      style={{
+                        width: "100px",
+                        backgroundColor: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <RiVipCrownFill
+                        color={findTier(item.tier)}
+                        style={{ marginRight: "10px" }}
+                      />
+                      {item.tier}
+                    </div>
+                    <div
+                      style={{
+                        width: "100px",
+                        backgroundColor: "#EA5455",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {item.point}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

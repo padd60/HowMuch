@@ -78,6 +78,35 @@ const DetailBoard = (props) => {
     },
   ];
 
+  // resize screen
+
+  let currentWidth = document.documentElement.clientWidth;
+
+  let [flexdir, Setflexdir] = useState("row wrap");
+
+  useEffect(() => {
+    if (currentWidth > 990) {
+      Setflexdir("row wrap");
+    }
+    if (currentWidth <= 990) {
+      Setflexdir("column wrap");
+    }
+  }, [flexdir]);
+
+  window.addEventListener("resize", () => {
+    let screenWidth = document.documentElement.clientWidth;
+
+    if (screenWidth <= 990) {
+      Setflexdir("column wrap");
+    }
+
+    if (screenWidth > 990) {
+      Setflexdir("row wrap");
+    }
+  });
+
+  ///end resize screen
+
   // styled component
   let TopTitle = styled("p")`
     font-size: 48px;
@@ -116,8 +145,12 @@ const DetailBoard = (props) => {
       <Line></Line>
       <div className="container-lg" style={{ marginTop: "30px" }}>
         <div className="row d-flex justify-content-end">
-          <div className="col-3 d-flex justify-content-evenly">
+          <div
+            className="col-3 d-flex justify-content-evenly"
+            style={{ flexFlow: flexdir }}
+          >
             <Button
+              style={{ marginBottom: "10px" }}
               onClick={() => {
                 navigate("/boardmain/");
               }}
@@ -125,6 +158,7 @@ const DetailBoard = (props) => {
               글목록
             </Button>
             <Button
+              style={{ marginBottom: "10px" }}
               onClick={() => {
                 navigate("/modify/" + item.bno);
                 console.log(item);
@@ -132,7 +166,7 @@ const DetailBoard = (props) => {
             >
               글수정
             </Button>
-            <Button>글삭제</Button>
+            <Button style={{ marginBottom: "10px" }}>글삭제</Button>
           </div>
         </div>
       </div>
@@ -378,7 +412,7 @@ const DetailBoard = (props) => {
       >
         <div
           style={{
-            width: "800px",
+            width: "75%",
             height: "500px",
             backgroundColor: "#FFD460",
             display: "flex",
@@ -390,7 +424,7 @@ const DetailBoard = (props) => {
         >
           <div
             style={{
-              width: "500px",
+              width: "80%",
               display: "flex",
               justifyContent: "center",
             }}
@@ -410,22 +444,22 @@ const DetailBoard = (props) => {
             <span style={{ fontSize: "32px" }}>원</span>
           </div>
           <div style={{ fontSize: "24px" }}>
-            (로그인 유저 닉네임)의 평가금액은 ... ?
+            (로그인 유저 닉네임)님의 <br />
+            평가금액은 ... ?
           </div>
-          <div>
+          <div style={{ width: "80%" }}>
             <div
               style={{
-                width: "500px",
                 display: "flex",
                 justifyContent: "center",
               }}
             >
               <BsPinFill style={{ fontSize: "32px", color: "#EA5455" }} />
-              <div style={{ borderBottom: "2px solid #EA5455" }}>
+              <div style={{ borderBottom: "2px solid #EA5455", width: "60%" }}>
                 <input
                   style={{
                     color: "black",
-                    width: "400px",
+                    width: "70%",
                     fontSize: "24px",
                     borderStyle: "none",
                     backgroundColor: "transparent",
@@ -465,12 +499,12 @@ const DetailBoard = (props) => {
       {/* start reply box */}
       <ReplyPagination />
       <div className="container-lg d-flex justify-content-center">
-        <div style={{ width: "800px" }}>
+        <div style={{ width: "100%" }}>
           <textarea
             placeholder="댓글을 입력하세요"
-            style={{ width: "800px", height: "100px", resize: "none" }}
+            style={{ width: "70%", height: "100px", resize: "none" }}
           />
-          <div style={{ display: "flex", justifyContent: "end" }}>
+          <div style={{ display: "flex", justifyContent: "end", width: "85%" }}>
             <Button style={{ backgroundColor: "#EA5455", borderStyle: "none" }}>
               댓글등록
             </Button>

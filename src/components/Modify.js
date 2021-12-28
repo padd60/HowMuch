@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SiCashapp } from "react-icons/si";
 import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
@@ -49,6 +49,35 @@ const Modify = () => {
   let tagsArray = tags.split(",");
   console.log(tagsArray);
 
+  let currentWidth = document.documentElement.clientWidth;
+
+  // resize screen
+
+  let [flexdir, Setflexdir] = useState("row nowrap");
+
+  useEffect(() => {
+    if (currentWidth > 1200) {
+      Setflexdir("row nowrap");
+    }
+    if (currentWidth <= 1200) {
+      Setflexdir("column nowrap");
+    }
+  }, [flexdir]);
+
+  window.addEventListener("resize", () => {
+    let screenWidth = document.documentElement.clientWidth;
+
+    if (screenWidth <= 1200) {
+      Setflexdir("column nowrap");
+    }
+
+    if (screenWidth > 1200) {
+      Setflexdir("row nowrap");
+    }
+  });
+
+  ///end resize screen
+
   // styled component
   let TopTitle = styled("p")`
     font-size: 48px;
@@ -56,12 +85,13 @@ const Modify = () => {
 
   let Label = styled("div")`
     font-size: 48px;
-    width: 250px;
+    text-align: center;
+    display: inline-block;
+    width: 300px;
   `;
 
   let Warn = styled("p")`
     color: red;
-    margin-left: -100px;
   `;
 
   let Line = styled("div")`
@@ -105,9 +135,10 @@ const Modify = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
                 alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>제목</Label>
@@ -115,12 +146,10 @@ const Modify = () => {
                 id="TITLE"
                 type="text"
                 placeholder="제목을 입력하세요"
-                value={item.title}
+                defaultValue={item.title}
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginRight: "20px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />
@@ -129,8 +158,10 @@ const Modify = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
+                alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>
@@ -140,9 +171,8 @@ const Modify = () => {
               </Label>
               <div
                 style={{
-                  width: "500px",
+                  width: "450px",
                   height: "400px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                   border: "1px solid #666",
                   borderRadius: "3px",
@@ -151,26 +181,27 @@ const Modify = () => {
                 <input
                   id="ATTACH"
                   type="file"
-                  style={{ width: "450px", margin: "20px 0" }}
+                  style={{ width: "400px", margin: "20px 0" }}
                 />
               </div>
             </div>
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
+                alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>내용</Label>
               <textarea
                 id="CONTENT"
                 placeholder="본문 내용을 입력하세요"
-                value={item.content}
+                defaultValue={item.content}
                 style={{
-                  width: "500px",
+                  width: "450px",
                   height: "400px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                   marginBottom: "10px",
                 }}
@@ -180,9 +211,10 @@ const Modify = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
                 alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>
@@ -194,12 +226,10 @@ const Modify = () => {
                 id="SUGGESTION"
                 type="text"
                 placeholder="제시할 가격을 입력하세요 (생략가능)"
-                value={item.suggestion ? item.suggestion : null}
+                defaultValue={item.suggestion ? item.suggestion : null}
                 style={{
                   width: "400px",
                   height: "50px",
-                  marginLeft: "20px",
-                  marginRight: "20px",
                   fontSize: "20px",
                 }}
               />
@@ -212,9 +242,10 @@ const Modify = () => {
             <div
               style={{
                 display: "flex",
-                width: "770px",
+                width: "80%",
                 paddingTop: "30px",
                 alignItems: "center",
+                flexFlow: flexdir,
               }}
             >
               <Label>
@@ -226,11 +257,10 @@ const Modify = () => {
                 id="TAG1"
                 type="text"
                 placeholder="태그 입력란"
-                value={tagsArray[0] ? tagsArray[0] : null}
+                defaultValue={tagsArray[0] ? tagsArray[0] : null}
                 style={{
                   width: "150px",
                   height: "50px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />
@@ -238,11 +268,11 @@ const Modify = () => {
                 id="TAG2"
                 type="text"
                 placeholder="태그 입력란"
-                value={tagsArray[1] ? tagsArray[1] : null}
+                defaultValue={tagsArray[1] ? tagsArray[1] : null}
                 style={{
                   width: "150px",
                   height: "50px",
-                  marginLeft: "20px",
+                  margin: "20px",
                   fontSize: "20px",
                 }}
               />
@@ -250,11 +280,10 @@ const Modify = () => {
                 id="TAG3"
                 type="text"
                 placeholder="태그 입력란"
-                value={tagsArray[2] ? tagsArray[2] : null}
+                defaultValue={tagsArray[2] ? tagsArray[2] : null}
                 style={{
                   width: "150px",
                   height: "50px",
-                  marginLeft: "20px",
                   fontSize: "20px",
                 }}
               />

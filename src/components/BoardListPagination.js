@@ -45,68 +45,66 @@ const BoardListPagination = () => {
             </div>
             {currentItems &&
               currentItems.map((item, index) => (
-                <div key={index}>
-                  <Reply>
-                    <div
+                <Reply className="row" key={index}>
+                  <div
+                    className="col-lg-7"
+                    style={{
+                      textAlign: "left",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {item.title}
+                  </div>
+                  <div
+                    className="col-lg-5"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                    }}
+                  >
+                    <span
                       style={{
-                        width: "500px",
-                        textAlign: "left",
+                        display: "inline-block",
+                        width: "90px",
+                        paddingRight: "10px",
                         textOverflow: "ellipsis",
                         overflow: "hidden",
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item.title}
-                    </div>
-                    <div
+                      {item.writer}
+                    </span>
+                    <span
                       style={{
-                        width: "260px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
+                        display: "inline-block",
+                        paddingRight: "10px",
                       }}
                     >
-                      <span
-                        style={{
-                          display: "inline-block",
-                          width: "90px",
-                          paddingRight: "10px",
-                          textOverflow: "ellipsis",
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {item.writer}
-                      </span>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          paddingRight: "10px",
-                        }}
-                      >
-                        {item.bdate}
-                      </span>
-                      <AiFillLike style={{ color: "#EA5455" }} />
-                      <span
-                        style={{
-                          display: "inline-block",
-                          paddingRight: "10px",
-                        }}
-                      >
-                        {item.like}
-                      </span>
-                      <AiFillDislike style={{ color: "#F07B3F" }} />
-                      <span
-                        style={{
-                          display: "inline-block",
-                          paddingRight: "10px",
-                        }}
-                      >
-                        {item.dislike}
-                      </span>
-                    </div>
-                  </Reply>
-                </div>
+                      {item.bdate}
+                    </span>
+                    <AiFillLike style={{ color: "#EA5455" }} />
+                    <span
+                      style={{
+                        display: "inline-block",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      {item.like}
+                    </span>
+                    <AiFillDislike style={{ color: "#F07B3F" }} />
+                    <span
+                      style={{
+                        display: "inline-block",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      {item.dislike}
+                    </span>
+                  </div>
+                </Reply>
               ))}
           </div>
         </div>

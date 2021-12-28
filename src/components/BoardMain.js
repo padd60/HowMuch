@@ -42,6 +42,56 @@ const BoardMain = () => {
 
   let navigate = useNavigate();
 
+  const sData = [
+    {
+      mno: 1,
+      email: "test@naver.com",
+      nick: "testname1",
+      pw: "qwer1234",
+      point: 700,
+    },
+    {
+      mno: 2,
+      email: "test@naver.com",
+      nick: "testname2",
+      pw: "qwer1234",
+      point: 0,
+    },
+    {
+      mno: 3,
+      email: "test@naver.com",
+      nick: "testname3",
+      pw: "qwer1234",
+      point: 0,
+    },
+  ];
+
+  let [tier, SetTier] = useState("");
+
+  const tierSelect = (point) => {
+    if (point < 250) {
+      SetTier("Bronze");
+      // model.addAttribute("grade", "Bronze");
+    } else if (point < 500) {
+      SetTier("Silver");
+      // model.addAttribute("grade", "Silver");
+    } else if (point < 750) {
+      SetTier("Gold");
+      // model.addAttribute("grade", "Gold");
+    } else if (point < 1000) {
+      SetTier("Platinum");
+      // model.addAttribute("grade", "Platinum");
+    } else {
+      SetTier("Diamond");
+      // model.addAttribute("grade", "Diamond");
+    }
+  };
+
+  useEffect(async () => {
+    await tierSelect(sData[0].point);
+    console.log(tier);
+  }, [tier]);
+
   // pagination
   function Items({ currentItems }) {
     return (
