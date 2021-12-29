@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 
@@ -10,7 +10,7 @@ const BoardListPagination = () => {
     return state;
   });
 
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
   let boardState = state.boardReducer;
 

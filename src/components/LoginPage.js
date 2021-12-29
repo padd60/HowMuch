@@ -4,7 +4,7 @@ import { RiLock2Fill } from "react-icons/ri";
 import { SiCashapp } from "react-icons/si";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 
 const LoginPage = () => {
   let navigate = useNavigate();
@@ -36,7 +36,7 @@ const LoginPage = () => {
     if (currentWidth > 770) {
       setPosition("absolute");
     }
-  }, []);
+  }, [currentWidth]);
 
   window.addEventListener("resize", () => {
     let screenWidth = document.documentElement.clientWidth;
@@ -61,7 +61,7 @@ const LoginPage = () => {
     if (currentWidth <= 1100) {
       Setflexdir("column nowrap");
     }
-  }, [flexdir]);
+  }, [flexdir, currentWidth]);
 
   window.addEventListener("resize", () => {
     let screenWidth = document.documentElement.clientWidth;

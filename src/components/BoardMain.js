@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ItemCard from "./ItemCard";
 import { FaSearch } from "react-icons/fa";
 import { Button } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 let TopTitle = styled("p")`
   font-size: 48px;

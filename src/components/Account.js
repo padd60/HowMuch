@@ -16,7 +16,7 @@ const Account = () => {
     if (currentWidth > 770) {
       setPosition("absolute");
     }
-  }, []);
+  }, [currentWidth]);
 
   window.addEventListener("resize", () => {
     let screenWidth = document.documentElement.clientWidth;
@@ -84,7 +84,7 @@ const Account = () => {
     if (currentWidth <= 1200) {
       Setflexdir("column nowrap");
     }
-  }, [flexdir]);
+  }, [flexdir, currentWidth]);
 
   window.addEventListener("resize", () => {
     let screenWidth = document.documentElement.clientWidth;

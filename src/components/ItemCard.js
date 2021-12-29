@@ -15,7 +15,11 @@ const ItemCard = (props) => {
         <Card.Img
           variant="top"
           src={noImage}
-          style={{ border: "2px solid #2D4059" }}
+          style={{
+            border: "2px solid #2D4059",
+            width: "280px",
+            height: "200px",
+          }}
         />
         <Card.Body style={{ padding: "1rem 0" }}>
           <div style={{ display: "flex" }}>

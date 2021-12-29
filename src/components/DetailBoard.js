@@ -91,7 +91,7 @@ const DetailBoard = (props) => {
     if (currentWidth <= 990) {
       Setflexdir("column wrap");
     }
-  }, [flexdir]);
+  }, [flexdir, currentWidth]);
 
   window.addEventListener("resize", () => {
     let screenWidth = document.documentElement.clientWidth;

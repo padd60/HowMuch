@@ -62,7 +62,7 @@ const Modify = () => {
     if (currentWidth <= 1200) {
       Setflexdir("column nowrap");
     }
-  }, [flexdir]);
+  }, [flexdir, currentWidth]);
 
   window.addEventListener("resize", () => {
     let screenWidth = document.documentElement.clientWidth;
@@ -176,13 +176,62 @@ const Modify = () => {
                   fontSize: "20px",
                   border: "1px solid #666",
                   borderRadius: "3px",
+                  overflow: "auto",
                 }}
               >
                 <input
                   id="ATTACH"
                   type="file"
+                  multiple="multiple"
+                  accept=".jpg, .jpeg, .png, .svg+xml"
+                  onChange={(e) => {
+                    console.log("change!");
+
+                    let fileArr = [...e.target.files];
+
+                    // fileArr = [file(),file(),file()]
+
+                    let base64Arr = [];
+
+                    let base64Obj = {};
+
+                    fileArr.forEach((item, index) => {
+                      let reader = new FileReader();
+
+                      let imgBox = document.getElementById("imgBox");
+                      let image = document.createElement("img");
+
+                      reader.onload = (e) => {
+                        let dataURL = reader.result;
+                        // console.log(typeof reader.result);
+                        base64Arr.push(dataURL);
+                        image.src = dataURL;
+                        image.style =
+                          "width: 350px; display: block; margin-bottom: 20px";
+
+                        imgBox.appendChild(image);
+                      };
+
+                      reader.readAsDataURL(item);
+
+                      // console.log(base64Arr);
+                      // console.log(typeof base64Arr);
+                      // console.log(base64Arr[0]);
+                    });
+                  }}
                   style={{ width: "400px", margin: "20px 0" }}
                 />
+                <div
+                  id="imgBox"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexFlow: "column wrap",
+                  }}
+                >
+                  {}
+                </div>
               </div>
             </div>
             <div
@@ -300,6 +349,29 @@ const Modify = () => {
             >
               <Button
                 onClick={() => {
+                  let thumbnailURL = "";
+                  let postImgURL = [];
+
+                  let attachImgBox = document.querySelectorAll("#imgBox img");
+
+                  if (attachImgBox.length > 0) {
+                    let arrAttachImgBox = [...attachImgBox];
+
+                    let thumbnailImgTag = attachImgBox[0];
+
+                    console.log(attachImgBox);
+
+                    thumbnailURL = thumbnailImgTag.src;
+
+                    console.log(thumbnailURL);
+
+                    postImgURL = arrAttachImgBox.map((item, index) => {
+                      return item.src;
+                    });
+
+                    console.log(postImgURL);
+                  }
+
                   resetShow();
 
                   let titleInput = document.getElementById("TITLE");
@@ -309,7 +381,21 @@ const Modify = () => {
                   let tag2Input = document.getElementById("TAG2");
                   let tag3Input = document.getElementById("TAG3");
 
-                  console.log(titleInput);
+                  let tagArr = [];
+
+                  if (tag1Input.value) {
+                    tagArr.push(tag1Input.value);
+                  }
+                  if (tag2Input.value) {
+                    tagArr.push(tag2Input.value);
+                  }
+                  if (tag3Input.value) {
+                    tagArr.push(tag3Input.value);
+                  }
+
+                  console.log(tagArr);
+
+                  // console.log(titleInput);
 
                   let number = /[0-9]/; // 숫자 체크
 

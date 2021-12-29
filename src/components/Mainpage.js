@@ -54,7 +54,7 @@ const Mainpage = () => {
       imageWidthChange("450px");
       rowAlignChange("center");
     }
-  }, []);
+  }, [currentImageWidth]);
 
   let [TbtnOpa, TbtnOpaChange] = useState(0);
 
