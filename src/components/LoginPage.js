@@ -173,6 +173,9 @@ const LoginPage = () => {
               </p>
               {/* <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> */}
               {pwCheck ? <Warn>비밀번호를 입력해주세요.</Warn> : null}
+              <p style={{ textAlign: "right", width: "40%", fontSize: "20px" }}>
+                자동로그인 <input name="remember-me" type="checkbox" />
+              </p>
               <p
                 style={{
                   paddingTop: "60px",

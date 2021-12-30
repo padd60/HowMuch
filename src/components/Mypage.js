@@ -7,9 +7,27 @@ import { MdNotificationImportant } from "react-icons/md";
 import { RiVipCrownFill } from "react-icons/ri";
 import { IoWallet } from "react-icons/io5";
 import { BiCoinStack } from "react-icons/bi";
+import axios from "axios";
 
 const Mypage = () => {
   let navigate = useNavigate();
+
+  let API_URL = "http://localhost:8181";
+
+  const getMyInfo = async () => {
+    await axios
+      .get(API_URL + "/myPage")
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        navigate("/login");
+      });
+  };
+
+  useEffect(() => {
+    getMyInfo();
+  }, []);
 
   let [boardRank, SetboardRank] = useState([]);
 

@@ -7,7 +7,7 @@ import Banner from "../img/banner.svg";
 import ItemCard from "./ItemCard";
 import SampleImg from "../img/sample.svg";
 import { IoShareSocialSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
 
 const Mainpage = () => {
@@ -15,6 +15,10 @@ const Mainpage = () => {
   let state = useSelector((state) => {
     return state;
   });
+
+  let { login } = useParams();
+
+  // console.log(login ? true : false);
 
   let boardState = state.boardReducer;
 
@@ -177,7 +181,7 @@ const Mainpage = () => {
                 }}
                 style={{ color: "white", fontSize: "24px" }}
               >
-                로그인
+                {login === "success" ? "로그아웃" : "로그인"}
               </Nav.Link>
               <Nav.Link
                 onClick={() => {
