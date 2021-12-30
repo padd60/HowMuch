@@ -6,7 +6,7 @@ import { BsFillCaretRightFill } from "react-icons/bs";
 const ItemCard = (props) => {
   let tags = props.item.tag;
 
-  let tagsArray = tags.split(",");
+  // let tagsArray = tags.split(",");
   // console.log(tagsArray);
 
   return (
@@ -96,7 +96,7 @@ const ItemCard = (props) => {
             </div>
           </div>
           <div style={{ marginTop: "20px", textAlign: "left" }}>
-            {tagsArray.map((item, index) => {
+            {tags.map((item, index) => {
               return (
                 <span
                   style={{

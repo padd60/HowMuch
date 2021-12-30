@@ -30,8 +30,8 @@ const DetailBoard = (props) => {
 
   let tags = item.tag;
 
-  let tagsArray = tags.split(",");
-  console.log(tagsArray);
+  // let tagsArray = tags.split(",");
+  // console.log(tagsArray);
 
   let [valueLog, SetValueLog] = useState("");
 
@@ -226,7 +226,7 @@ const DetailBoard = (props) => {
               {item.content}
             </Card.Text>
             <div style={{ marginTop: "30px", textAlign: "center" }}>
-              {tagsArray.map((item, index) => {
+              {tags.map((item, index) => {
                 return (
                   <span
                     style={{

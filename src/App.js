@@ -10,6 +10,7 @@ import Register from "./components/Register";
 import Modify from "./components/Modify";
 import DetailBoard from "./components/DetailBoard";
 import Mypage from "./components/Mypage";
+import TestLogin from "./components/TestLogin";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/detail/:bno" element={<DetailBoard />} />
         <Route path="/modify/:bno" element={<Modify />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/testlogin" element={<TestLogin />} />
       </Routes>
     </div>
   );

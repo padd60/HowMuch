@@ -4,10 +4,13 @@ import { RiLock2Fill } from "react-icons/ri";
 import { SiCashapp } from "react-icons/si";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 // import axios from "axios";
 
 const LoginPage = () => {
   let navigate = useNavigate();
+
+  let dispatch = useDispatch();
 
   let [position, setPosition] = useState("");
 
@@ -17,6 +20,7 @@ const LoginPage = () => {
 
   const idInput = document.getElementById("ID");
   const pwInput = document.getElementById("PW");
+  const form = document.getElementById("form");
 
   const resetShow = () => {
     SetidCheck(false);
@@ -113,130 +117,139 @@ const LoginPage = () => {
           />
         </div>
         <div className="row">
-          <div
-            className="col d-flex flex-column justify-content-center align-items-center"
-            style={{ paddingTop: "80px" }}
-          >
-            <LoginHead>Login</LoginHead>
-            <p>
-              <RiLock2Fill style={{ fontSize: "48px" }} />
-            </p>
-            <p
-              style={{
-                display: "flex",
-                width: "70%",
-                alignItems: "center",
-                paddingTop: "80px",
-                flexFlow: flexdir,
-              }}
+          <form id="form" method="post" action="http://localhost:8181/login">
+            <div
+              className="col d-flex flex-column justify-content-center align-items-center"
+              style={{ paddingTop: "80px" }}
             >
-              <Label>ID(Email)</Label>
-              <input
-                id="ID"
-                name="username"
-                type="text"
-                placeholder="아이디를 입력하세요"
+              <LoginHead>Login</LoginHead>
+              <p>
+                <RiLock2Fill style={{ fontSize: "48px" }} />
+              </p>
+              <p
                 style={{
-                  width: "400px",
-                  height: "50px",
-                  fontSize: "20px",
+                  display: "flex",
+                  width: "70%",
+                  alignItems: "center",
+                  paddingTop: "80px",
+                  flexFlow: flexdir,
                 }}
-              />
-            </p>
-            {idCheck ? <Warn>이메일을 입력해주세요.</Warn> : null}
-            <p
-              style={{
-                display: "flex",
-                width: "70%",
-                alignItems: "center",
-                paddingTop: "30px",
-                flexFlow: flexdir,
-              }}
-            >
-              <Label>PW</Label>
-              <input
-                id="PW"
-                name="password"
-                type="password"
-                placeholder="비밀번호를 입력하세요"
+              >
+                <Label>ID(Email)</Label>
+                <input
+                  id="ID"
+                  name="username"
+                  type="text"
+                  placeholder="아이디를 입력하세요"
+                  style={{
+                    width: "400px",
+                    height: "50px",
+                    fontSize: "20px",
+                  }}
+                />
+              </p>
+              {idCheck ? <Warn>이메일을 입력해주세요.</Warn> : null}
+              <p
                 style={{
-                  width: "400px",
-                  height: "50px",
-                  fontSize: "20px",
+                  display: "flex",
+                  width: "70%",
+                  alignItems: "center",
+                  paddingTop: "30px",
+                  flexFlow: flexdir,
                 }}
-              />
-            </p>
-            {pwCheck ? <Warn>비밀번호를 입력해주세요.</Warn> : null}
-            <p
-              style={{
-                paddingTop: "60px",
-                paddingLeft: "15px",
-                paddingBottom: "30px",
-                display: "flex",
-                width: "450px",
-                justifyContent: "space-evenly",
-              }}
-            >
-              <Button
-                onClick={() => {
-                  resetShow();
+              >
+                <Label>PW</Label>
+                <input
+                  id="PW"
+                  name="password"
+                  type="password"
+                  placeholder="비밀번호를 입력하세요"
+                  style={{
+                    width: "400px",
+                    height: "50px",
+                    fontSize: "20px",
+                  }}
+                />
+              </p>
+              {/* <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> */}
+              {pwCheck ? <Warn>비밀번호를 입력해주세요.</Warn> : null}
+              <p
+                style={{
+                  paddingTop: "60px",
+                  paddingLeft: "15px",
+                  paddingBottom: "30px",
+                  display: "flex",
+                  width: "450px",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    resetShow();
 
-                  if (!checkValue(idInput)) {
-                    SetidCheck(true);
-                    return;
-                  }
-                  if (!checkValue(pwInput)) {
-                    SetpwCheck(true);
-                    return;
-                  }
-                }}
-                style={{
-                  backgroundColor: "#2d4059",
-                  border: "none",
-                  fontSize: "24px",
-                }}
-              >
-                로그인
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate("/account");
-                  // axios.post('http://localhost8181/login',{
-                  //   username : idInput.value,
-                  //   password : pwInput.value
-                  // }).then()
-                }}
-                style={{
-                  backgroundColor: "#2d4059",
-                  border: "none",
-                  fontSize: "24px",
-                }}
-              >
-                회원가입
-              </Button>
-              <Button
-                style={{
-                  backgroundColor: "#2d4059",
-                  border: "none",
-                  fontSize: "24px",
-                }}
-              >
-                계정찾기
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate("/");
-                }}
-                style={{
-                  backgroundColor: "#2d4059",
-                  border: "none",
-                  fontSize: "24px",
-                }}
-              >
-                취소
-              </Button>
-            </p>
-          </div>
+                    if (!checkValue(idInput)) {
+                      SetidCheck(true);
+                      return;
+                    }
+                    if (!checkValue(pwInput)) {
+                      SetpwCheck(true);
+                      return;
+                    }
+
+                    form.submit();
+
+                    // dispatch({
+                    //   type: "login",
+                    //   payload: {
+                    //     username: idInput.value,
+                    //     password: pwInput.value,
+                    //   },
+                    // });
+                  }}
+                  style={{
+                    backgroundColor: "#2d4059",
+                    border: "none",
+                    fontSize: "24px",
+                  }}
+                >
+                  로그인
+                </Button>
+                <Button
+                  onClick={() => {
+                    navigate("/account");
+                  }}
+                  style={{
+                    backgroundColor: "#2d4059",
+                    border: "none",
+                    fontSize: "24px",
+                  }}
+                >
+                  회원가입
+                </Button>
+                <Button
+                  style={{
+                    backgroundColor: "#2d4059",
+                    border: "none",
+                    fontSize: "24px",
+                  }}
+                >
+                  계정찾기
+                </Button>
+                <Button
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                  style={{
+                    backgroundColor: "#2d4059",
+                    border: "none",
+                    fontSize: "24px",
+                  }}
+                >
+                  취소
+                </Button>
+              </p>
+            </div>
+          </form>
         </div>
       </div>
     </div>

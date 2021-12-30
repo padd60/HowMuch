@@ -4,8 +4,20 @@ import { SiCashapp } from "react-icons/si";
 import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const Account = () => {
+  let API_URL = "http://localhost:8181";
+
+  let state = useSelector((state) => {
+    return state;
+  });
+
+  let memberState = state.memberReducer;
+
+  let dispatch = useDispatch();
+
   let navigate = useNavigate();
 
   let [position, setPosition] = useState("");
@@ -37,7 +49,7 @@ const Account = () => {
 
   const [idCheck, SetidCheck] = useState(false);
   const [idWarn, SetidWarn] = useState(false);
-  const [idSame, SetidSame] = useState(false);
+  const [idSame, SetidSame] = useState("");
 
   const [pwCheck, SetpwCheck] = useState(false);
   const [pwWarn, SetpwWarn] = useState(false);
@@ -47,7 +59,7 @@ const Account = () => {
 
   const [nickCheck, SetnickCheck] = useState(false);
   const [nickWarn, SetnickWarn] = useState(false);
-  const [nickSame, SetnickSame] = useState(false);
+  const [nickSame, SetnickSame] = useState("");
 
   const idInput = document.getElementById("ID");
   const pwInput = document.getElementById("PW");
@@ -60,6 +72,10 @@ const Account = () => {
     return input.value;
   };
 
+  useEffect(() => {
+    resetShow();
+  }, []);
+
   const resetShow = () => {
     SetidCheck(false);
     SetidWarn(false);
@@ -70,7 +86,8 @@ const Account = () => {
     Setpw2Warn(false);
     SetnickCheck(false);
     SetnickWarn(false);
-    SetnickSame(false);
+    SetnickSame("");
+    SetidSame("");
   };
 
   // resize screen
@@ -100,6 +117,39 @@ const Account = () => {
 
   ///end resize screen
 
+  // axios
+  const idSameCheck = async (id) => {
+    await axios
+      .get(API_URL + "/findEmail?email=" + id)
+      .then((result) => {
+        // console.log(result.data.nick);
+        if (result.data.nick) {
+          SetidSame("yes");
+        } else {
+          SetidSame("no");
+        }
+      })
+      .catch((error) => {
+        console.log("error");
+      });
+  };
+  const nickSameCheck = async (nick) => {
+    await axios
+      .get(API_URL + "/findNick?nick=" + nick)
+      .then((result) => {
+        console.log(result.data.nick);
+        if (result.data.email) {
+          SetnickSame("yes");
+        } else {
+          SetnickSame("no");
+        }
+      })
+      .catch((error) => {
+        console.log("error");
+      });
+  };
+  // end exios
+
   // styled component
   let TopTitle = styled("p")`
     font-size: 48px;
@@ -121,6 +171,10 @@ const Account = () => {
 
   let Warn = styled("p")`
     color: red;
+  `;
+
+  let Success = styled("p")`
+    color: blue;
   `;
   // end styled component
 
@@ -179,16 +233,26 @@ const Account = () => {
                   fontSize: "20px",
                 }}
               />
-              <Button style={{ margin: "20px 10px" }}>중복확인</Button>
+              <Button
+                onClick={() => {
+                  idSameCheck(idInput.value);
+                }}
+                style={{ margin: "20px 10px" }}
+              >
+                중복확인
+              </Button>
             </p>
             {idCheck ? <Warn>이메일을 입력해주세요.</Warn> : null}
             {idWarn ? (
               <Warn>올바른 형식의 이메일이 아닙니다. 다시 입력해주세요.</Warn>
             ) : null}
-            {idSame ? (
+            {idSame === "yes" ? (
               <Warn>
                 중복되는 아이디가 존재합니다. 다른 이메일을 입력해주세요.
               </Warn>
+            ) : null}
+            {idSame === "no" ? (
+              <Success>사용가능한 아이디입니다.</Success>
             ) : null}
             <p
               style={{
@@ -265,16 +329,26 @@ const Account = () => {
                   fontSize: "20px",
                 }}
               />
-              <Button style={{ margin: "20px 10px" }}>중복확인</Button>
+              <Button
+                onClick={() => {
+                  nickSameCheck(nickInput.value);
+                }}
+                style={{ margin: "20px 10px" }}
+              >
+                중복확인
+              </Button>
             </p>
             {nickCheck ? <Warn>닉네임을 입력해주세요.</Warn> : null}
             {nickWarn ? (
               <Warn>닉네임 제한길이를 초과하였습니다. 다시 입력해주세요.</Warn>
             ) : null}
-            {nickSame ? (
+            {nickSame === "yes" ? (
               <Warn>
                 중복되는 닉네임이 존재합니다. 다른 닉네임을 입력해주세요.
               </Warn>
+            ) : null}
+            {nickSame === "no" ? (
+              <Success>사용가능한 닉네임입니다.</Success>
             ) : null}
             <p
               style={{
@@ -356,6 +430,15 @@ const Account = () => {
                   }
 
                   handleShow();
+
+                  dispatch({
+                    type: "signup",
+                    payload: {
+                      email: idInput.value,
+                      pw: pw2Input.value,
+                      nick: nickInput.value,
+                    },
+                  });
                 }}
                 style={{
                   backgroundColor: "#2d4059",
