@@ -9,9 +9,11 @@ import { BrowserRouter } from "react-router-dom";
 import { combineReducers, createStore } from "redux";
 import { Provider } from "react-redux";
 import axios from "axios";
+import { CookiesProvider } from "react-cookie";
 
 axios.defaults.xsrfCookieName = "XSRF-TOKEN";
-axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
+axios.defaults.xsrfHeaderName = "X-CSRF-TOKEN";
+// axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
 
 let member = "";
 
@@ -478,19 +480,10 @@ const signup = async (email, pw, nick) => {
 
 const login = async (username, password) => {
   await axios
-    .post(
-      API_URL + "/login",
-      {
-        username: username,
-        password: password,
-      },
-      {
-        auth: {
-          username: username,
-          password: password,
-        },
-      }
-    )
+    .post(API_URL + "/login", {
+      username: username,
+      password: password,
+    })
     .then((result) => {
       console.log("success login");
       console.log(result.data);
@@ -551,9 +544,11 @@ let store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <CookiesProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CookiesProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

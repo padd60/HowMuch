@@ -16,12 +16,14 @@ const Mypage = () => {
 
   const getMyInfo = async () => {
     await axios
-      .get(API_URL + "/myPage")
+      .get(API_URL + "/username")
       .then((result) => {
         console.log(result);
       })
       .catch((error) => {
-        navigate("/login");
+        // navigate("/login");
+        console.log(error);
+        // navigate("/login");
       });
   };
 
@@ -33,134 +35,168 @@ const Mypage = () => {
 
   let [memberRank, SetmemberRank] = useState([]);
 
+  const getBoardRank = async () => {
+    await axios
+      .get(API_URL + "/BoardRank")
+      .then((result) => {
+        console.log(result.data);
+        SetboardRank(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("board rank err");
+      });
+  };
+
+  const getTierRank = async () => {
+    await axios
+      .get(API_URL + "/TierRank")
+      .then((result) => {
+        console.log(result.data);
+        SetmemberRank(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("tier rank err");
+      });
+  };
+
+  useEffect(() => {
+    getBoardRank();
+    getTierRank();
+  }, []);
+
   const tier = [
-    { tier: "diamond", color: "#548CFF" },
-    { tier: "platinum", color: "#00BDAA" },
-    { tier: "gold", color: "#FFE300" },
-    { tier: "silver", color: "#C8C2BC" },
-    { tier: "bronze", color: "#E26A2C" },
+    { tier: "Diamond", color: "#548CFF" },
+    { tier: "Platinum", color: "#00BDAA" },
+    { tier: "Gold", color: "#FFE300" },
+    { tier: "Silver", color: "#C8C2BC" },
+    { tier: "Bronze", color: "#E26A2C" },
   ];
 
   const findTier = (userTier) => {
-    let CurrentUserTier = tier.find((item) => {
+    console.log(userTier);
+
+    let findItem = tier.find((item) => {
       return item.tier === userTier;
     });
 
-    console.log(CurrentUserTier.color);
+    console.log(findItem);
+    console.log(findItem.color);
 
-    return CurrentUserTier.color;
+    return findItem.color;
   };
 
-  let sampleData = [
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-    {
-      nick: "user01",
-      score: 0,
-      posting: 0,
-    },
-  ];
+  // let sampleData = [
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     score: 0,
+  //     posting: 0,
+  //   },
+  // ];
 
-  let sampleData2 = [
-    {
-      nick: "user01",
-      tier: "diamond",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "platinum",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "platinum",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "gold",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "gold",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "gold",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "silver",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "silver",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "bronze",
-      point: 0,
-    },
-    {
-      nick: "user01",
-      tier: "bronze",
-      point: 0,
-    },
-  ];
+  // let sampleData2 = [
+  //   {
+  //     nick: "user01",
+  //     tier: "diamond",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "platinum",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "platinum",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "gold",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "gold",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "gold",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "silver",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "silver",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "bronze",
+  //     point: 0,
+  //   },
+  //   {
+  //     nick: "user01",
+  //     tier: "bronze",
+  //     point: 0,
+  //   },
+  // ];
 
-  useEffect(() => {
-    SetboardRank(sampleData);
-    SetmemberRank(sampleData2);
-  }, []);
+  // useEffect(() => {
+  //   SetboardRank(sampleData);
+  //   SetmemberRank(sampleData2);
+  // }, []);
 
   // styled component
   let TopTitle = styled("p")`
@@ -382,13 +418,18 @@ const Mypage = () => {
                 borderRadius: "7px",
                 backgroundColor: "#2D4059",
                 padding: "10px",
-                height: "500px",
                 display: "flex",
                 flexFlow: "column wrap",
                 justifyContent: "space-evenly",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  margin: "10px 0",
+                }}
+              >
                 <div
                   style={{
                     width: "40px",
@@ -420,7 +461,11 @@ const Mypage = () => {
               {boardRank.map((item, index) => {
                 return (
                   <div
-                    style={{ display: "flex", justifyContent: "space-around" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      margin: "10px 0",
+                    }}
                     key={index}
                   >
                     <div
@@ -467,13 +512,18 @@ const Mypage = () => {
                 borderRadius: "7px",
                 backgroundColor: "#2D4059",
                 padding: "10px",
-                height: "500px",
                 display: "flex",
                 flexFlow: "column wrap",
                 justifyContent: "space-evenly",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  margin: "10px 0",
+                }}
+              >
                 <div
                   style={{
                     width: "40px",
@@ -514,7 +564,11 @@ const Mypage = () => {
               {memberRank.map((item, index) => {
                 return (
                   <div
-                    style={{ display: "flex", justifyContent: "space-around" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      margin: "10px 0",
+                    }}
                     key={index}
                   >
                     <div

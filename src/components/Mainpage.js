@@ -9,6 +9,7 @@ import SampleImg from "../img/sample.svg";
 import { IoShareSocialSharp } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
+import { useCookies } from "react-cookie";
 
 const Mainpage = () => {
   // redux
@@ -17,6 +18,18 @@ const Mainpage = () => {
   });
 
   let { login } = useParams();
+
+  //cookie
+  // const [cookies, setCookie] = useCookies(["name"]);
+
+  // function onChange(newName) {
+  //   setCookie("name", newName, { path: "/" });
+  // }
+
+  // onchange("test");
+
+  // console.log(cookies);
+  //end cookie
 
   // console.log(login ? true : false);
 
