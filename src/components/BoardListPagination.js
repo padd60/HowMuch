@@ -83,7 +83,11 @@ const BoardListPagination = () => {
                         paddingRight: "10px",
                       }}
                     >
-                      {item.bdate}
+                      {item.bdate == "2021/00/00"
+                        ? null
+                        : String(
+                            new Date(item.bdate).toISOString().split("T")[0]
+                          )}
                     </span>
                     <AiFillLike style={{ color: "#EA5455" }} />
                     <span
@@ -92,7 +96,7 @@ const BoardListPagination = () => {
                         paddingRight: "10px",
                       }}
                     >
-                      {item.like}
+                      {item.blike}
                     </span>
                     <AiFillDislike style={{ color: "#F07B3F" }} />
                     <span
@@ -101,7 +105,7 @@ const BoardListPagination = () => {
                         paddingRight: "10px",
                       }}
                     >
-                      {item.dislike}
+                      {item.bdislike}
                     </span>
                   </div>
                 </Reply>

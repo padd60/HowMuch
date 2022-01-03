@@ -5,15 +5,33 @@ import styled from "styled-components";
 import { Button, Card } from "react-bootstrap";
 import noImage from "../img/noImage.svg";
 import { BsFillCaretRightFill, BsPinFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaDollarSign } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import ReplyPagination from "./ReplyPagination";
 import BoardListPagination from "./BoardListPagination";
+import axios from "axios";
 
 const DetailBoard = (props) => {
   let navigate = useNavigate();
+
+  let dispatch = useDispatch();
+
+  const readList = async () => {
+    await axios.get("http://localhost:8181/readList").then((res) => {
+      console.log("success");
+      console.log(res.data);
+      dispatch({
+        type: "readList",
+        payload: res.data,
+      });
+    });
+  };
+
+  useEffect(() => {
+    readList();
+  }, []);
 
   let { bno } = useParams();
   console.log(bno);
@@ -28,7 +46,7 @@ const DetailBoard = (props) => {
 
   let item = boardState[bno - 1];
 
-  let tags = item.tag;
+  let tags = item.tagList;
 
   // let tagsArray = tags.split(",");
   // console.log(tagsArray);
@@ -226,28 +244,30 @@ const DetailBoard = (props) => {
               {item.content}
             </Card.Text>
             <div style={{ marginTop: "30px", textAlign: "center" }}>
-              {tags.map((item, index) => {
-                return (
-                  <span
-                    style={{
-                      display: "inline-block",
-                      maxWidth: "700px",
-                      height: "40px",
-                      backgroundColor: "#2D4059",
-                      borderRadius: "5px",
-                      padding: "10px",
-                      marginBottom: "0",
-                      marginRight: "10px",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                    }}
-                    key={index}
-                  >
-                    #{item}
-                  </span>
-                );
-              })}
+              {item.tag === "null"
+                ? null
+                : item.tagList.map((item, index) => {
+                    return (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          maxWidth: "700px",
+                          height: "40px",
+                          backgroundColor: "#2D4059",
+                          borderRadius: "5px",
+                          padding: "10px",
+                          marginBottom: "0",
+                          marginRight: "10px",
+                          textOverflow: "ellipsis",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                        }}
+                        key={index}
+                      >
+                        #{item}
+                      </span>
+                    );
+                  })}
             </div>
           </Card.Body>
         </Card>
@@ -381,26 +401,30 @@ const DetailBoard = (props) => {
           <p style={{ fontSize: "24px", borderBottom: "2px solid #2D4059" }}>
             <span>평가로그</span>
           </p>
-          {testArray.map((item, index) => {
-            return (
-              <span
-                style={{
-                  display: "inline-block",
-                  maxWidth: "700px",
-                  height: "40px",
-                  backgroundColor: "#EA5455",
-                  borderRadius: "5px",
-                  padding: "10px",
-                  marginBottom: "0",
-                  marginRight: "10px",
-                  overflow: "hidden",
-                }}
-                key={index}
-              >
-                {item.name} 님 {item.price} 원 {item.vdate}
-              </span>
-            );
-          })}
+          {valueLog === "" ? (
+            <span>아직 평가가 이루어 지지 않았습니다.</span>
+          ) : (
+            valueLog.map((item, index) => {
+              return (
+                <span
+                  style={{
+                    display: "inline-block",
+                    maxWidth: "700px",
+                    height: "40px",
+                    backgroundColor: "#EA5455",
+                    borderRadius: "5px",
+                    padding: "10px",
+                    marginBottom: "0",
+                    marginRight: "10px",
+                    overflow: "hidden",
+                  }}
+                  key={index}
+                >
+                  {item.name} 님 {item.price} 원 {item.vdate}
+                </span>
+              );
+            })
+          )}
         </div>
       </div>
       {/* end value log */}
@@ -488,9 +512,9 @@ const DetailBoard = (props) => {
             <GrView />
             <span style={{ padding: "0 10px" }}>{item.rcount}</span>
             <AiFillLike style={{ color: "#EA5455" }} />
-            <span style={{ padding: "0 10px" }}>{item.like}</span>
+            <span style={{ padding: "0 10px" }}>{item.blike}</span>
             <AiFillDislike style={{ color: "#F07B3F" }} />
-            <span style={{ padding: "0 10px" }}>{item.dislike}</span>
+            <span style={{ padding: "0 10px" }}>{item.bdislike}</span>
           </div>
         </div>
       </div>

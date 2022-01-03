@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { SiCashapp } from "react-icons/si";
 import ReactPaginate from "react-paginate";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import ItemCard from "./ItemCard";
 import { FaSearch } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 let TopTitle = styled("p")`
   font-size: 48px;
@@ -20,6 +21,23 @@ let Line = styled("div")`
 `;
 
 const BoardMain = () => {
+  let dispatch = useDispatch();
+
+  const readList = async () => {
+    await axios.get("http://localhost:8181/readList").then((res) => {
+      console.log("success");
+      console.log(res.data);
+      dispatch({
+        type: "readList",
+        payload: res.data,
+      });
+    });
+  };
+
+  useEffect(() => {
+    readList();
+  }, []);
+
   let state = useSelector((state) => {
     return state;
   });
@@ -86,11 +104,6 @@ const BoardMain = () => {
       // model.addAttribute("grade", "Diamond");
     }
   };
-
-  useEffect(async () => {
-    await tierSelect(sData[0].point);
-    console.log(tier);
-  }, [tier]);
 
   // pagination
   function Items({ currentItems }) {

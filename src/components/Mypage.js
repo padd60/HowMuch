@@ -12,17 +12,18 @@ import axios from "axios";
 const Mypage = () => {
   let navigate = useNavigate();
 
-  let API_URL = "http://localhost:8181";
+  let API_URL = "http://localhost:3000";
 
   const getMyInfo = async () => {
     await axios
-      .get(API_URL + "/username")
+      .get(API_URL + "/userinfo")
       .then((result) => {
-        console.log(result);
+        console.log(result.data);
+        SetInfo(result.data);
       })
       .catch((error) => {
-        // navigate("/login");
         console.log(error);
+        navigate("/login");
         // navigate("/login");
       });
   };
@@ -30,6 +31,47 @@ const Mypage = () => {
   useEffect(() => {
     getMyInfo();
   }, []);
+
+  let [userInfo, SetInfo] = useState("");
+
+  let [tier, SetTier] = useState("");
+
+  const tierSelect = (point) => {
+    if (point < 250) {
+      // SetTier("Bronze");
+      return "Bronze";
+    } else if (point < 500) {
+      // SetTier("Silver");
+      return "Silver";
+    } else if (point < 750) {
+      // SetTier("Gold");
+      return "Gold";
+    } else if (point < 1000) {
+      // SetTier("Platinum");
+      return "Platinum";
+    } else {
+      // SetTier("Diamond");
+      return "Diamond";
+    }
+  };
+
+  const pointGap = (point) => {
+    if (point < 250) {
+      return 250 - point;
+    } else if (point < 500) {
+      // SetTier("Silver");
+      return 500 - point;
+    } else if (point < 750) {
+      // SetTier("Gold");
+      return 750 - point;
+    } else if (point < 1000) {
+      // SetTier("Platinum");
+      return 1000 - point;
+    } else {
+      // SetTier("Diamond");
+      return "super";
+    }
+  };
 
   let [boardRank, SetboardRank] = useState([]);
 
@@ -66,7 +108,7 @@ const Mypage = () => {
     getTierRank();
   }, []);
 
-  const tier = [
+  const tierObject = [
     { tier: "Diamond", color: "#548CFF" },
     { tier: "Platinum", color: "#00BDAA" },
     { tier: "Gold", color: "#FFE300" },
@@ -77,7 +119,7 @@ const Mypage = () => {
   const findTier = (userTier) => {
     console.log(userTier);
 
-    let findItem = tier.find((item) => {
+    let findItem = tierObject.find((item) => {
       return item.tier === userTier;
     });
 
@@ -278,7 +320,7 @@ const Mypage = () => {
           >
             <RiVipCrownFill color="#548CFF" />
             <span style={{ margin: "0 10px" }}>다이아</span>
-            <span>0000점</span>
+            <span>1000점</span>
           </div>
           <div
             className="col-lg-2"
@@ -290,7 +332,7 @@ const Mypage = () => {
           >
             <RiVipCrownFill color="#00BDAA" />
             <span style={{ margin: "0 10px" }}>플래티넘</span>
-            <span>0000점</span>
+            <span>750점</span>
           </div>
           <div
             className="col-lg-2"
@@ -302,7 +344,7 @@ const Mypage = () => {
           >
             <RiVipCrownFill color="#FFE300" />
             <span style={{ margin: "0 10px" }}>골드</span>
-            <span>0000점</span>
+            <span>500점</span>
           </div>
           <div
             className="col-lg-2"
@@ -314,7 +356,7 @@ const Mypage = () => {
           >
             <RiVipCrownFill color="#C8C2BC" />
             <span style={{ margin: "0 10px" }}>실버</span>
-            <span>0000점</span>
+            <span>250점</span>
           </div>
           <div
             className="col-lg-2"
@@ -326,7 +368,7 @@ const Mypage = () => {
           >
             <RiVipCrownFill color="#E26A2C" />
             <span style={{ margin: "0 10px" }}>브론즈</span>
-            <span>0000점</span>
+            <span>0점</span>
           </div>
         </div>
       </div>
@@ -362,7 +404,7 @@ const Mypage = () => {
               size={"32px"}
               style={{ marginRight: "1%" }}
             />
-            <span>(로그인 유저 닉네임)님의 포인트는 ... ?</span>
+            <span>{userInfo.nick} 님의 포인트는 ... ?</span>
           </div>
           <div
             style={{
@@ -380,16 +422,21 @@ const Mypage = () => {
                 borderBottom: "2px solid #EA5455",
               }}
             >
-              {/* {item.suggestion ? item.suggestion + " 원" : "없음"} */}
+              {userInfo.point}
             </div>
             <span style={{ fontSize: "32px" }}>point</span>
           </div>
+          <div style={{ fontSize: "24px" }}>{userInfo.nick} 님의 등급은</div>
+          <RiVipCrownFill
+            size="48px"
+            color={findTier(tierSelect(userInfo.point))}
+          />
           <div style={{ fontSize: "24px" }}>
-            (로그인 유저 닉네임)님의 등급은
-          </div>
-          <RiVipCrownFill size="48px" color="" />
-          <div style={{ fontSize: "24px" }}>
-            다음 등급까지 (차이값)포인트 남았습니다!
+            {pointGap(userInfo.point) === "super"
+              ? "이미 최고 등급입니다! 현재 점수 : " + userInfo.point
+              : "다음 등급까지 " +
+                pointGap(userInfo.point) +
+                " 포인트 남았습니다!"}
           </div>
           <div>
             <p>

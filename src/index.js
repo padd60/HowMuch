@@ -25,14 +25,14 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname1",
-    tag: [
+    tagList: [
       "태그를 길게 만들어보자",
       "이것은 장신태그이다~~~~~~~~~~~~~~~~~",
       "태그3",
     ],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 3000,
@@ -45,11 +45,11 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname2",
-    tag: ["태그1", "태그2", "태그3"],
+    tagList: ["태그1", "태그2", "태그3"],
     bdate: "2021/00/00",
 
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -61,10 +61,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname3",
-    tag: ["태그1"],
+    tagList: ["태그1"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 50000,
@@ -76,10 +76,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname4",
-    tag: ["태그1", "태그2", "태그3"],
+    tagList: ["태그1", "태그2", "태그3"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -91,10 +91,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname5",
-    tag: ["점심뭐먹지?", "점메추부탁", "국밥어떰?"],
+    tagList: ["점심뭐먹지?", "점메추부탁", "국밥어떰?"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 10000,
@@ -106,10 +106,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname6",
-    tag: ["태그1", "태그2"],
+    tagList: ["태그1", "태그2"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -121,10 +121,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname7",
-    tag: ["태그1"],
+    tagList: ["태그1"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -136,10 +136,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname8",
-    tag: ["태그1", "태그2"],
+    tagList: ["태그1", "태그2"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -151,10 +151,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname9",
-    tag: ["태그1", "태그2", "태그3"],
+    tagList: ["태그1", "태그2", "태그3"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -166,10 +166,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname10",
-    tag: ["태그1"],
+    tagList: ["태그1"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -181,10 +181,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname11",
-    tag: ["태그1", "태그2", "태그3"],
+    tagList: ["태그1", "태그2", "태그3"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -196,10 +196,10 @@ let board = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname12",
-    tag: ["태그1", "태그2"],
+    tagList: ["태그1", "태그2"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -216,8 +216,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 2,
@@ -228,8 +228,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 3,
@@ -240,8 +240,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 4,
@@ -252,8 +252,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 5,
@@ -264,8 +264,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 6,
@@ -276,8 +276,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 7,
@@ -288,8 +288,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 8,
@@ -300,8 +300,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 9,
@@ -312,8 +312,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 10,
@@ -324,8 +324,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 11,
@@ -336,8 +336,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
   {
     mno: 12,
@@ -348,8 +348,8 @@ let reply = [
       "장식하는 힘차게 무한한 피는 보이는 이상은 하는 봄바람이다. 작고 가는 몸이 하였으며, 것이다.",
     rdate: "2021/00/00",
     rupdate: "2021/11/11",
-    like: 0,
-    dislike: 0,
+    rlike: 0,
+    rdislike: 0,
   },
 ];
 
@@ -361,10 +361,10 @@ let hotBoard = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname9",
-    tag: ["태그1", "태그2", "태그3"],
+    tagList: ["태그1", "태그2", "태그3"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -376,10 +376,10 @@ let hotBoard = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname5",
-    tag: ["태그1", "태그2", "태그3"],
+    tagList: ["태그1", "태그2", "태그3"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 10000,
@@ -391,10 +391,10 @@ let hotBoard = [
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     writer: "testname12",
-    tag: ["태그1", "태그2"],
+    tagList: ["태그1", "태그2"],
     bdate: "2021/00/00",
-    like: 0,
-    dislike: 0,
+    blike: 0,
+    bdislike: 0,
     rcount: 0,
     end: false,
     suggestion: 0,
@@ -455,14 +455,6 @@ let attach = [
 
 let API_URL = "http://localhost:8181";
 
-const readList = async () => {
-  await axios.get(API_URL + "/readList").then((result) => {
-    console.log("success");
-    console.log(result.data);
-    // board = result.data
-  });
-};
-
 const signup = async (email, pw, nick) => {
   await axios
     .post(API_URL + "/signUp", {
@@ -478,21 +470,21 @@ const signup = async (email, pw, nick) => {
     .catch(console.log("signup error"));
 };
 
-const login = async (username, password) => {
-  await axios
-    .post(API_URL + "/login", {
-      username: username,
-      password: password,
-    })
-    .then((result) => {
-      console.log("success login");
-      console.log(result.data);
-    })
-    .catch((error) => {
-      console.log("login error");
-      console.log(error);
-    });
-};
+// const login = async (username, password) => {
+//   await axios
+//     .post(API_URL + "/login", {
+//       username: username,
+//       password: password,
+//     })
+//     .then((result) => {
+//       console.log("success login");
+//       console.log(result.data);
+//     })
+//     .catch((error) => {
+//       console.log("login error");
+//       console.log(error);
+//     });
+// };
 
 function memberReducer(state = member, actions) {
   if (actions.type === "signup") {
@@ -502,15 +494,23 @@ function memberReducer(state = member, actions) {
 
     return state;
   }
-  if (actions.type === "login") {
-    login(actions.payload.username, actions.payload.password);
+  // if (actions.type === "login") {
+  //   login(actions.payload.username, actions.payload.password);
+  //   // test();
 
-    return state;
-  }
+  //   return state;
+  // }
   return state;
 }
 
 function boardReducer(state = board, actions) {
+  if (actions.type === "readList") {
+    console.log("readList");
+
+    state = actions.payload;
+
+    return state;
+  }
   return state;
 }
 

@@ -5,28 +5,16 @@ import { SiCashapp } from "react-icons/si";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useCookies } from "react-cookie";
-// import Cookies from "universal-cookie";
-// import axios from "axios";
+import Cookies from "universal-cookie";
 
 const LoginPage = () => {
   let navigate = useNavigate();
 
-  //cookie
-  // const [cookies, setCookie] = useCookies(["XSRF-TOKEN"]);
+  // cookie
 
-  // function onChange(newName) {
-  //   setCookie("XSRF-TOKEN", newName);
-  // }
-
-  // onChange("");
-
-  // console.log(cookies.name);
-
-  // const cookies = new Cookies();
-
-  // cookies.set('XSRF-TOKEN', '')
-  //end cookie
+  let csrf = new Cookies().get("XSRF-TOKEN");
+  console.log(csrf);
+  // end cookie
 
   let dispatch = useDispatch();
 
@@ -194,11 +182,7 @@ const LoginPage = () => {
               <p style={{ textAlign: "right", width: "40%", fontSize: "20px" }}>
                 자동로그인 <input name="remember-me" type="checkbox" />
               </p>
-              <input
-                type="hidden"
-                name="_csrf"
-                // value={cookies.name}
-              />
+              <input type="hidden" name="_csrf" value={csrf} />
               <p
                 style={{
                   paddingTop: "60px",
@@ -222,15 +206,15 @@ const LoginPage = () => {
                       return;
                     }
 
-                    // form.submit();
+                    form.submit();
 
-                    dispatch({
-                      type: "login",
-                      payload: {
-                        username: idInput.value,
-                        password: pwInput.value,
-                      },
-                    });
+                    // dispatch({
+                    //   type: "login",
+                    //   payload: {
+                    //     username: idInput.value,
+                    //     password: pwInput.value,
+                    //   },
+                    // });
                   }}
                   style={{
                     backgroundColor: "#2d4059",

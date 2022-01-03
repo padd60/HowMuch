@@ -1,47 +1,76 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SiCashapp } from "react-icons/si";
 import styled from "styled-components";
 import Banner from "../img/banner.svg";
 import ItemCard from "./ItemCard";
 import SampleImg from "../img/sample.svg";
+import BoardImg from "../img/board.png";
+import PointImg from "../img/point.png";
 import { IoShareSocialSharp } from "react-icons/io5";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
-import { useCookies } from "react-cookie";
+import Cookies from "universal-cookie";
+import axios from "axios";
 
 const Mainpage = () => {
   // redux
+
+  let API_URL = "http://localhost:3000";
+
+  const checkLogin = async () => {
+    await axios
+      .get(API_URL + "/checklogin")
+      .then((result) => {
+        SetCheckUser(result.data);
+        console.log(result.data);
+      })
+      .catch((err) => {
+        console.log("please login");
+      });
+  };
+
+  let [checkUser, SetCheckUser] = useState("");
+
+  let dispatch = useDispatch();
+
+  const readList = async () => {
+    await axios.get("http://localhost:8181/readList").then((res) => {
+      console.log("success");
+      console.log(res.data);
+      dispatch({
+        type: "readList",
+        payload: res.data,
+      });
+    });
+  };
+
+  useEffect(() => {
+    checkLogin();
+    readList();
+  }, []);
+
   let state = useSelector((state) => {
     return state;
   });
-
-  let { login } = useParams();
-
-  //cookie
-  // const [cookies, setCookie] = useCookies(["name"]);
-
-  // function onChange(newName) {
-  //   setCookie("name", newName, { path: "/" });
-  // }
-
-  // onchange("test");
-
-  // console.log(cookies);
-  //end cookie
-
-  // console.log(login ? true : false);
 
   let boardState = state.boardReducer;
 
   let hotBoardState = state.hotBoardReducer;
 
+  console.log(boardState);
+
   let newBoard = [...boardState.slice(0, 3)];
 
-  // console.log(newBoard);
-
   // end redux
+
+  // cookie
+
+  let csrf = new Cookies().get("XSRF-TOKEN");
+  console.log(csrf);
+
+  // end cookie
 
   let currentImageWidth = document.documentElement.clientWidth;
 
@@ -194,7 +223,26 @@ const Mainpage = () => {
                 }}
                 style={{ color: "white", fontSize: "24px" }}
               >
-                {login === "success" ? "로그아웃" : "로그인"}
+                {checkUser ? (
+                  <form
+                    id="logout"
+                    action="http://localhost:8181/logout"
+                    method="post"
+                  >
+                    <span
+                      onClick={() => {
+                        let form = document.getElementById("logout");
+
+                        form.submit();
+                      }}
+                    >
+                      로그아웃
+                    </span>
+                    <input type="hidden" name="_csrf" value={csrf} />
+                  </form>
+                ) : (
+                  <span>로그인</span>
+                )}
               </Nav.Link>
               <Nav.Link
                 onClick={() => {
@@ -206,7 +254,7 @@ const Mainpage = () => {
               </Nav.Link>
               <Nav.Link
                 onClick={() => {
-                  navigate("/mypage");
+                  checkUser ? navigate("/mypage") : navigate("/login");
                 }}
                 style={{ color: "white", fontSize: "24px" }}
               >
@@ -259,7 +307,12 @@ const Mainpage = () => {
                 가치를 매겨보세요 !
               </span>
             </p>
-            <Button style={{ backgroundColor: "#EA5455", border: "none" }}>
+            <Button
+              onClick={() => {
+                navigate("/login");
+              }}
+              style={{ backgroundColor: "#EA5455", border: "none" }}
+            >
               시작하기
             </Button>
           </div>
@@ -373,7 +426,7 @@ const Mainpage = () => {
           </div>
           <div className="col-lg-5">
             <img
-              src={SampleImg}
+              src={BoardImg}
               alt="guideImage"
               style={{ width: "100%", padding: "20px" }}
             ></img>
@@ -423,7 +476,7 @@ const Mainpage = () => {
           </div>
           <div className="col-lg-5">
             <img
-              src={SampleImg}
+              src={PointImg}
               alt="guideImage"
               style={{ width: "100%", padding: "20px" }}
             ></img>

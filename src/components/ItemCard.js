@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import noImage from "../img/noImage.svg";
 import { BsFillCaretRightFill } from "react-icons/bs";
 
 const ItemCard = (props) => {
-  let tags = props.item.tag;
+  let tags = props.item.tagList;
+
+  useEffect(() => {
+    console.log(props.item);
+  }, []);
 
   // let tagsArray = tags.split(",");
   // console.log(tagsArray);
@@ -96,28 +100,30 @@ const ItemCard = (props) => {
             </div>
           </div>
           <div style={{ marginTop: "20px", textAlign: "left" }}>
-            {tags.map((item, index) => {
-              return (
-                <span
-                  style={{
-                    display: "inline-block",
-                    maxWidth: "280px",
-                    height: "40px",
-                    backgroundColor: "#2D4059",
-                    borderRadius: "5px",
-                    padding: "10px",
-                    marginBottom: "0",
-                    marginRight: "10px",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                  }}
-                  key={index}
-                >
-                  #{item}
-                </span>
-              );
-            })}
+            {props.item.tag === "null"
+              ? null
+              : tags.map((item, index) => {
+                  return (
+                    <span
+                      style={{
+                        display: "inline-block",
+                        maxWidth: "280px",
+                        height: "40px",
+                        backgroundColor: "#2D4059",
+                        borderRadius: "5px",
+                        padding: "10px",
+                        marginBottom: "0",
+                        marginRight: "10px",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                      }}
+                      key={index}
+                    >
+                      #{item}
+                    </span>
+                  );
+                })}
           </div>
         </Card.Body>
       </Card>

@@ -84,7 +84,7 @@ const ReplyPagination = () => {
                         paddingRight: "10px",
                       }}
                     >
-                      {item.like}
+                      {item.rlike}
                     </span>
                     <AiFillDislike style={{ color: "#F07B3F" }} />
                     <span
@@ -93,7 +93,7 @@ const ReplyPagination = () => {
                         paddingRight: "10px",
                       }}
                     >
-                      {item.dislike}
+                      {item.rdislike}
                     </span>
                   </div>
                 </Reply>
