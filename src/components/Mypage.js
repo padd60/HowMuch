@@ -502,7 +502,7 @@ const Mypage = () => {
                     borderRadius: "5px",
                   }}
                 >
-                  포스팅 수
+                  인기도
                 </div>
               </div>
               {boardRank.map((item, index) => {
@@ -540,7 +540,7 @@ const Mypage = () => {
                         borderRadius: "5px",
                       }}
                     >
-                      {item.posting}
+                      {item.score}
                     </div>
                   </div>
                 );

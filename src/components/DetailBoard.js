@@ -68,10 +68,55 @@ const DetailBoard = (props) => {
     });
   };
 
+  const readValueList = async () => {
+    await axios({
+      url: "http://localhost:8181/log",
+      params: {
+        bno: bno,
+      },
+    }).then((res) => {
+      console.log("success valuelog");
+      console.log(res.data);
+      dispatch({
+        type: "valuelog",
+        payload: res.data,
+      });
+    });
+  };
+
+  const readCalculateValue = async () => {
+    await axios({
+      url: "http://localhost:8181/cal",
+      params: {
+        bno: bno,
+      },
+    }).then((res) => {
+      console.log("success cal");
+      console.log(res.data);
+      SetcalculateValue(res.data);
+    });
+  };
+
+  const upreadCount = async () => {
+    await axios({
+      url: "http://localhost:8181/rcount",
+      params: {
+        bno: bno,
+      },
+    }).then(async (res) => {
+      console.log("success rcount");
+
+      await readList();
+    });
+  };
+
   useEffect(() => {
     readList();
     getMyInfo();
     readReplyList();
+    readValueList();
+    readCalculateValue();
+    upreadCount();
   }, []);
 
   let { bno } = useParams();
@@ -94,7 +139,9 @@ const DetailBoard = (props) => {
 
   let item = findItemBoard;
 
-  let [valueLog, SetValueLog] = useState("");
+  let valueState = state.valueReducer;
+
+  let [calculateValue, SetcalculateValue] = useState("");
 
   let testArray = [
     {
@@ -442,8 +489,7 @@ const DetailBoard = (props) => {
                 borderBottom: "2px solid #2D4059",
               }}
             >
-              {/* {item.suggestion ? item.suggestion + " 원" : "없음"} */}
-              3000 원
+              {!calculateValue.min ? "없음" : calculateValue.min + " 원"}
             </div>
           </div>
         </div>
@@ -480,8 +526,7 @@ const DetailBoard = (props) => {
                 borderBottom: "2px solid #2D4059",
               }}
             >
-              {/* {item.suggestion ? item.suggestion + " 원" : "없음"} */}
-              100000 원
+              {!calculateValue.max ? "없음" : calculateValue.max + " 원"}
             </div>
           </div>
         </div>
@@ -497,10 +542,12 @@ const DetailBoard = (props) => {
           <p style={{ fontSize: "24px", borderBottom: "2px solid #2D4059" }}>
             <span>평가로그</span>
           </p>
-          {valueLog === "" ? (
+          {valueState === "" ? (
+            <span>아직 평가가 이루어 지지 않았습니다.</span>
+          ) : valueState.length <= 0 ? (
             <span>아직 평가가 이루어 지지 않았습니다.</span>
           ) : (
-            valueLog.map((item, index) => {
+            valueState.map((item, index) => {
               return (
                 <span
                   style={{
@@ -516,7 +563,13 @@ const DetailBoard = (props) => {
                   }}
                   key={index}
                 >
-                  {item.name} 님 {item.price} 원 {item.vdate}
+                  {item.rater} 님 {item.price} 원{" "}
+                  {String(
+                    new Date(+new Date(item.vdate) + 3240 * 10000)
+                      .toISOString()
+                      .replace("T", " ")
+                      .replace(/\..*/, "")
+                  )}
                 </span>
               );
             })
@@ -558,8 +611,7 @@ const DetailBoard = (props) => {
                 borderBottom: "2px solid #EA5455",
               }}
             >
-              {/* {item.suggestion ? item.suggestion + " 원" : "없음"} */}
-              평균가
+              {!calculateValue.avg ? "없음" : calculateValue.avg + " 원"}
             </div>
             <span style={{ fontSize: "32px" }}>원</span>
           </div>
@@ -577,6 +629,7 @@ const DetailBoard = (props) => {
               <BsPinFill style={{ fontSize: "32px", color: "#EA5455" }} />
               <div style={{ borderBottom: "2px solid #EA5455", width: "60%" }}>
                 <input
+                  id="price"
                   style={{
                     color: "black",
                     width: "70%",
@@ -587,10 +640,41 @@ const DetailBoard = (props) => {
                   }}
                 />
               </div>
-              {/* {item.suggestion ? item.suggestion + " 원" : "없음"} */}
               <span style={{ fontSize: "32px" }}>원</span>
             </div>
             <Button
+              onClick={async () => {
+                let number = /[0-9]/; // 숫자 체크
+                let price = document.getElementById("price");
+
+                if (!price.value || !number.test(price.value)) {
+                  console.log("no value");
+                  return;
+                }
+
+                if (!userInfo) {
+                  navigate("/login");
+                } else {
+                  await axios({
+                    url: "/RegisterValue",
+                    method: "POST",
+                    data: {
+                      bno: item.bno,
+                      price: price.value,
+                    },
+                  }).then((res) => {
+                    console.log(res.data);
+                    dispatch({
+                      type: "valuelog",
+                      payload: res.data,
+                    });
+                  });
+
+                  await readCalculateValue();
+
+                  price.value = "";
+                }
+              }}
               style={{
                 marginTop: "30px",
                 backgroundColor: "#EA5455",

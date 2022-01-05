@@ -32,8 +32,6 @@ let hotBoard = "";
 
 let value = "";
 
-let attach = "";
-
 let API_URL = "http://localhost:3000";
 
 const signup = async (email, pw, nick) => {
@@ -125,28 +123,37 @@ function hotBoardReducer(state = hotBoard, actions) {
 
 function replyReducer(state = reply, actions) {
   if (actions.type === "readReply") {
-    state = actions.payload;
+    let copy = [...state];
 
-    return state;
+    copy = actions.payload;
+
+    return copy;
   }
   if (actions.type === "insertReply") {
-    state = actions.payload;
+    let copy = [...state];
 
-    return state;
+    copy = actions.payload;
+
+    return copy;
   }
   if (actions.type === "deleteReply") {
-    state = actions.payload;
+    let copy = [...state];
 
-    return state;
+    copy = actions.payload;
+
+    return copy;
   }
   return state;
 }
 
 function valueReducer(state = value, actions) {
-  return state;
-}
+  if (actions.type === "valuelog") {
+    let copy = [...state];
 
-function attachReducer(state = attach, actions) {
+    copy = actions.payload;
+
+    return copy;
+  }
   return state;
 }
 
@@ -157,7 +164,6 @@ let store = createStore(
     hotBoardReducer,
     replyReducer,
     valueReducer,
-    attachReducer,
   })
 );
 
