@@ -6,10 +6,6 @@ import { BsFillCaretRightFill } from "react-icons/bs";
 const ItemCard = (props) => {
   // let tags = props.item.tagList;
 
-  useEffect(() => {
-    console.log(props.item);
-  }, []);
-
   // let tagsArray = tags.split(",");
   // console.log(tagsArray);
 

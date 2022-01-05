@@ -4,17 +4,11 @@ import { SiCashapp } from "react-icons/si";
 import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const Account = () => {
   let API_URL = "http://localhost:8181";
-
-  let state = useSelector((state) => {
-    return state;
-  });
-
-  let memberState = state.memberReducer;
 
   let dispatch = useDispatch();
 

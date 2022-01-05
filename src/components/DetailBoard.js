@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SiCashapp } from "react-icons/si";
 import styled from "styled-components";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Modal } from "react-bootstrap";
 import noImage from "../img/noImage.svg";
 import { BsFillCaretRightFill, BsPinFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -111,6 +111,7 @@ const DetailBoard = (props) => {
   };
 
   useEffect(() => {
+    resetBoolean();
     readList();
     getMyInfo();
     readReplyList();
@@ -143,48 +144,23 @@ const DetailBoard = (props) => {
 
   let [calculateValue, SetcalculateValue] = useState("");
 
-  let testArray = [
-    {
-      name: "user01",
-      price: "3000",
-      vdate: "2021/02/30",
-    },
-    {
-      name: "user02",
-      price: "6000",
-      vdate: "2021/02/27",
-    },
-    {
-      name: "user03",
-      price: "30000",
-      vdate: "2021/02/26",
-    },
-    {
-      name: "user04",
-      price: "7800",
-      vdate: "2021/02/25",
-    },
-    {
-      name: "user01",
-      price: "67000",
-      vdate: "2021/02/24",
-    },
-    {
-      name: "user01",
-      price: "100000",
-      vdate: "2021/02/23",
-    },
-    {
-      name: "user01",
-      price: "5000",
-      vdate: "2021/02/22",
-    },
-    {
-      name: "user01",
-      price: "99999",
-      vdate: "2021/02/21",
-    },
-  ];
+  // modal control
+
+  const resetBoolean = () => {};
+
+  const [warnvalueshow, setwarnvalueShow] = useState(false);
+
+  const handleWarnClose = () => setwarnvalueShow(false);
+  const handleWarnShow = () => setwarnvalueShow(true);
+
+  const [loginShow, setloginShow] = useState(false);
+
+  const handleLoginClose = () => setloginShow(false);
+  const handleLoginShow = () => setloginShow(true);
+
+  const [warn, Setwarn] = useState(false);
+  const [warnDuplication, SetwarnDuplication] = useState(false);
+  // modal control end
 
   // resize screen
 
@@ -226,6 +202,9 @@ const DetailBoard = (props) => {
     background-color: #2d4059;
     margin: 0 auto;
   `;
+  let Warn = styled("p")`
+    color: red;
+  `;
   // end styled component
   return (
     <div>
@@ -265,22 +244,24 @@ const DetailBoard = (props) => {
             >
               글목록
             </Button>
-            <Button
-              style={{ marginBottom: "10px" }}
-              onClick={() => {
-                if (userInfo) {
+            {!(userInfo && item) ? null : !(
+                userInfo.nick === item.writer
+              ) ? null : (
+              <Button
+                style={{ marginBottom: "10px" }}
+                onClick={() => {
                   navigate("/modify/" + item.bno);
                   console.log(item);
-                } else {
-                  navigate("/login");
-                }
-              }}
-            >
-              글수정
-            </Button>
-            <Button
-              onClick={async () => {
-                if (userInfo) {
+                }}
+              >
+                글수정
+              </Button>
+            )}
+            {!(userInfo && item) ? null : !(
+                userInfo.nick === item.writer
+              ) ? null : (
+              <Button
+                onClick={async () => {
                   await axios({
                     url: "/delete",
                     method: "delete",
@@ -301,14 +282,12 @@ const DetailBoard = (props) => {
                       console.log(err);
                       navigate("/login");
                     });
-                } else {
-                  navigate("/login");
-                }
-              }}
-              style={{ marginBottom: "10px" }}
-            >
-              글삭제
-            </Button>
+                }}
+                style={{ marginBottom: "10px" }}
+              >
+                글삭제
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -642,6 +621,15 @@ const DetailBoard = (props) => {
               </div>
               <span style={{ fontSize: "32px" }}>원</span>
             </div>
+            {warn ? (
+              <Warn>
+                값을 입력하지 않았거나 입력한 값이 숫자가 아닙니다. 다시
+                입력해주세요.
+              </Warn>
+            ) : null}
+            {warnDuplication ? (
+              <Warn>이미 평가한 게시물입니다. 다른 게시물을 평가해보세요!</Warn>
+            ) : null}
             <Button
               onClick={async () => {
                 let number = /[0-9]/; // 숫자 체크
@@ -649,31 +637,18 @@ const DetailBoard = (props) => {
 
                 if (!price.value || !number.test(price.value)) {
                   console.log("no value");
+                  Setwarn(true);
                   return;
+                } else {
+                  Setwarn(false);
                 }
 
                 if (!userInfo) {
-                  navigate("/login");
-                } else {
-                  await axios({
-                    url: "/RegisterValue",
-                    method: "POST",
-                    data: {
-                      bno: item.bno,
-                      price: price.value,
-                    },
-                  }).then((res) => {
-                    console.log(res.data);
-                    dispatch({
-                      type: "valuelog",
-                      payload: res.data,
-                    });
-                  });
-
-                  await readCalculateValue();
-
-                  price.value = "";
+                  handleLoginShow();
+                  return;
                 }
+
+                handleWarnShow();
               }}
               style={{
                 marginTop: "30px",
@@ -753,6 +728,86 @@ const DetailBoard = (props) => {
       {/* start board list box */}
       <BoardListPagination />
       {/* end reply box */}
+
+      {/* warn value modal start */}
+      <Modal show={warnvalueshow} onHide={handleWarnClose}>
+        <Modal.Header>
+          <Modal.Title>⚠️ 주의 ⚠️</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          정말로 이 가격으로 평가하시겠습니까?
+          <br />
+          평가하신 금액은 추후 변경할 수 없습니다.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleWarnClose}>
+            취소
+          </Button>
+          <Button
+            variant="primary"
+            onClick={async () => {
+              let price = document.getElementById("price");
+
+              await axios({
+                url: "/RegisterValue",
+                method: "POST",
+                data: {
+                  bno: item.bno,
+                  price: price.value,
+                },
+              }).then((res) => {
+                if (res.data === "") {
+                  console.log("same user");
+                  SetwarnDuplication(true);
+                  readValueList();
+                } else {
+                  console.log(res.data);
+                  dispatch({
+                    type: "valuelog",
+                    payload: res.data,
+                  });
+                }
+              });
+
+              await readCalculateValue();
+
+              price.value = "";
+
+              handleWarnClose();
+            }}
+          >
+            평가확정
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* warn value modal end */}
+
+      {/* login modal start */}
+      <Modal show={loginShow} onHide={handleLoginShow}>
+        <Modal.Header>
+          <Modal.Title>⚠️ 로그인이 필요한 서비스입니다! ⚠️</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          평가를 하시려면 로그인이 필요합니다.
+          <br />
+          로그인을 하시거나 회원이 아니시라면 회원가입 후 이용 부탁드립니다.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleLoginClose}>
+            취소
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              handleLoginClose();
+              navigate("/login");
+            }}
+          >
+            로그인하러 가기
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* login modal end */}
     </div>
   );
 };
