@@ -12,14 +12,22 @@ import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import ReplyPagination from "./ReplyPagination";
 import BoardListPagination from "./BoardListPagination";
 import axios from "axios";
+import Cookies from "universal-cookie";
 
 const DetailBoard = (props) => {
   let navigate = useNavigate();
 
   let dispatch = useDispatch();
 
+  // cookie
+
+  let csrf = new Cookies().get("XSRF-TOKEN");
+  console.log(csrf);
+
+  // end cookie
+
   const readList = async () => {
-    await axios.get("http://localhost:8181/readList").then((res) => {
+    await axios.get("http://localhost:3000/readList").then((res) => {
       console.log("success");
       console.log(res.data);
       dispatch({
@@ -29,8 +37,41 @@ const DetailBoard = (props) => {
     });
   };
 
+  let API_URL = "http://localhost:3000";
+
+  const getMyInfo = async () => {
+    await axios
+      .get(API_URL + "/userinfo")
+      .then((result) => {
+        console.log(result.data);
+        SetInfo(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  let [userInfo, SetInfo] = useState("");
+
+  const readReplyList = async () => {
+    await axios({
+      url: "http://localhost:8181/ReadReplyList",
+      params: {
+        bno: bno,
+      },
+    }).then((res) => {
+      console.log(res.data);
+      dispatch({
+        type: "readReply",
+        payload: res.data,
+      });
+    });
+  };
+
   useEffect(() => {
     readList();
+    getMyInfo();
+    readReplyList();
   }, []);
 
   let { bno } = useParams();
@@ -42,14 +83,16 @@ const DetailBoard = (props) => {
 
   let boardState = state.boardReducer;
 
-  console.log(boardState[bno - 1]);
+  let findItemBoard =
+    boardState === ""
+      ? null
+      : boardState.find((item) => {
+          return item.bno === parseInt(bno);
+        });
 
-  let item = boardState[bno - 1];
+  console.log(findItemBoard);
 
-  let tags = item.tagList;
-
-  // let tagsArray = tags.split(",");
-  // console.log(tagsArray);
+  let item = findItemBoard;
 
   let [valueLog, SetValueLog] = useState("");
 
@@ -178,13 +221,47 @@ const DetailBoard = (props) => {
             <Button
               style={{ marginBottom: "10px" }}
               onClick={() => {
-                navigate("/modify/" + item.bno);
-                console.log(item);
+                if (userInfo) {
+                  navigate("/modify/" + item.bno);
+                  console.log(item);
+                } else {
+                  navigate("/login");
+                }
               }}
             >
               글수정
             </Button>
-            <Button style={{ marginBottom: "10px" }}>글삭제</Button>
+            <Button
+              onClick={async () => {
+                if (userInfo) {
+                  await axios({
+                    url: "/delete",
+                    method: "delete",
+                    params: {
+                      bno: item.bno,
+                      writer: item.writer,
+                    },
+                  })
+                    .then((res) => {
+                      navigate("/boardmain");
+                      console.log(res.data);
+                      dispatch({
+                        type: "deleteBoard",
+                        payload: res.data,
+                      });
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      navigate("/login");
+                    });
+                } else {
+                  navigate("/login");
+                }
+              }}
+              style={{ marginBottom: "10px" }}
+            >
+              글삭제
+            </Button>
           </div>
         </div>
       </div>
@@ -194,11 +271,24 @@ const DetailBoard = (props) => {
         style={{ marginTop: "50px" }}
       >
         <Card style={{ width: "800px", color: "white", padding: "10px" }}>
-          <Card.Img
-            variant="top"
-            src={noImage}
-            style={{ border: "2px solid #2D4059" }}
-          />
+          {item === null ? null : item.imageList === null ? (
+            <Card.Img
+              variant="top"
+              src={noImage}
+              style={{ border: "2px solid #2D4059" }}
+            />
+          ) : (
+            item.imageList.map((item, index) => {
+              return (
+                <Card.Img
+                  variant="top"
+                  src={item}
+                  key={index}
+                  style={{ border: "2px solid #2D4059", marginBottom: "10px" }}
+                />
+              );
+            })
+          )}
           <Card.Body style={{ padding: "1rem 0" }}>
             <div style={{ display: "flex" }}>
               <Card.Title
@@ -214,7 +304,7 @@ const DetailBoard = (props) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {item.title}
+                {item == null ? null : item.title}
               </Card.Title>
             </div>
             <div style={{ display: "flex" }}>
@@ -230,7 +320,7 @@ const DetailBoard = (props) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {item.writer}
+                {item == null ? null : item.writer}
               </p>
             </div>
 
@@ -241,10 +331,12 @@ const DetailBoard = (props) => {
                 padding: "10px",
               }}
             >
-              {item.content}
+              {item == null ? null : item.content}
             </Card.Text>
             <div style={{ marginTop: "30px", textAlign: "center" }}>
-              {item.tag === "null"
+              {item == null
+                ? null
+                : item.tag === "not"
                 ? null
                 : item.tagList.map((item, index) => {
                     return (
@@ -309,7 +401,11 @@ const DetailBoard = (props) => {
                 borderBottom: "2px solid #2D4059",
               }}
             >
-              {item.suggestion ? item.suggestion + " 원" : "없음"}
+              {item == null
+                ? null
+                : item.suggestion
+                ? item.suggestion + " 원"
+                : "없음"}
             </div>
           </div>
         </div>
@@ -468,7 +564,7 @@ const DetailBoard = (props) => {
             <span style={{ fontSize: "32px" }}>원</span>
           </div>
           <div style={{ fontSize: "24px" }}>
-            (로그인 유저 닉네임)님의 <br />
+            {!userInfo.nick ? "익명" : userInfo.nick} 님의 <br />
             평가금액은 ... ?
           </div>
           <div style={{ width: "80%" }}>
@@ -510,11 +606,17 @@ const DetailBoard = (props) => {
         <div style={{ display: "flex", width: "800px", justifyContent: "end" }}>
           <div style={{ fontSize: "24px" }}>
             <GrView />
-            <span style={{ padding: "0 10px" }}>{item.rcount}</span>
-            <AiFillLike style={{ color: "#EA5455" }} />
-            <span style={{ padding: "0 10px" }}>{item.blike}</span>
-            <AiFillDislike style={{ color: "#F07B3F" }} />
-            <span style={{ padding: "0 10px" }}>{item.bdislike}</span>
+            <span style={{ padding: "0 10px" }}>
+              {item == null ? null : item.rcount}
+            </span>
+            <AiFillLike style={{ color: "#EA5455", cursor: "pointer" }} />
+            <span style={{ padding: "0 10px" }}>
+              {item == null ? null : item.blike}
+            </span>
+            <AiFillDislike style={{ color: "#F07B3F", cursor: "pointer" }} />
+            <span style={{ padding: "0 10px" }}>
+              {item == null ? null : item.bdislike}
+            </span>
           </div>
         </div>
       </div>
@@ -525,11 +627,38 @@ const DetailBoard = (props) => {
       <div className="container-lg d-flex justify-content-center">
         <div style={{ width: "100%" }}>
           <textarea
+            id="rcontent"
             placeholder="댓글을 입력하세요"
             style={{ width: "70%", height: "100px", resize: "none" }}
           />
           <div style={{ display: "flex", justifyContent: "end", width: "85%" }}>
-            <Button style={{ backgroundColor: "#EA5455", borderStyle: "none" }}>
+            <Button
+              onClick={async () => {
+                let rcontent = document.getElementById("rcontent");
+
+                await axios({
+                  url: "http://localhost:3000/InsertReply",
+                  method: "post",
+                  data: {
+                    mno: userInfo.mno,
+                    bno: item.bno,
+                    replyer: userInfo.nick ? userInfo.nick : "anonymous",
+                    rcontent: rcontent.value,
+                  },
+                  headers: {
+                    "XSRF-TOKEN": csrf,
+                  },
+                }).then((res) => {
+                  console.log(res);
+                  dispatch({
+                    type: "insertReply",
+                    payload: res.data,
+                  });
+                  rcontent.value = "";
+                });
+              }}
+              style={{ backgroundColor: "#EA5455", borderStyle: "none" }}
+            >
               댓글등록
             </Button>
           </div>

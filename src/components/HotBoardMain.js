@@ -20,7 +20,7 @@ let Line = styled("div")`
   margin: 0 auto;
 `;
 
-const BoardMain = () => {
+const HotBoardMain = () => {
   let dispatch = useDispatch();
 
   const checkLogin = async () => {
@@ -37,12 +37,12 @@ const BoardMain = () => {
 
   let [checkUser, SetCheckUser] = useState("");
 
-  const readList = async () => {
-    await axios.get("http://localhost:8181/readList").then((res) => {
+  const readHotList = async () => {
+    await axios.get("http://localhost:8181/hotList").then((res) => {
       console.log("success");
       console.log(res.data);
       dispatch({
-        type: "readList",
+        type: "readHotList",
         payload: res.data,
       });
     });
@@ -54,17 +54,17 @@ const BoardMain = () => {
 
   useEffect(() => {
     checkLogin();
-    readList();
+    readHotList();
   }, []);
 
   let state = useSelector((state) => {
     return state;
   });
 
-  let boardState = state.boardReducer;
+  let hotBoardState = state.hotBoardReducer;
 
   // pagination data
-  const items = boardState;
+  const items = hotBoardState;
 
   let [select, SetSelect] = useState("");
   let [search, SetSearch] = useState("");
@@ -178,7 +178,7 @@ const BoardMain = () => {
             />
           </div>
           <div className="col-lg-9">
-            <TopTitle>Check items & Feed back</TopTitle>
+            <TopTitle>Check Hot items & Feed back</TopTitle>
           </div>
         </div>
       </div>
@@ -240,4 +240,4 @@ const BoardMain = () => {
   );
 };
 
-export default BoardMain;
+export default HotBoardMain;

@@ -11,6 +11,7 @@ import Modify from "./components/Modify";
 import DetailBoard from "./components/DetailBoard";
 import Mypage from "./components/Mypage";
 import TestLogin from "./components/TestLogin";
+import HotBoardMain from "./components/HotBoardMain";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         <Route path="/detail/:bno" element={<DetailBoard />} />
         <Route path="/modify/:bno" element={<Modify />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/testlogin" element={<TestLogin />} />
+        <Route path="/hotboard" element={<HotBoardMain />} />
       </Routes>
     </div>
   );

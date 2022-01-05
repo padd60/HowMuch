@@ -4,7 +4,7 @@ import { RiLock2Fill } from "react-icons/ri";
 import { SiCashapp } from "react-icons/si";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import Cookies from "universal-cookie";
 
 const LoginPage = () => {
@@ -16,7 +16,7 @@ const LoginPage = () => {
   console.log(csrf);
   // end cookie
 
-  let dispatch = useDispatch();
+  // let dispatch = useDispatch();
 
   let [position, setPosition] = useState("");
 

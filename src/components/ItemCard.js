@@ -4,7 +4,7 @@ import noImage from "../img/noImage.svg";
 import { BsFillCaretRightFill } from "react-icons/bs";
 
 const ItemCard = (props) => {
-  let tags = props.item.tagList;
+  // let tags = props.item.tagList;
 
   useEffect(() => {
     console.log(props.item);
@@ -18,7 +18,9 @@ const ItemCard = (props) => {
       <Card style={{ width: "300px", color: "white", padding: "10px" }}>
         <Card.Img
           variant="top"
-          src={noImage}
+          src={
+            props.item.imageList === null ? noImage : props.item.imageList[0]
+          }
           style={{
             border: "2px solid #2D4059",
             width: "280px",
@@ -40,7 +42,7 @@ const ItemCard = (props) => {
                 whiteSpace: "nowrap",
               }}
             >
-              {props.item.title}
+              {props.item == null ? null : props.item.title}
             </Card.Title>
           </div>
           <div style={{ display: "flex" }}>
@@ -56,7 +58,7 @@ const ItemCard = (props) => {
                 whiteSpace: "nowrap",
               }}
             >
-              {props.item.writer}
+              {props.item == null ? null : props.item.writer}
             </p>
           </div>
 
@@ -96,13 +98,19 @@ const ItemCard = (props) => {
                 borderBottom: "2px solid #2D4059",
               }}
             >
-              {props.item.suggestion ? props.item.suggestion + " 원" : "없음"}
+              {props.item == null
+                ? null
+                : props.item.suggestion
+                ? props.item.suggestion + " 원"
+                : "없음"}
             </div>
           </div>
           <div style={{ marginTop: "20px", textAlign: "left" }}>
-            {props.item.tag === "null"
+            {props.item == null
               ? null
-              : tags.map((item, index) => {
+              : props.item.tag === "not"
+              ? null
+              : props.item.tagList.map((item, index) => {
                   return (
                     <span
                       style={{

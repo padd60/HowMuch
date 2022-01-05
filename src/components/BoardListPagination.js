@@ -55,7 +55,7 @@ const BoardListPagination = () => {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {item.title}
+                    {item == null ? null : item.title}
                   </div>
                   <div
                     className="col-lg-5"
@@ -75,7 +75,7 @@ const BoardListPagination = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item.writer}
+                      {item == null ? null : item.writer}
                     </span>
                     <span
                       style={{
@@ -83,29 +83,37 @@ const BoardListPagination = () => {
                         paddingRight: "10px",
                       }}
                     >
-                      {item.bdate == "2021/00/00"
+                      {item == null
+                        ? null
+                        : item.bdate === "2021/00/00"
                         ? null
                         : String(
-                            new Date(item.bdate).toISOString().split("T")[0]
+                            new Date(+new Date(item.bdate) + 3240 * 10000)
+                              .toISOString()
+                              .split("T")[0]
                           )}
                     </span>
-                    <AiFillLike style={{ color: "#EA5455" }} />
+                    <AiFillLike
+                      style={{ color: "#EA5455", cursor: "pointer" }}
+                    />
                     <span
                       style={{
                         display: "inline-block",
                         paddingRight: "10px",
                       }}
                     >
-                      {item.blike}
+                      {item == null ? null : item.blike}
                     </span>
-                    <AiFillDislike style={{ color: "#F07B3F" }} />
+                    <AiFillDislike
+                      style={{ color: "#F07B3F", cursor: "pointer" }}
+                    />
                     <span
                       style={{
                         display: "inline-block",
                         paddingRight: "10px",
                       }}
                     >
-                      {item.bdislike}
+                      {item == null ? null : item.bdislike}
                     </span>
                   </div>
                 </Reply>

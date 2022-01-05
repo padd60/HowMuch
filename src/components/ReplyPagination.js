@@ -1,16 +1,39 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { MdDeleteForever } from "react-icons/md";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ReplyPagination = () => {
+  const checkLogin = async () => {
+    await axios
+      .get("/checklogin")
+      .then((result) => {
+        SetCheckUser(result.data);
+        console.log(result.data);
+      })
+      .catch((err) => {
+        console.log("please login");
+      });
+  };
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
+  let [checkUser, SetCheckUser] = useState("");
+
   let state = useSelector((state) => {
     return state;
   });
 
-  // let navigate = useNavigate();
+  let navigate = useNavigate();
+
+  let dispatch = useDispatch();
 
   let replyState = state.replyReducer;
 
@@ -47,7 +70,7 @@ const ReplyPagination = () => {
               currentItems.map((item, index) => (
                 <Reply className="row" key={index}>
                   <div className="col-lg-7" style={{ textAlign: "left" }}>
-                    {item.rcontent}
+                    {item == null ? null : item.rcontent}
                   </div>
                   <div
                     className="col-lg-5"
@@ -67,34 +90,86 @@ const ReplyPagination = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item.replyer}
+                      {item == null ? null : item.replyer}
                     </span>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        paddingRight: "10px",
+                        width: "180px",
+                      }}
+                    >
+                      {item == null
+                        ? null
+                        : item.rdate === "2021/00/00"
+                        ? null
+                        : String(
+                            new Date(+new Date(item.rdate) + 3240 * 10000)
+                              .toISOString()
+                              .replace("T", " ")
+                              .replace(/\..*/, "")
+                          )}
+                    </span>
+                    <AiFillLike
+                      style={{ color: "#EA5455", cursor: "pointer" }}
+                    />
                     <span
                       style={{
                         display: "inline-block",
                         paddingRight: "10px",
                       }}
                     >
-                      {item.rdate}
+                      {item == null ? null : item.rlike}
                     </span>
-                    <AiFillLike style={{ color: "#EA5455" }} />
+                    <AiFillDislike
+                      style={{ color: "#F07B3F", cursor: "pointer" }}
+                    />
                     <span
                       style={{
                         display: "inline-block",
                         paddingRight: "10px",
                       }}
                     >
-                      {item.rlike}
+                      {item == null ? null : item.rdislike}
                     </span>
-                    <AiFillDislike style={{ color: "#F07B3F" }} />
-                    <span
-                      style={{
-                        display: "inline-block",
-                        paddingRight: "10px",
-                      }}
-                    >
-                      {item.rdislike}
-                    </span>
+                    {!checkUser ? null : (
+                      <span
+                        id={item == null ? "" : item.rno}
+                        onClick={async (e) => {
+                          let target = e.currentTarget;
+                          console.log(parseInt(target.id));
+                          console.log(item.bno);
+
+                          await axios({
+                            url: "/DeleteReply",
+                            method: "delete",
+                            params: {
+                              rno: parseInt(target.id),
+                              bno: item.bno,
+                              replyer: item.replyer,
+                            },
+                          })
+                            .then((res) => {
+                              console.log(res.data);
+                              dispatch({
+                                type: "deleteReply",
+                                payload: res.data,
+                              });
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                              navigate("/login");
+                            });
+                        }}
+                        style={{
+                          display: "inline-block",
+                          marginTop: "-5px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <MdDeleteForever />
+                      </span>
+                    )}
                   </div>
                 </Reply>
               ))}

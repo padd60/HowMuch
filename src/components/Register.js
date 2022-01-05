@@ -3,9 +3,21 @@ import { SiCashapp } from "react-icons/si";
 import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 const Register = () => {
   let navigate = useNavigate();
+
+  // cookie
+
+  let csrf = new Cookies().get("XSRF-TOKEN");
+  console.log(csrf);
+
+  // end cookie
+
+  let dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
 
@@ -322,7 +334,7 @@ const Register = () => {
               }}
             >
               <Button
-                onClick={() => {
+                onClick={async () => {
                   let thumbnailURL = "";
                   let postImgURL = [];
 
@@ -389,6 +401,25 @@ const Register = () => {
                       return;
                     }
                   }
+
+                  await axios({
+                    url: "/register",
+                    method: "post",
+                    data: {
+                      title: titleInput.value,
+                      content: contentInput.value,
+                      imageList: postImgURL.length > 0 ? postImgURL : null,
+                      tagList: tagArr.length > 0 ? tagArr : null,
+                      suggestion: suggestInput.value
+                        ? suggestInput.value
+                        : null,
+                    },
+                    headers: {
+                      "XSRF-TOKEN": csrf,
+                    },
+                  }).then((res) => {
+                    console.log(res.data);
+                  });
 
                   handleShow();
                 }}

@@ -3,10 +3,37 @@ import { SiCashapp } from "react-icons/si";
 import { Button, Modal } from "react-bootstrap";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 const Modify = () => {
   let navigate = useNavigate();
+
+  // cookie
+
+  let csrf = new Cookies().get("XSRF-TOKEN");
+  console.log(csrf);
+
+  // end cookie
+
+  let dispatch = useDispatch();
+
+  const readList = async () => {
+    await axios.get("http://localhost:3000/readList").then((res) => {
+      console.log("success");
+      console.log(res.data);
+
+      dispatch({
+        type: "readList",
+        payload: res.data,
+      });
+    });
+  };
+
+  useEffect(() => {
+    readList();
+  }, []);
 
   const [show, setShow] = useState(false);
 
@@ -40,14 +67,16 @@ const Modify = () => {
 
   let boardState = state.boardReducer;
 
-  console.log(boardState[bno - 1]);
+  let findItemBoard =
+    boardState === ""
+      ? null
+      : boardState.find((item) => {
+          return item.bno === parseInt(bno);
+        });
 
-  let item = boardState[bno - 1];
+  console.log(findItemBoard);
 
-  let tags = item.tag;
-
-  let tagsArray = tags.split(",");
-  console.log(tagsArray);
+  let item = findItemBoard;
 
   let currentWidth = document.documentElement.clientWidth;
 
@@ -146,7 +175,7 @@ const Modify = () => {
                 id="TITLE"
                 type="text"
                 placeholder="제목을 입력하세요"
-                defaultValue={item.title}
+                defaultValue={item == null ? null : item.title}
                 style={{
                   width: "400px",
                   height: "50px",
@@ -230,7 +259,21 @@ const Modify = () => {
                     flexFlow: "column wrap",
                   }}
                 >
-                  {}
+                  {item.imageList === null
+                    ? null
+                    : item.imageList.map((item, index) => {
+                        return (
+                          <img
+                            src={item}
+                            alt="img"
+                            style={{
+                              width: "350px",
+                              display: "block",
+                              marginBottom: "20px",
+                            }}
+                          ></img>
+                        );
+                      })}
                 </div>
               </div>
             </div>
@@ -247,7 +290,7 @@ const Modify = () => {
               <textarea
                 id="CONTENT"
                 placeholder="본문 내용을 입력하세요"
-                defaultValue={item.content}
+                defaultValue={item == null ? null : item.content}
                 style={{
                   width: "450px",
                   height: "400px",
@@ -275,7 +318,9 @@ const Modify = () => {
                 id="SUGGESTION"
                 type="text"
                 placeholder="제시할 가격을 입력하세요 (생략가능)"
-                defaultValue={item.suggestion ? item.suggestion : null}
+                defaultValue={
+                  item == null ? null : item.suggestion ? item.suggestion : null
+                }
                 style={{
                   width: "400px",
                   height: "50px",
@@ -306,7 +351,13 @@ const Modify = () => {
                 id="TAG1"
                 type="text"
                 placeholder="태그 입력란"
-                defaultValue={tagsArray[0] ? tagsArray[0] : null}
+                defaultValue={
+                  item == null
+                    ? null
+                    : item.tagList[0] === "not" || !item.tagList[0]
+                    ? null
+                    : item.tagList[0]
+                }
                 style={{
                   width: "150px",
                   height: "50px",
@@ -317,7 +368,9 @@ const Modify = () => {
                 id="TAG2"
                 type="text"
                 placeholder="태그 입력란"
-                defaultValue={tagsArray[1] ? tagsArray[1] : null}
+                defaultValue={
+                  item == null ? null : item.tagList[1] ? item.tagList[1] : null
+                }
                 style={{
                   width: "150px",
                   height: "50px",
@@ -329,7 +382,9 @@ const Modify = () => {
                 id="TAG3"
                 type="text"
                 placeholder="태그 입력란"
-                defaultValue={tagsArray[2] ? tagsArray[2] : null}
+                defaultValue={
+                  item == null ? null : item.tagList[2] ? item.tagList[2] : null
+                }
                 style={{
                   width: "150px",
                   height: "50px",
@@ -348,7 +403,7 @@ const Modify = () => {
               }}
             >
               <Button
-                onClick={() => {
+                onClick={async () => {
                   let thumbnailURL = "";
                   let postImgURL = [];
 
@@ -415,6 +470,26 @@ const Modify = () => {
                       return;
                     }
                   }
+
+                  await axios({
+                    url: "/update",
+                    method: "post",
+                    data: {
+                      bno: bno,
+                      title: titleInput.value,
+                      content: contentInput.value,
+                      imageList: postImgURL.length > 0 ? postImgURL : null,
+                      tagList: tagArr.length > 0 ? tagArr : null,
+                      suggestion: suggestInput.value
+                        ? suggestInput.value
+                        : null,
+                    },
+                    headers: {
+                      "XSRF-TOKEN": csrf,
+                    },
+                  }).then((res) => {
+                    console.log(res.data);
+                  });
 
                   handleShow();
                 }}

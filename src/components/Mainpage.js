@@ -36,7 +36,7 @@ const Mainpage = () => {
   let dispatch = useDispatch();
 
   const readList = async () => {
-    await axios.get("http://localhost:8181/readList").then((res) => {
+    await axios.get("http://localhost:3000/readList").then((res) => {
       console.log("success");
       console.log(res.data);
       dispatch({
@@ -46,9 +46,21 @@ const Mainpage = () => {
     });
   };
 
+  const readHotList = async () => {
+    await axios.get("http://localhost:8181/hotList").then((res) => {
+      console.log("success");
+      console.log(res.data);
+      dispatch({
+        type: "readHotList",
+        payload: res.data,
+      });
+    });
+  };
+
   useEffect(() => {
     checkLogin();
     readList();
+    readHotList();
   }, []);
 
   let state = useSelector((state) => {
@@ -60,6 +72,8 @@ const Mainpage = () => {
   let hotBoardState = state.hotBoardReducer;
 
   console.log(boardState);
+
+  let hotBoard = [...hotBoardState.slice(0, 3)];
 
   let newBoard = [...boardState.slice(0, 3)];
 
@@ -309,7 +323,11 @@ const Mainpage = () => {
             </p>
             <Button
               onClick={() => {
-                navigate("/login");
+                if (checkUser) {
+                  navigate("/register");
+                } else {
+                  navigate("/login");
+                }
               }}
               style={{ backgroundColor: "#EA5455", border: "none" }}
             >
@@ -335,7 +353,7 @@ const Mainpage = () => {
           <div
             className="col-lg-2"
             onClick={() => {
-              navigate("/boardmain");
+              navigate("/hotboard");
             }}
             style={{ fontSize: "24px", cursor: "pointer" }}
           >
@@ -343,20 +361,24 @@ const Mainpage = () => {
           </div>
         </div>
         <div className="row">
-          {hotBoardState.map((item, index) => {
-            return (
-              <div
-                className="col-lg-4 d-flex justify-content-center"
-                key={index}
-                onClick={() => {
-                  navigate("/detail/" + item.bno);
-                  console.log(item);
-                }}
-              >
-                <ItemCard item={item} />
-              </div>
-            );
-          })}
+          {hotBoard === "" ? (
+            <p>아직 인기 게시물이 없습니다.</p>
+          ) : (
+            hotBoard.map((item, index) => {
+              return (
+                <div
+                  className="col-lg-4 d-flex justify-content-center"
+                  key={index}
+                  onClick={() => {
+                    navigate("/detail/" + item.bno);
+                    console.log(item);
+                  }}
+                >
+                  <ItemCard item={item} />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
       <div className="container-lg" style={{ margin: "80px auto" }}>
@@ -381,20 +403,24 @@ const Mainpage = () => {
           </div>
         </div>
         <div className="row">
-          {newBoard.map((item, index) => {
-            return (
-              <div
-                className="col-lg-4 d-flex justify-content-center"
-                key={index}
-                onClick={() => {
-                  navigate("/detail/" + item.bno);
-                  console.log(item);
-                }}
-              >
-                <ItemCard item={item} />
-              </div>
-            );
-          })}
+          {newBoard === "" ? (
+            <p>아직 게시물이 없습니다.</p>
+          ) : (
+            newBoard.map((item, index) => {
+              return (
+                <div
+                  className="col-lg-4 d-flex justify-content-center"
+                  key={index}
+                  onClick={() => {
+                    navigate("/detail/" + item.bno);
+                    console.log(item);
+                  }}
+                >
+                  <ItemCard item={item} />
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
 
