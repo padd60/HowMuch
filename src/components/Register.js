@@ -175,7 +175,7 @@ const Register = () => {
                   id="ATTACH"
                   type="file"
                   multiple="multiple"
-                  accept=".jpg, .jpeg, .png, .svg+xml"
+                  accept=".jpg, .jpeg, .png, .svg+xml, .gif"
                   onChange={(e) => {
                     console.log("change!");
 

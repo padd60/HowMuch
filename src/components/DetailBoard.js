@@ -202,6 +202,7 @@ const DetailBoard = (props) => {
     background-color: #2d4059;
     margin: 0 auto;
   `;
+
   let Warn = styled("p")`
     color: red;
   `;
@@ -233,22 +234,30 @@ const DetailBoard = (props) => {
       <div className="container-lg" style={{ marginTop: "30px" }}>
         <div className="row d-flex justify-content-end">
           <div
-            className="col-3 d-flex justify-content-evenly"
+            className="col-4 d-flex justify-content-evenly"
             style={{ flexFlow: flexdir }}
           >
             <Button
-              style={{ marginBottom: "10px" }}
+              style={{
+                marginBottom: "10px",
+                backgroundColor: "#2D4059",
+                borderStyle: "none",
+              }}
               onClick={() => {
                 navigate("/boardmain/");
               }}
             >
               글목록
             </Button>
-            {!(userInfo && item) ? null : !(
-                userInfo.nick === item.writer
-              ) ? null : (
+            {valueState === "" ? null : valueState.length > 0 ? null : !(
+                userInfo && item
+              ) ? null : !(userInfo.nick === item.writer) ? null : (
               <Button
-                style={{ marginBottom: "10px" }}
+                style={{
+                  marginBottom: "10px",
+                  backgroundColor: "#2D4059",
+                  borderStyle: "none",
+                }}
                 onClick={() => {
                   navigate("/modify/" + item.bno);
                   console.log(item);
@@ -283,9 +292,42 @@ const DetailBoard = (props) => {
                       navigate("/login");
                     });
                 }}
-                style={{ marginBottom: "10px" }}
+                style={{
+                  marginBottom: "10px",
+                  backgroundColor: "#F07B3F",
+                  borderStyle: "none",
+                }}
               >
                 글삭제
+              </Button>
+            )}
+            {item == null ? null : item.end === 1 ? null : !(
+                userInfo && item
+              ) ? null : !(userInfo.nick === item.writer) ? null : (
+              <Button
+                style={{
+                  marginBottom: "10px",
+                  backgroundColor: "#EA5455",
+                  borderStyle: "none",
+                }}
+                onClick={async () => {
+                  await axios({
+                    url: "/setPoint",
+                    method: "get",
+                    params: {
+                      bno: item.bno,
+                      mno: userInfo.mno,
+                    },
+                  }).then((res) => {
+                    console.log(res.data);
+                    console.log("value end!!!");
+                    SetcalculateValue(res.data);
+                  });
+
+                  navigate("/detail" + item.bno);
+                }}
+              >
+                평가종료
               </Button>
             )}
           </div>
@@ -574,91 +616,138 @@ const DetailBoard = (props) => {
             borderRadius: "7px",
           }}
         >
-          <div
-            style={{
-              width: "80%",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <FaDollarSign style={{ fontSize: "32px", color: "#EA5455" }} />
+          {item == null ? null : item.end === 0 ? (
             <div
               style={{
-                color: "black",
-                width: "400px",
-                fontSize: "24px",
-                borderBottom: "2px solid #EA5455",
-              }}
-            >
-              {!calculateValue.avg ? "없음" : calculateValue.avg + " 원"}
-            </div>
-            <span style={{ fontSize: "32px" }}>원</span>
-          </div>
-          <div style={{ fontSize: "24px" }}>
-            {!userInfo.nick ? "익명" : userInfo.nick} 님의 <br />
-            평가금액은 ... ?
-          </div>
-          <div style={{ width: "80%" }}>
-            <div
-              style={{
+                width: "80%",
                 display: "flex",
                 justifyContent: "center",
               }}
             >
-              <BsPinFill style={{ fontSize: "32px", color: "#EA5455" }} />
-              <div style={{ borderBottom: "2px solid #EA5455", width: "60%" }}>
-                <input
-                  id="price"
-                  style={{
-                    color: "black",
-                    width: "70%",
-                    fontSize: "24px",
-                    borderStyle: "none",
-                    backgroundColor: "transparent",
-                    textAlign: "center",
-                  }}
-                />
+              <FaDollarSign style={{ fontSize: "32px", color: "#EA5455" }} />
+              <div
+                style={{
+                  color: "black",
+                  width: "400px",
+                  fontSize: "24px",
+                  borderBottom: "2px solid #EA5455",
+                }}
+              >
+                {!calculateValue.avg
+                  ? "없음"
+                  : "평균가: " + calculateValue.avg + " 원"}
               </div>
               <span style={{ fontSize: "32px" }}>원</span>
             </div>
-            {warn ? (
-              <Warn>
-                값을 입력하지 않았거나 입력한 값이 숫자가 아닙니다. 다시
-                입력해주세요.
-              </Warn>
-            ) : null}
-            {warnDuplication ? (
-              <Warn>이미 평가한 게시물입니다. 다른 게시물을 평가해보세요!</Warn>
-            ) : null}
-            <Button
-              onClick={async () => {
-                let number = /[0-9]/; // 숫자 체크
-                let price = document.getElementById("price");
+          ) : null}
+          {item == null ? null : item.end === 0 ? (
+            <div style={{ fontSize: "24px" }}>
+              {!userInfo.nick ? "익명" : userInfo.nick} 님의 <br />
+              평가금액은 ... ?
+            </div>
+          ) : (
+            <div style={{ fontSize: "24px" }}>
+              평가가 완료된 게시물입니다.
+              <br />
+              <span style={{ color: "#EA5455" }}>최종평가금액은 .. ?</span>
+            </div>
+          )}
+          {item == null ? null : item.end === 0 ? (
+            <div style={{ width: "80%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <BsPinFill style={{ fontSize: "32px", color: "#EA5455" }} />
+                <div
+                  style={{ borderBottom: "2px solid #EA5455", width: "60%" }}
+                >
+                  <input
+                    id="price"
+                    style={{
+                      color: "black",
+                      width: "70%",
+                      fontSize: "24px",
+                      borderStyle: "none",
+                      backgroundColor: "transparent",
+                      textAlign: "center",
+                    }}
+                  />
+                </div>
+                <span style={{ fontSize: "32px" }}>원</span>
+              </div>
+              {warn ? (
+                <Warn>
+                  값을 입력하지 않았거나 입력한 값이 숫자가 아닙니다. 다시
+                  입력해주세요.
+                </Warn>
+              ) : null}
+              {warnDuplication ? (
+                <Warn>
+                  이미 평가한 게시물입니다. 다른 게시물을 평가해보세요!
+                </Warn>
+              ) : null}
+              <Button
+                onClick={async () => {
+                  let number = /[0-9]/; // 숫자 체크
+                  let price = document.getElementById("price");
 
-                if (!price.value || !number.test(price.value)) {
-                  console.log("no value");
-                  Setwarn(true);
-                  return;
-                } else {
-                  Setwarn(false);
-                }
+                  if (!price.value || !number.test(price.value)) {
+                    console.log("no value");
+                    Setwarn(true);
+                    return;
+                  } else {
+                    Setwarn(false);
+                  }
 
-                if (!userInfo) {
-                  handleLoginShow();
-                  return;
-                }
+                  if (!userInfo) {
+                    handleLoginShow();
+                    return;
+                  }
 
-                handleWarnShow();
-              }}
-              style={{
-                marginTop: "30px",
-                backgroundColor: "#EA5455",
-                borderStyle: "none",
-              }}
-            >
-              평가입력
-            </Button>
-          </div>
+                  handleWarnShow();
+                }}
+                style={{
+                  marginTop: "30px",
+                  backgroundColor: "#EA5455",
+                  borderStyle: "none",
+                }}
+              >
+                평가입력
+              </Button>
+            </div>
+          ) : (
+            <div style={{ width: "80%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <BsPinFill style={{ fontSize: "32px", color: "#EA5455" }} />
+                <div
+                  style={{ borderBottom: "2px solid #EA5455", width: "60%" }}
+                >
+                  <input
+                    id="price"
+                    style={{
+                      color: "black",
+                      width: "70%",
+                      fontSize: "24px",
+                      borderStyle: "none",
+                      backgroundColor: "transparent",
+                      textAlign: "center",
+                    }}
+                    defaultValue={calculateValue.avg}
+                    disabled
+                  />
+                </div>
+                <span style={{ fontSize: "32px" }}>원</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="container-lg d-flex justify-content-center">
@@ -730,7 +819,11 @@ const DetailBoard = (props) => {
       {/* end reply box */}
 
       {/* warn value modal start */}
-      <Modal show={warnvalueshow} onHide={handleWarnClose}>
+      <Modal
+        show={warnvalueshow}
+        onHide={handleWarnClose}
+        style={{ fontFamily: "'Do Hyeon', sans-serif" }}
+      >
         <Modal.Header>
           <Modal.Title>⚠️ 주의 ⚠️</Modal.Title>
         </Modal.Header>
@@ -783,7 +876,11 @@ const DetailBoard = (props) => {
       {/* warn value modal end */}
 
       {/* login modal start */}
-      <Modal show={loginShow} onHide={handleLoginShow}>
+      <Modal
+        show={loginShow}
+        onHide={handleLoginShow}
+        style={{ fontFamily: "'Do Hyeon', sans-serif" }}
+      >
         <Modal.Header>
           <Modal.Title>⚠️ 로그인이 필요한 서비스입니다! ⚠️</Modal.Title>
         </Modal.Header>
@@ -808,6 +905,10 @@ const DetailBoard = (props) => {
         </Modal.Footer>
       </Modal>
       {/* login modal end */}
+
+      {/* value end button  start*/}
+
+      {/* value end button  end*/}
     </div>
   );
 };
