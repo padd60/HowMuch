@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { RiFileUploadFill } from "react-icons/ri";
 
 const Modify = () => {
   let navigate = useNavigate();
@@ -32,6 +33,7 @@ const Modify = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     readList();
   }, []);
 
@@ -208,9 +210,27 @@ const Modify = () => {
                   overflow: "auto",
                 }}
               >
+                <div
+                  style={{
+                    display: "inline-block",
+                    padding: "20px 0",
+                    marginBottom: "30px",
+                    borderBottom: "3px solid #EA5455",
+                  }}
+                >
+                  <label for="ATTACH">
+                    <RiFileUploadFill
+                      color="#EA5455"
+                      size="35px"
+                      cursor="pointer"
+                    />
+                  </label>
+                  <span> 👈 원하는 이미지 또는 짤을 선택하세요!</span>
+                </div>
                 <input
                   id="ATTACH"
                   type="file"
+                  hidden="true"
                   multiple="multiple"
                   accept=".jpg, .jpeg, .png, .svg+xml"
                   onChange={(e) => {
@@ -228,7 +248,19 @@ const Modify = () => {
                       let reader = new FileReader();
 
                       let imgBox = document.getElementById("imgBox");
+                      let div = document.createElement("div");
                       let image = document.createElement("img");
+                      let del = document.createElement("span");
+
+                      div.style = "display:flex;";
+
+                      del.textContent = "✘";
+                      del.style =
+                        "font-size: 30px; color: #EA5455; margin-left:10px; margin-top:-10px; cursor: pointer";
+                      del.addEventListener("click", (e) => {
+                        console.log(e.target.parentNode.parentNode);
+                        e.target.parentNode.parentNode.removeChild(div);
+                      });
 
                       reader.onload = (e) => {
                         let dataURL = reader.result;
@@ -238,7 +270,9 @@ const Modify = () => {
                         image.style =
                           "width: 350px; display: block; margin-bottom: 20px";
 
-                        imgBox.appendChild(image);
+                        imgBox.appendChild(div);
+                        div.appendChild(image);
+                        div.append(del);
                       };
 
                       reader.readAsDataURL(item);
@@ -259,19 +293,45 @@ const Modify = () => {
                     flexFlow: "column wrap",
                   }}
                 >
-                  {item.imageList === null
+                  {item === null
+                    ? null
+                    : item.imageList === null
                     ? null
                     : item.imageList.map((item, index) => {
                         return (
-                          <img
-                            src={item}
-                            alt="img"
-                            style={{
-                              width: "350px",
-                              display: "block",
-                              marginBottom: "20px",
-                            }}
-                          ></img>
+                          <div id={"div" + index} style={{ display: "flex" }}>
+                            <img
+                              src={item}
+                              alt="img"
+                              style={{
+                                width: "350px",
+                                display: "block",
+                                marginBottom: "20px",
+                              }}
+                            />
+                            <span
+                              onClick={(e) => {
+                                let div = document.getElementById(
+                                  "div" + index
+                                );
+                                console.log(
+                                  e.currentTarget.parentNode.parentNode
+                                );
+                                e.currentTarget.parentNode.parentNode.removeChild(
+                                  div
+                                );
+                              }}
+                              style={{
+                                fontSize: "30px",
+                                color: "#EA5455",
+                                marginLeft: "10px",
+                                marginTop: "-10px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              ✘
+                            </span>
+                          </div>
                         );
                       })}
                 </div>

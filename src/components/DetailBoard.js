@@ -13,6 +13,7 @@ import ReplyPagination from "./ReplyPagination";
 import BoardListPagination from "./BoardListPagination";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { RiVipCrownFill } from "react-icons/ri";
 
 const DetailBoard = (props) => {
   let navigate = useNavigate();
@@ -111,6 +112,7 @@ const DetailBoard = (props) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     resetBoolean();
     readList();
     getMyInfo();
@@ -144,6 +146,51 @@ const DetailBoard = (props) => {
 
   let [calculateValue, SetcalculateValue] = useState("");
 
+  // tier reader
+  const tierSelect = (point) => {
+    if (point < 250) {
+      // SetTier("Bronze");
+      return "Bronze";
+    } else if (point < 500) {
+      // SetTier("Silver");
+      return "Silver";
+    } else if (point < 750) {
+      // SetTier("Gold");
+      return "Gold";
+    } else if (point < 1000) {
+      // SetTier("Platinum");
+      return "Platinum";
+    } else {
+      // SetTier("Diamond");
+      return "Diamond";
+    }
+  };
+
+  const tierObject = [
+    { tier: "Diamond", color: "#548CFF" },
+    { tier: "Platinum", color: "#00BDAA" },
+    { tier: "Gold", color: "#FFE300" },
+    { tier: "Silver", color: "#C8C2BC" },
+    { tier: "Bronze", color: "#E26A2C" },
+  ];
+
+  const findTier = (userTier) => {
+    console.log(userTier);
+
+    let findItem = tierObject.find((item) => {
+      return item.tier === userTier;
+    });
+
+    console.log(findItem);
+    console.log(findItem.color);
+
+    return findItem.color;
+  };
+
+  // findTier(tierSelect(포인트 데이터))
+
+  // tier reader end
+
   // modal control
 
   const resetBoolean = () => {};
@@ -160,6 +207,8 @@ const DetailBoard = (props) => {
 
   const [warn, Setwarn] = useState(false);
   const [warnDuplication, SetwarnDuplication] = useState(false);
+  const [warnSelfValue, SetwarnSelfValue] = useState(false);
+  const [warnMinus, SetwarnMinus] = useState(false);
   // modal control end
 
   // resize screen
@@ -321,10 +370,11 @@ const DetailBoard = (props) => {
                   }).then((res) => {
                     console.log(res.data);
                     console.log("value end!!!");
+                    readList();
                     SetcalculateValue(res.data);
                   });
 
-                  navigate("/detail" + item.bno);
+                  navigate("/detail/" + item.bno);
                 }}
               >
                 평가종료
@@ -388,7 +438,12 @@ const DetailBoard = (props) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {item == null ? null : item.writer}
+                {item == null ? null : (
+                  <span>
+                    <RiVipCrownFill color={findTier(tierSelect(item.point))} />{" "}
+                    {item.writer}
+                  </span>
+                )}
               </p>
             </div>
 
@@ -584,7 +639,15 @@ const DetailBoard = (props) => {
                   }}
                   key={index}
                 >
-                  {item.rater} 님 {item.price} 원{" "}
+                  {
+                    <span>
+                      <RiVipCrownFill
+                        color={findTier(tierSelect(item.point))}
+                      />{" "}
+                      {item.rater}
+                    </span>
+                  }{" "}
+                  님 {item.price} 원{" "}
                   {String(
                     new Date(+new Date(item.vdate) + 3240 * 10000)
                       .toISOString()
@@ -684,15 +747,24 @@ const DetailBoard = (props) => {
                   입력해주세요.
                 </Warn>
               ) : null}
+              {warnMinus ? (
+                <Warn>음수의 값은 입력하실 수 없습니다!</Warn>
+              ) : null}
               {warnDuplication ? (
                 <Warn>
                   이미 평가한 게시물입니다. 다른 게시물을 평가해보세요!
                 </Warn>
               ) : null}
+              {warnSelfValue ? (
+                <Warn>자신의 게시물에는 평가할 수 없습니다!</Warn>
+              ) : null}
               <Button
                 onClick={async () => {
                   let number = /[0-9]/; // 숫자 체크
                   let price = document.getElementById("price");
+
+                  Setwarn(false);
+                  SetwarnMinus(false);
 
                   if (!price.value || !number.test(price.value)) {
                     console.log("no value");
@@ -700,6 +772,13 @@ const DetailBoard = (props) => {
                     return;
                   } else {
                     Setwarn(false);
+                  }
+
+                  if (parseInt(price.value) < 0) {
+                    SetwarnMinus(true);
+                    return;
+                  } else {
+                    SetwarnMinus(false);
                   }
 
                   if (!userInfo) {
@@ -757,11 +836,39 @@ const DetailBoard = (props) => {
             <span style={{ padding: "0 10px" }}>
               {item == null ? null : item.rcount}
             </span>
-            <AiFillLike style={{ color: "#EA5455", cursor: "pointer" }} />
+            <AiFillLike
+              onClick={async () => {
+                await axios({
+                  url: "/like",
+                  method: "get",
+                  params: {
+                    mno: userInfo.mno,
+                    bno: item.bno,
+                  },
+                }).then((res) => {
+                  readList();
+                });
+              }}
+              style={{ color: "#EA5455", cursor: "pointer" }}
+            />
             <span style={{ padding: "0 10px" }}>
               {item == null ? null : item.blike}
             </span>
-            <AiFillDislike style={{ color: "#F07B3F", cursor: "pointer" }} />
+            <AiFillDislike
+              onClick={async () => {
+                await axios({
+                  url: "/dislike",
+                  method: "get",
+                  params: {
+                    mno: userInfo.mno,
+                    bno: item.bno,
+                  },
+                }).then((res) => {
+                  readList();
+                });
+              }}
+              style={{ color: "#F07B3F", cursor: "pointer" }}
+            />
             <span style={{ padding: "0 10px" }}>
               {item == null ? null : item.bdislike}
             </span>
@@ -849,10 +956,17 @@ const DetailBoard = (props) => {
                   price: price.value,
                 },
               }).then((res) => {
+                console.log(res.data[0].price === -1);
                 if (res.data === "") {
                   console.log("same user");
                   SetwarnDuplication(true);
                   readValueList();
+                  handleWarnClose();
+                } else if (res.data[0].price === -1) {
+                  console.log("자신의 게시물임");
+                  SetwarnSelfValue(true);
+                  readValueList();
+                  handleWarnClose();
                 } else {
                   console.log(res.data);
                   dispatch({

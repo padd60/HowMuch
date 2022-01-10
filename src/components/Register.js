@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { RiFileUploadFill } from "react-icons/ri";
 
 const Register = () => {
   let navigate = useNavigate();
@@ -49,6 +50,7 @@ const Register = () => {
   let [flexdir, Setflexdir] = useState("row nowrap");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (currentWidth > 1200) {
       Setflexdir("row nowrap");
     }
@@ -171,8 +173,26 @@ const Register = () => {
                   overflow: "auto",
                 }}
               >
+                <div
+                  style={{
+                    display: "inline-block",
+                    padding: "20px 0",
+                    marginBottom: "30px",
+                    borderBottom: "3px solid #EA5455",
+                  }}
+                >
+                  <label for="ATTACH">
+                    <RiFileUploadFill
+                      color="#EA5455"
+                      size="35px"
+                      cursor="pointer"
+                    />
+                  </label>
+                  <span> 👈 원하는 이미지 또는 짤을 선택하세요!</span>
+                </div>
                 <input
                   id="ATTACH"
+                  hidden="true"
                   type="file"
                   multiple="multiple"
                   accept=".jpg, .jpeg, .png, .svg+xml, .gif"
@@ -191,7 +211,19 @@ const Register = () => {
                       let reader = new FileReader();
 
                       let imgBox = document.getElementById("imgBox");
+                      let div = document.createElement("div");
                       let image = document.createElement("img");
+                      let del = document.createElement("span");
+
+                      div.style = "display:flex;";
+
+                      del.textContent = "✘";
+                      del.style =
+                        "font-size: 30px; color: #EA5455; margin-left:10px; margin-top:-10px; cursor: pointer";
+                      del.addEventListener("click", (e) => {
+                        console.log(e.target.parentNode.parentNode);
+                        e.target.parentNode.parentNode.removeChild(div);
+                      });
 
                       reader.onload = (e) => {
                         let dataURL = reader.result;
@@ -201,7 +233,9 @@ const Register = () => {
                         image.style =
                           "width: 350px; display: block; margin-bottom: 20px";
 
-                        imgBox.appendChild(image);
+                        imgBox.appendChild(div);
+                        div.appendChild(image);
+                        div.append(del);
                       };
 
                       reader.readAsDataURL(item);

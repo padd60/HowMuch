@@ -7,6 +7,7 @@ import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { MdDeleteForever } from "react-icons/md";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { RiVipCrownFill } from "react-icons/ri";
 
 const ReplyPagination = () => {
   const checkLogin = async () => {
@@ -36,6 +37,50 @@ const ReplyPagination = () => {
   let dispatch = useDispatch();
 
   let replyState = state.replyReducer;
+
+  // tier reader
+  const tierSelect = (point) => {
+    if (point < 250) {
+      // SetTier("Bronze");
+      return "Bronze";
+    } else if (point < 500) {
+      // SetTier("Silver");
+      return "Silver";
+    } else if (point < 750) {
+      // SetTier("Gold");
+      return "Gold";
+    } else if (point < 1000) {
+      // SetTier("Platinum");
+      return "Platinum";
+    } else {
+      // SetTier("Diamond");
+      return "Diamond";
+    }
+  };
+
+  const tierObject = [
+    { tier: "Diamond", color: "#548CFF" },
+    { tier: "Platinum", color: "#00BDAA" },
+    { tier: "Gold", color: "#FFE300" },
+    { tier: "Silver", color: "#C8C2BC" },
+    { tier: "Bronze", color: "#E26A2C" },
+  ];
+
+  const findTier = (userTier) => {
+    console.log(userTier);
+
+    let findItem = tierObject.find((item) => {
+      return item.tier === userTier;
+    });
+
+    console.log(findItem);
+    console.log(findItem.color);
+
+    return findItem.color;
+  };
+
+  // findTier(tierSelect(포인트 데이터))
+  // tier reader end
 
   // pagination data
   const items = replyState;
@@ -90,7 +135,16 @@ const ReplyPagination = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item == null ? null : item.replyer}
+                      {item == null ? null : item.replyer === "anonymous" ? (
+                        "익명"
+                      ) : (
+                        <span>
+                          <RiVipCrownFill
+                            color={findTier(tierSelect(item.point))}
+                          />{" "}
+                          {item.replyer}
+                        </span>
+                      )}
                     </span>
                     <span
                       style={{

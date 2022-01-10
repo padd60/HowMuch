@@ -53,6 +53,7 @@ const BoardMain = () => {
   // }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     checkLogin();
     readList();
   }, []);
@@ -69,13 +70,17 @@ const BoardMain = () => {
   let [select, SetSelect] = useState("");
   let [search, SetSearch] = useState("");
 
-  useEffect(() => {
-    console.log(select);
-  }, [select]);
-
-  useEffect(() => {
-    console.log(search);
-  }, [search]);
+  const typeChanger = (select) => {
+    if (select === "제목") {
+      return "title";
+    } else if (select === "내용") {
+      return "content";
+    } else if (select === "작성자") {
+      return "writer";
+    } else if (select === "태그") {
+      return "tag";
+    }
+  };
 
   let navigate = useNavigate();
 
@@ -85,7 +90,10 @@ const BoardMain = () => {
       <>
         <div className="container-lg" style={{ margin: "50px auto" }}>
           <div className="row">
-            {currentItems &&
+            {currentItems === "" ? (
+              <p style={{ fontSize: "32px" }}>아직 등록된 게시물이 없습니다.</p>
+            ) : (
+              currentItems &&
               currentItems.map((item, index) => (
                 <div
                   className="col-lg-4 d-flex justify-content-center"
@@ -97,7 +105,8 @@ const BoardMain = () => {
                 >
                   <ItemCard item={item} />
                 </div>
-              ))}
+              ))
+            )}
           </div>
         </div>
       </>
@@ -194,9 +203,31 @@ const BoardMain = () => {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <FaSearch
-            onClick={() => {
+            onClick={async () => {
               let search = document.getElementById("search").value;
               SetSearch(search);
+
+              console.log(search, select);
+
+              if (search === "" && select === "") {
+                console.log("검색항목을 선택하고 검색어를 입력해주세요");
+                return;
+              }
+
+              await axios({
+                url: "/getSearchList",
+                method: "get",
+                params: {
+                  type: select,
+                  keyword: search,
+                },
+              }).then((res) => {
+                console.log(res.data);
+                dispatch({
+                  type: "searchList",
+                  payload: res.data,
+                });
+              });
             }}
             style={{ fontSize: "24px", marginRight: "10px", cursor: "pointer" }}
           />
@@ -207,13 +238,16 @@ const BoardMain = () => {
               className="form-select"
               aria-label="Default select example"
               onChange={(e) => {
-                SetSelect(e.target.options[e.target.selectedIndex].text);
+                SetSelect(
+                  typeChanger(e.target.options[e.target.selectedIndex].text)
+                );
               }}
             >
               <option defaultValue>검색항목</option>
               <option value="1">제목</option>
-              <option value="2">작성자</option>
-              <option value="3">태그</option>
+              <option value="2">내용</option>
+              <option value="3">작성자</option>
+              <option value="4">태그</option>
             </select>
           </div>
         </div>

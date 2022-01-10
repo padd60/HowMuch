@@ -43,6 +43,7 @@ const LoginPage = () => {
   let currentWidth = document.documentElement.clientWidth;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (currentWidth > 770) {
       setPosition("absolute");
     }

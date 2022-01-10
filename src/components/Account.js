@@ -89,6 +89,7 @@ const Account = () => {
   let [flexdir, Setflexdir] = useState("row nowrap");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (currentWidth > 1200) {
       Setflexdir("row nowrap");
     }

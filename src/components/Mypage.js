@@ -34,8 +34,6 @@ const Mypage = () => {
 
   let [userInfo, SetInfo] = useState("");
 
-  let [tier, SetTier] = useState("");
-
   const tierSelect = (point) => {
     if (point < 250) {
       // SetTier("Bronze");
@@ -104,6 +102,7 @@ const Mypage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getBoardRank();
     getTierRank();
   }, []);

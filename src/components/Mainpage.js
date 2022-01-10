@@ -5,9 +5,9 @@ import { SiCashapp } from "react-icons/si";
 import styled from "styled-components";
 import Banner from "../img/banner.svg";
 import ItemCard from "./ItemCard";
-import SampleImg from "../img/sample.svg";
 import BoardImg from "../img/board.png";
 import PointImg from "../img/point.png";
+import ValueImg from "../img/value.png";
 import { IoShareSocialSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
@@ -75,7 +75,11 @@ const Mainpage = () => {
 
   let hotBoard = [...hotBoardState.slice(0, 3)];
 
+  console.log(hotBoard);
+
   let newBoard = [...boardState.slice(0, 3)];
+
+  console.log(newBoard);
 
   // end redux
 
@@ -361,8 +365,8 @@ const Mainpage = () => {
           </div>
         </div>
         <div className="row">
-          {hotBoard === "" ? (
-            <p>아직 인기 게시물이 없습니다.</p>
+          {hotBoard.length === 0 ? (
+            <p style={{ fontSize: "20px" }}>아직 인기 게시물이 없습니다.</p>
           ) : (
             hotBoard.map((item, index) => {
               return (
@@ -403,8 +407,8 @@ const Mainpage = () => {
           </div>
         </div>
         <div className="row">
-          {newBoard === "" ? (
-            <p>아직 게시물이 없습니다.</p>
+          {newBoard.length === 0 ? (
+            <p style={{ fontSize: "20px" }}>아직 등록된 게시물이 없습니다.</p>
           ) : (
             newBoard.map((item, index) => {
               return (
@@ -478,7 +482,7 @@ const Mainpage = () => {
           </div>
           <div className="col-lg-5">
             <img
-              src={SampleImg}
+              src={ValueImg}
               alt="guideImage"
               style={{ width: "100%", padding: "20px" }}
             ></img>

@@ -4,15 +4,61 @@ import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { RiVipCrownFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const BoardListPagination = () => {
   let state = useSelector((state) => {
     return state;
   });
 
-  // let navigate = useNavigate();
+  let navigate = useNavigate();
 
   let boardState = state.boardReducer;
+
+  // tier reader
+  const tierSelect = (point) => {
+    if (point < 250) {
+      // SetTier("Bronze");
+      return "Bronze";
+    } else if (point < 500) {
+      // SetTier("Silver");
+      return "Silver";
+    } else if (point < 750) {
+      // SetTier("Gold");
+      return "Gold";
+    } else if (point < 1000) {
+      // SetTier("Platinum");
+      return "Platinum";
+    } else {
+      // SetTier("Diamond");
+      return "Diamond";
+    }
+  };
+
+  const tierObject = [
+    { tier: "Diamond", color: "#548CFF" },
+    { tier: "Platinum", color: "#00BDAA" },
+    { tier: "Gold", color: "#FFE300" },
+    { tier: "Silver", color: "#C8C2BC" },
+    { tier: "Bronze", color: "#E26A2C" },
+  ];
+
+  const findTier = (userTier) => {
+    console.log(userTier);
+
+    let findItem = tierObject.find((item) => {
+      return item.tier === userTier;
+    });
+
+    console.log(findItem);
+    console.log(findItem.color);
+
+    return findItem.color;
+  };
+
+  // findTier(tierSelect(포인트 데이터))
+  // tier reader end
 
   // pagination data
   const items = boardState;
@@ -45,7 +91,14 @@ const BoardListPagination = () => {
             </div>
             {currentItems &&
               currentItems.map((item, index) => (
-                <Reply className="row" key={index}>
+                <Reply
+                  className="row"
+                  key={index}
+                  onClick={() => {
+                    navigate("/detail/" + item.bno);
+                    window.scrollTo(0, 0);
+                  }}
+                >
                   <div
                     className="col-lg-7"
                     style={{
@@ -53,6 +106,7 @@ const BoardListPagination = () => {
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
+                      cursor: "pointer",
                     }}
                   >
                     {item == null ? null : item.title}
@@ -75,7 +129,14 @@ const BoardListPagination = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {item == null ? null : item.writer}
+                      {item == null ? null : (
+                        <span>
+                          <RiVipCrownFill
+                            color={findTier(tierSelect(item.point))}
+                          />{" "}
+                          {item.writer}
+                        </span>
+                      )}
                     </span>
                     <span
                       style={{
@@ -93,9 +154,7 @@ const BoardListPagination = () => {
                               .split("T")[0]
                           )}
                     </span>
-                    <AiFillLike
-                      style={{ color: "#EA5455", cursor: "pointer" }}
-                    />
+                    <AiFillLike style={{ color: "#EA5455" }} />
                     <span
                       style={{
                         display: "inline-block",
@@ -104,9 +163,7 @@ const BoardListPagination = () => {
                     >
                       {item == null ? null : item.blike}
                     </span>
-                    <AiFillDislike
-                      style={{ color: "#F07B3F", cursor: "pointer" }}
-                    />
+                    <AiFillDislike style={{ color: "#F07B3F" }} />
                     <span
                       style={{
                         display: "inline-block",

@@ -107,11 +107,32 @@ function boardReducer(state = board, actions) {
 
     return copy;
   }
+
+  if (actions.type === "searchList") {
+    console.log("searchList");
+
+    let copy = [...state];
+
+    copy = actions.payload;
+
+    return copy;
+  }
+
   return state;
 }
 
 function hotBoardReducer(state = hotBoard, actions) {
   if (actions.type === "readHotList") {
+    let copy = [...state];
+
+    copy = actions.payload;
+
+    return copy;
+  }
+
+  if (actions.type === "searchHotList") {
+    console.log("searchList");
+
     let copy = [...state];
 
     copy = actions.payload;
