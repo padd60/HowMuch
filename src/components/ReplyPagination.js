@@ -208,6 +208,7 @@ const ReplyPagination = (props) => {
                           method: "get",
                           params: {
                             mno: userInfo.mno,
+                            bno: props.bno,
                             rno: item.rno,
                           },
                         }).then(async (res) => {
@@ -237,6 +238,7 @@ const ReplyPagination = (props) => {
                           method: "get",
                           params: {
                             rno: item.rno,
+                            bno: props.bno,
                             mno: userInfo.mno,
                           },
                         }).then(async (res) => {
