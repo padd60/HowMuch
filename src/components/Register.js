@@ -443,7 +443,7 @@ const Register = () => {
                       title: titleInput.value,
                       content: contentInput.value,
                       imageList: postImgURL.length > 0 ? postImgURL : null,
-                      tagList: tagArr.length > 0 ? tagArr : null,
+                      tagList: tagArr.length > 0 ? tagArr : ["not"],
                       suggestion: suggestInput.value
                         ? suggestInput.value
                         : null,
