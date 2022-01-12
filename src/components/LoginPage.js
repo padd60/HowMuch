@@ -88,6 +88,24 @@ const LoginPage = () => {
 
   ///end resize screen
 
+  const enterkey = () => {
+    if (window.event.keyCode === 13) {
+      // 엔터키가 눌렸을 때
+      resetShow();
+
+      if (!checkValue(idInput)) {
+        SetidCheck(true);
+        return;
+      }
+      if (!checkValue(pwInput)) {
+        SetpwCheck(true);
+        return;
+      }
+
+      form.submit();
+    }
+  };
+
   let LoginHead = styled("p")`
     font-size: 48px;
     width: 300px;
@@ -106,7 +124,7 @@ const LoginPage = () => {
   `;
 
   return (
-    <div>
+    <div onKeyUp={enterkey}>
       <div className="container" style={{ position: "relative" }}>
         <div
           onClick={() => {
