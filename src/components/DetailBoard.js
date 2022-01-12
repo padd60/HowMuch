@@ -32,7 +32,7 @@ const DetailBoard = (props) => {
   // end cookie
 
   const readList = async () => {
-    await axios.get("http://localhost:3000/readList").then((res) => {
+    await axios.get("/readList").then((res) => {
       console.log("success");
       console.log(res.data);
       dispatch({
@@ -42,11 +42,9 @@ const DetailBoard = (props) => {
     });
   };
 
-  let API_URL = "http://localhost:3000";
-
   const getMyInfo = async () => {
     await axios
-      .get(API_URL + "/userinfo")
+      .get("/userinfo")
       .then((result) => {
         console.log(result.data);
         SetInfo(result.data);
@@ -60,7 +58,7 @@ const DetailBoard = (props) => {
 
   const readReplyList = async () => {
     await axios({
-      url: "http://localhost:8181/ReadReplyList",
+      url: "/ReadReplyList",
       params: {
         bno: bno,
       },
@@ -75,7 +73,7 @@ const DetailBoard = (props) => {
 
   const readValueList = async () => {
     await axios({
-      url: "http://localhost:8181/log",
+      url: "/log",
       params: {
         bno: bno,
       },
@@ -91,7 +89,7 @@ const DetailBoard = (props) => {
 
   const readCalculateValue = async () => {
     await axios({
-      url: "http://localhost:8181/cal",
+      url: "/cal",
       params: {
         bno: bno,
       },
@@ -104,7 +102,7 @@ const DetailBoard = (props) => {
 
   const upreadCount = async () => {
     await axios({
-      url: "http://localhost:8181/rcount",
+      url: "/rcount",
       params: {
         bno: bno,
       },
@@ -761,9 +759,7 @@ const DetailBoard = (props) => {
                   borderBottom: "2px solid #EA5455",
                 }}
               >
-                {!calculateValue.avg
-                  ? "없음"
-                  : "평균가: " + calculateValue.avg + " 원"}
+                {!calculateValue.avg ? "없음" : "평균가: " + calculateValue.avg}
               </div>
               <span style={{ fontSize: "32px" }}>원</span>
             </div>

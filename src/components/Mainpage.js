@@ -247,11 +247,7 @@ const Mainpage = () => {
                 style={{ color: "white", fontSize: "24px" }}
               >
                 {checkUser ? (
-                  <form
-                    id="logout"
-                    action="http://localhost:8181/logout"
-                    method="post"
-                  >
+                  <form id="logout" action="/logout" method="post">
                     <span
                       onClick={() => {
                         let form = document.getElementById("logout");
