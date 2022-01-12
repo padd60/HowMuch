@@ -51,6 +51,10 @@ const Account = () => {
     if (currentWidth > 770) {
       setPosition("absolute");
     }
+
+    if (currentWidth <= 770) {
+      setPosition("absolute");
+    }
   }, [currentWidth]);
 
   window.addEventListener("resize", () => {
@@ -120,13 +124,20 @@ const Account = () => {
 
   let [flexdir, Setflexdir] = useState("row nowrap");
 
+  let [margindir1, Setmargindir1] = useState("-70px");
+  let [margindir2, Setmargindir2] = useState("-165px");
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (currentWidth > 1200) {
       Setflexdir("row nowrap");
+      Setmargindir1("-70px");
+      Setmargindir2("-165px");
     }
     if (currentWidth <= 1200) {
       Setflexdir("column nowrap");
+      Setmargindir1("0px");
+      Setmargindir2("0px");
     }
   }, [flexdir, currentWidth]);
 
@@ -135,10 +146,14 @@ const Account = () => {
 
     if (screenWidth <= 1200) {
       Setflexdir("column nowrap");
+      Setmargindir1("0px");
+      Setmargindir2("0px");
     }
 
     if (screenWidth > 1200) {
       Setflexdir("row nowrap");
+      Setmargindir1("-70px");
+      Setmargindir2("-165px");
     }
   });
 
@@ -322,6 +337,8 @@ const Account = () => {
                 alignItems: "center",
                 paddingTop: "30px",
                 flexFlow: flexdir,
+                justifyContent: "center",
+                marginLeft: margindir1,
               }}
             >
               <Label>ID(Email)</Label>
@@ -369,6 +386,8 @@ const Account = () => {
                 alignItems: "center",
                 paddingTop: "30px",
                 flexFlow: flexdir,
+                justifyContent: "center",
+                marginLeft: margindir2,
               }}
             >
               <Label>PW</Label>
@@ -397,6 +416,8 @@ const Account = () => {
                 alignItems: "center",
                 paddingTop: "30px",
                 flexFlow: flexdir,
+                justifyContent: "center",
+                marginLeft: margindir2,
               }}
             >
               <Label>PW(확인)</Label>
@@ -424,6 +445,8 @@ const Account = () => {
                 alignItems: "center",
                 paddingTop: "30px",
                 flexFlow: flexdir,
+                justifyContent: "center",
+                marginLeft: margindir1,
               }}
             >
               <Label>닉네임</Label>

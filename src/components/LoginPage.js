@@ -64,13 +64,16 @@ const LoginPage = () => {
   // resize screen
 
   let [flexdir, Setflexdir] = useState("row nowrap");
+  let [margindir, Setmargindir] = useState("-150px");
 
   useEffect(() => {
     if (currentWidth > 1100) {
       Setflexdir("row nowrap");
+      Setmargindir("-150px");
     }
     if (currentWidth <= 1100) {
       Setflexdir("column nowrap");
+      Setmargindir("0px");
     }
   }, [flexdir, currentWidth]);
 
@@ -79,10 +82,12 @@ const LoginPage = () => {
 
     if (screenWidth <= 1100) {
       Setflexdir("column nowrap");
+      Setmargindir("0px");
     }
 
     if (screenWidth > 1100) {
       Setflexdir("row nowrap");
+      Setmargindir("-150px");
     }
   });
 
@@ -158,6 +163,8 @@ const LoginPage = () => {
                   alignItems: "center",
                   paddingTop: "80px",
                   flexFlow: flexdir,
+                  justifyContent: "center",
+                  marginLeft: margindir,
                 }}
               >
                 <Label>ID(Email)</Label>
@@ -181,6 +188,8 @@ const LoginPage = () => {
                   alignItems: "center",
                   paddingTop: "30px",
                   flexFlow: flexdir,
+                  justifyContent: "center",
+                  marginLeft: margindir,
                 }}
               >
                 <Label>PW</Label>
@@ -198,7 +207,7 @@ const LoginPage = () => {
               </p>
               {/* <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/> */}
               {pwCheck ? <Warn>비밀번호를 입력해주세요.</Warn> : null}
-              <p style={{ textAlign: "right", width: "40%", fontSize: "20px" }}>
+              <p style={{ textAlign: "right", width: "35%", fontSize: "20px" }}>
                 자동로그인 <input name="remember-me" type="checkbox" />
               </p>
               <input type="hidden" name="_csrf" value={csrf} />
