@@ -17,11 +17,9 @@ import axios from "axios";
 const Mainpage = () => {
   // redux
 
-  let API_URL = "http://localhost:3000";
-
   const checkLogin = async () => {
     await axios
-      .get(API_URL + "/checklogin")
+      .get("/checklogin")
       .then((result) => {
         SetCheckUser(result.data);
         console.log(result.data);
@@ -36,7 +34,7 @@ const Mainpage = () => {
   let dispatch = useDispatch();
 
   const readList = async () => {
-    await axios.get("http://localhost:3000/readList").then((res) => {
+    await axios.get("/readList").then((res) => {
       console.log("success");
       console.log(res.data);
       dispatch({
@@ -47,7 +45,7 @@ const Mainpage = () => {
   };
 
   const readHotList = async () => {
-    await axios.get("http://localhost:8181/hotList").then((res) => {
+    await axios.get("/hotList").then((res) => {
       console.log("success");
       console.log(res.data);
       dispatch({

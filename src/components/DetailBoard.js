@@ -20,6 +20,10 @@ const DetailBoard = (props) => {
 
   let dispatch = useDispatch();
 
+  let { bno } = useParams();
+
+  console.log(bno);
+
   // cookie
 
   let csrf = new Cookies().get("XSRF-TOKEN");
@@ -111,7 +115,7 @@ const DetailBoard = (props) => {
     });
   };
 
-  const read = async () => {
+  const read = async (bno) => {
     await axios({
       url: "/read",
       method: "get",
@@ -121,11 +125,12 @@ const DetailBoard = (props) => {
     }).then((res) => {
       console.log(res.data);
 
-      SetoneBoard(res.data);
+      dispatch({
+        type: "oneboard",
+        payload: res.data,
+      });
     });
   };
-
-  let [oneBoard, SetoneBoard] = useState("");
 
   // like, dislike color start
   let [likecolor, Setlikecolor] = useState("");
@@ -163,43 +168,24 @@ const DetailBoard = (props) => {
     });
   };
 
-  function resize(obj) {
-    obj.style.height = "1px";
-    obj.style.height = 12 + obj.scrollHeight + "px";
-  }
-
   useEffect(() => {
     window.scrollTo(0, 0);
     resetBoolean();
-    readList();
     getMyInfo();
-    readReplyList();
+    read(bno);
     readValueList();
+    readList();
     readCalculateValue();
-    read();
     upreadCount();
     readedBoard();
+    readReplyList();
   }, []);
-
-  let { bno } = useParams();
-  console.log(bno);
 
   let state = useSelector((state) => {
     return state;
   });
 
-  let boardState = state.boardReducer;
-
-  let findItemBoard =
-    boardState === ""
-      ? null
-      : boardState.find((item) => {
-          return item.bno === parseInt(bno);
-        });
-
-  console.log(findItemBoard);
-
-  let item = findItemBoard;
+  let oneBoard = state.oneBoardReducer;
 
   let valueState = state.valueReducer;
 
@@ -433,6 +419,7 @@ const DetailBoard = (props) => {
                   });
 
                   navigate("/detail/" + oneBoard.bno);
+                  read(oneBoard.bno);
                 }}
               >
                 평가종료
@@ -516,16 +503,19 @@ const DetailBoard = (props) => {
 
             <Card.Text
               style={{
-                backgroundColor: "#2D4059",
+                border: "2px solid #2D4059",
                 borderRadius: "5px",
                 padding: "10px",
               }}
             >
               <pre
                 style={{
+                  color: "black",
                   fontSize: "20px",
                   fontFamily: "'Do Hyeon', sans-serif",
                   textAlign: "left",
+                  overflow: "auto",
+                  whiteSpace: "pre-wrap",
                 }}
               >
                 {oneBoard === "" ? null : oneBoard.content}
@@ -943,7 +933,7 @@ const DetailBoard = (props) => {
                     Setdislikecolor("#F07B3F");
                   }
 
-                  read();
+                  read(bno);
                 });
               }}
               style={{ cursor: "pointer" }}
@@ -983,7 +973,7 @@ const DetailBoard = (props) => {
                     Setdislikecolor("#F07B3F");
                   }
 
-                  read();
+                  read(bno);
                 });
               }}
               style={{ cursor: "pointer" }}
