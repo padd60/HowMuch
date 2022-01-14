@@ -22,7 +22,7 @@ const DetailBoard = (props) => {
 
   let { bno } = useParams();
 
-  console.log(bno);
+  console.log("넘어온 bno는 = " + bno);
 
   // cookie
 
@@ -71,7 +71,7 @@ const DetailBoard = (props) => {
     });
   };
 
-  const readValueList = async () => {
+  const readValueList = async (bno) => {
     await axios({
       url: "/log",
       params: {
@@ -134,13 +134,13 @@ const DetailBoard = (props) => {
   };
 
   // like, dislike color start
-  let [likecolor, Setlikecolor] = useState("");
+  // let [likecolor, Setlikecolor] = useState("");
 
-  let [dislikecolor, Setdislikecolor] = useState("");
+  // let [dislikecolor, Setdislikecolor] = useState("");
 
   // like, dislike color end
 
-  const readedBoard = async () => {
+  const readedBoard = async (bno) => {
     await axios({
       url: "/readed",
       method: "get",
@@ -151,20 +151,56 @@ const DetailBoard = (props) => {
       console.log("좋아요 표시기");
       console.log(res.data);
 
-      if (res.data.checklike === 1) {
-        console.log("추천 이력 있음");
-        Setlikecolor("#EA5455");
-      } else if (res.data.checklike === 0) {
+      console.log(res.data.checklike === 0 && res.data.checkdislike === 0);
+
+      console.log(res.data.checklike);
+
+      if (!res.data.checklike) {
         console.log("추천 이력 없음");
-        Setlikecolor("");
+        dispatch({
+          type: "userlikecolor",
+          payload: {
+            likecolor: "",
+            dislikecolor: "",
+          },
+        });
       }
 
-      if (res.data.checkdislike === 1) {
+      if (res.data.checklike === 0 && res.data.checkdislike === 0) {
+        console.log("추천 이력 있음");
+        dispatch({
+          type: "userlikecolor",
+          payload: {
+            likecolor: "",
+            dislikecolor: "",
+          },
+        });
+      }
+
+      console.log(res.data.checklike === 1 && res.data.checkdislike === 0);
+
+      if (res.data.checklike === 1 && res.data.checkdislike === 0) {
+        console.log("추천 이력 있음");
+        dispatch({
+          type: "userlikecolor",
+          payload: {
+            likecolor: "#EA5455",
+            dislikecolor: "",
+          },
+        });
+      }
+
+      console.log(res.data.checklike === 0 && res.data.checkdislike === 1);
+
+      if (res.data.checklike === 0 && res.data.checkdislike === 1) {
         console.log("비추천 이력 없음");
-        Setdislikecolor("#F07B3F");
-      } else if (res.data.checkdislike === 0) {
-        console.log("비추천 이력 없음");
-        Setdislikecolor("");
+        dispatch({
+          type: "userlikecolor",
+          payload: {
+            likecolor: "",
+            dislikecolor: "#F07B3F",
+          },
+        });
       }
     });
   };
@@ -174,11 +210,11 @@ const DetailBoard = (props) => {
     resetBoolean();
     getMyInfo();
     read(bno);
-    readValueList();
+    readedBoard(bno);
+    readValueList(bno);
     readList();
     readCalculateValue(bno);
     upreadCount();
-    readedBoard();
     readReplyList();
   }, []);
 
@@ -191,6 +227,10 @@ const DetailBoard = (props) => {
   let valueState = state.valueReducer;
 
   let calculateValue = state.caculateReducer;
+
+  let usercolor = state.likecolorReducer;
+
+  console.log(usercolor);
 
   // tier reader
   const tierSelect = (point) => {
@@ -233,7 +273,15 @@ const DetailBoard = (props) => {
 
   // modal control
 
-  const resetBoolean = () => {};
+  const resetBoolean = () => {
+    setwarnvalueShow(false);
+    setloginLikeShow(false);
+    setloginLikeShow(false);
+    Setwarn(false);
+    SetwarnDuplication(false);
+    SetwarnSelfValue(false);
+    SetwarnMinus(false);
+  };
 
   const [warnvalueshow, setwarnvalueShow] = useState(false);
 
@@ -255,6 +303,11 @@ const DetailBoard = (props) => {
   const [warnSelfValue, SetwarnSelfValue] = useState(false);
   const [warnMinus, SetwarnMinus] = useState(false);
   // modal control end
+
+  useEffect(() => {
+    resetBoolean();
+    readedBoard(bno);
+  }, [oneBoard]);
 
   // resize screen
 
@@ -588,12 +641,16 @@ const DetailBoard = (props) => {
                 width: "400px",
                 fontSize: "24px",
                 borderBottom: "2px solid #2D4059",
+                fontFamily: "sans-serif",
+                fontWeight: "bold",
               }}
             >
               {oneBoard === ""
                 ? null
                 : oneBoard.suggestion
-                ? oneBoard.suggestion + " 원"
+                ? oneBoard.suggestion
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원"
                 : "없음"}
             </div>
           </div>
@@ -629,9 +686,15 @@ const DetailBoard = (props) => {
                 width: "400px",
                 fontSize: "24px",
                 borderBottom: "2px solid #2D4059",
+                fontFamily: "sans-serif",
+                fontWeight: "bold",
               }}
             >
-              {!calculateValue.min ? "없음" : calculateValue.min + " 원"}
+              {!calculateValue.min
+                ? "없음"
+                : calculateValue.min
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원"}
             </div>
           </div>
         </div>
@@ -666,9 +729,15 @@ const DetailBoard = (props) => {
                 width: "400px",
                 fontSize: "24px",
                 borderBottom: "2px solid #2D4059",
+                fontFamily: "sans-serif",
+                fontWeight: "bold",
               }}
             >
-              {!calculateValue.max ? "없음" : calculateValue.max + " 원"}
+              {!calculateValue.max
+                ? "없음"
+                : calculateValue.max
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원"}
             </div>
           </div>
         </div>
@@ -696,10 +765,12 @@ const DetailBoard = (props) => {
                     display: "inline-block",
                     maxWidth: "700px",
                     height: "40px",
-                    backgroundColor: "#EA5455",
+                    border: "3px solid #EA5455",
+                    color: "black",
                     borderRadius: "5px",
                     padding: "10px",
                     marginBottom: "0",
+                    lineHeight: "0",
                     marginRight: "10px",
                     overflow: "hidden",
                   }}
@@ -713,7 +784,15 @@ const DetailBoard = (props) => {
                       {item.rater}
                     </span>
                   }{" "}
-                  님 {item.price} 원{" "}
+                  님{" "}
+                  <span
+                    style={{ fontFamily: "sans-serif", fontWeight: "bold" }}
+                  >
+                    {item.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </span>{" "}
+                  원{" "}
                   {String(
                     new Date(+new Date(item.vdate) + 3240 * 10000)
                       .toISOString()
@@ -873,9 +952,10 @@ const DetailBoard = (props) => {
                 <div
                   style={{ borderBottom: "2px solid #EA5455", width: "60%" }}
                 >
-                  <input
-                    id="price"
+                  <span
                     style={{
+                      fontFamily: "sans-serif",
+                      fontWeight: "bold",
                       color: "black",
                       width: "70%",
                       fontSize: "24px",
@@ -883,9 +963,13 @@ const DetailBoard = (props) => {
                       backgroundColor: "transparent",
                       textAlign: "center",
                     }}
-                    defaultValue={calculateValue.avg}
-                    disabled
-                  />
+                  >
+                    {calculateValue.avg >= 0
+                      ? calculateValue.avg
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : null}
+                  </span>
                 </div>
                 <span style={{ fontSize: "32px" }}>원</span>
               </div>
@@ -901,7 +985,7 @@ const DetailBoard = (props) => {
               {oneBoard === "" ? null : oneBoard.rcount}
             </span>
             <AiFillLike
-              color={likecolor}
+              color={usercolor.likecolor}
               onClick={async (e) => {
                 if (!userInfo) {
                   handleLoginLikeShow();
@@ -916,23 +1000,36 @@ const DetailBoard = (props) => {
                   },
                 }).then((res) => {
                   if (res.data.checklike === 0 && res.data.checkdislike === 0) {
-                    Setlikecolor("");
-                    Setdislikecolor("");
-                  } else if (
-                    res.data.checklike === 1 &&
-                    res.data.checkdislike === 0
-                  ) {
-                    Setlikecolor("#EA5455");
-                    Setdislikecolor("");
-                  } else if (
-                    res.data.checklike === 0 &&
-                    res.data.checkdislike === 1
-                  ) {
-                    Setlikecolor("");
-                    Setdislikecolor("#F07B3F");
+                    dispatch({
+                      type: "userlikecolor",
+                      payload: {
+                        likecolor: "",
+                        dislikecolor: "",
+                      },
+                    });
+                  }
+
+                  if (res.data.checklike === 1 && res.data.checkdislike === 0) {
+                    dispatch({
+                      type: "userlikecolor",
+                      payload: {
+                        likecolor: "#EA5455",
+                        dislikecolor: "",
+                      },
+                    });
+                  }
+                  if (res.data.checklike === 0 && res.data.checkdislike === 1) {
+                    dispatch({
+                      type: "userlikecolor",
+                      payload: {
+                        likecolor: "",
+                        dislikecolor: "#F07B3F",
+                      },
+                    });
                   }
 
                   read(bno);
+                  readList();
                 });
               }}
               style={{ cursor: "pointer" }}
@@ -941,7 +1038,7 @@ const DetailBoard = (props) => {
               {oneBoard === "" ? null : oneBoard.blike}
             </span>
             <AiFillDislike
-              color={dislikecolor}
+              color={usercolor.dislikecolor}
               onClick={async (e) => {
                 if (!userInfo) {
                   handleLoginLikeShow();
@@ -956,23 +1053,35 @@ const DetailBoard = (props) => {
                   },
                 }).then((res) => {
                   if (res.data.checklike === 0 && res.data.checkdislike === 0) {
-                    Setlikecolor("");
-                    Setdislikecolor("");
-                  } else if (
-                    res.data.checklike === 1 &&
-                    res.data.checkdislike === 0
-                  ) {
-                    Setlikecolor("#EA5455");
-                    Setdislikecolor("");
-                  } else if (
-                    res.data.checklike === 0 &&
-                    res.data.checkdislike === 1
-                  ) {
-                    Setlikecolor("");
-                    Setdislikecolor("#F07B3F");
+                    dispatch({
+                      type: "userlikecolor",
+                      payload: {
+                        likecolor: "",
+                        dislikecolor: "",
+                      },
+                    });
+                  }
+                  if (res.data.checklike === 1 && res.data.checkdislike === 0) {
+                    dispatch({
+                      type: "userlikecolor",
+                      payload: {
+                        likecolor: "#EA5455",
+                        dislikecolor: "",
+                      },
+                    });
+                  }
+                  if (res.data.checklike === 0 && res.data.checkdislike === 1) {
+                    dispatch({
+                      type: "userlikecolor",
+                      payload: {
+                        likecolor: "",
+                        dislikecolor: "#F07B3F",
+                      },
+                    });
                   }
 
                   read(bno);
+                  readList();
                 });
               }}
               style={{ cursor: "pointer" }}

@@ -91,19 +91,22 @@ const BoardMain = () => {
         <div className="container-lg" style={{ margin: "50px auto" }}>
           <div className="row">
             {currentItems === "" ? (
-              <p style={{ fontSize: "32px" }}>아직 등록된 게시물이 없습니다.</p>
+              <p style={{ fontSize: "32px" }}>관련 게시물이 없습니다.</p>
             ) : (
               currentItems &&
               currentItems.map((item, index) => (
                 <div
                   className="col-lg-4 d-flex justify-content-center"
                   key={index}
-                  onClick={() => {
-                    navigate("/detail/" + item.bno);
-                    console.log(item);
-                  }}
                 >
-                  <ItemCard item={item} />
+                  <div
+                    onClick={() => {
+                      navigate("/detail/" + item.bno);
+                      console.log(item);
+                    }}
+                  >
+                    <ItemCard item={item} />
+                  </div>
                 </div>
               ))
             )}
